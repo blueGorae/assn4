@@ -18,9 +18,9 @@
 x64/
 x86/
 bld/
-#[Bb]in/
-bin/freeglut.dll
-bin/glew32.dll
+[Bb]in/
+!bin/freeglut.dll
+!bin/glew32.dll
 [Oo]bj/
 [Ll]og/
 
