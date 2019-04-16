@@ -11,7 +11,10 @@
 #include "GL/glut.h"
 
 
+
 #define BUFFER_OFFSET(offset) ((GLvoid*) (offset))
+template <typename T, size_t N> char(*RtlpNumberOf(T(&)[N]))[N];
+#define ARRAYSIZE(A) (sizeof(*RtlpNumberOf(A)))
 
 using namespace std;
 using namespace glm;
@@ -20,6 +23,15 @@ mat4 ctm;
 GLchar vertexShaderFile[] = "shader/my.vert.glsl";
 GLchar fragShaderFile[] = "shader/my.frag.glsl";
 GLuint myProgramObj;
+GLint vertexLocation;
+GLint modelViewLocation;
+GLint projectionLocation;
+GLuint VBO;
+GLuint VAO;
+
+
+
+vec4 points[] = { vec4(-0.5f, 0.0f, 0.0f, 1.0f), vec4(0.5f, 0.0f, 0.0f, 1.0f) , vec4(-0.5f, 0.5f, 0.0f, 1.0f)};
 
 bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 	GLuint myVertexObj = glCreateShader(GL_VERTEX_SHADER);
@@ -39,7 +51,7 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 		vertexShaderStream.close();
 	}
 	else {
-		cout << "File does not open"<<endl;
+		cout << "File does not open" << endl;
 		getchar();
 		return false;
 	}
@@ -127,10 +139,42 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 	return true;
 }
 
+bool Init() {
+	LoadShaders(vertexShaderFile, fragShaderFile);
+	// Retrieve the vertex location in the program.
+	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
+	//
+
+	// Create and bind the VBO for the vertices.
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+	// Transfer the vertices from CPU to GPU.
+	glBufferData(GL_ARRAY_BUFFER, ARRAYSIZE(points)*4*sizeof(GL_FLOAT), points, GL_STATIC_DRAW);
+
+	//
+
+	// Use the program.
+	glUseProgram(myProgramObj);
+
+	// Create the VAO for the program.
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+
+	// Bind the only used VBO in this example.
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+	glEnableVertexAttribArray(vertexLocation);
+
+	return true;
+
+}
+
 void display(void) { 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-	glFlush(); 
+	glDrawArrays(GL_LINE_LOOP, 0, 3);
+	//glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+	glutSwapBuffers();
 } 
 
 int main(int argc, char **argv) {
@@ -143,7 +187,7 @@ int main(int argc, char **argv) {
 	glutDisplayFunc(display);  
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);  
 	glewInit();  
-	LoadShaders(vertexShaderFile, fragShaderFile);
+	Init();
 	glutMainLoop();
 }
 
