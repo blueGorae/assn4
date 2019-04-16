@@ -3,6 +3,7 @@
 #include "GL/glew.h"
 #include "GL/freeglut.h"
 #include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -11,22 +12,29 @@
 #include "GL/glut.h"
 
 
-
 #define BUFFER_OFFSET(offset) ((GLvoid*) (offset))
+
 template <typename T, size_t N> char(*RtlpNumberOf(T(&)[N]))[N];
 #define ARRAYSIZE(A) (sizeof(*RtlpNumberOf(A)))
 
 using namespace std;
 using namespace glm;
 
-mat4 ctm;
+mat4 projectionMat;
+mat4 modelViewMat;
+
 GLchar vertexShaderFile[] = "shader/my.vert.glsl";
 GLchar fragShaderFile[] = "shader/my.frag.glsl";
 GLuint myProgramObj;
+
+
+GLint modelViewMatLocation;
+GLint projectionMatLocation;
+
 GLint vertexLocation;
-GLint modelViewLocation;
-GLint projectionLocation;
-GLuint VBO;
+
+GLuint verticesVBO;
+
 GLuint VAO;
 
 
@@ -141,19 +149,17 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 
 bool Init() {
 	LoadShaders(vertexShaderFile, fragShaderFile);
-	// Retrieve the vertex location in the program.
+
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
-	//
 
-	// Create and bind the VBO for the vertices.
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	projectionMatLocation = glGetUniformLocation(myProgramObj, "projection");
+	modelViewMatLocation = glGetUniformLocation(myProgramObj, "modelView");
 
-	// Transfer the vertices from CPU to GPU.
-	glBufferData(GL_ARRAY_BUFFER, ARRAYSIZE(points)*4*sizeof(GL_FLOAT), points, GL_STATIC_DRAW);
 
-	//
-
+	glGenBuffers(1, &verticesVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
+	glBufferData(GL_ARRAY_BUFFER, ARRAYSIZE(points) * 4 * sizeof(GL_FLOAT), points, GL_STATIC_DRAW);
+	
 	// Use the program.
 	glUseProgram(myProgramObj);
 
@@ -162,17 +168,24 @@ bool Init() {
 	glBindVertexArray(VAO);
 
 	// Bind the only used VBO in this example.
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
 	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 	glEnableVertexAttribArray(vertexLocation);
 
+
+	projectionMat = mat4(1.0f);
+	modelViewMat = lookAt(vec3(0.0f, 0.0f, 1.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
+	
+	glUniformMatrix4fv(projectionMatLocation, 1, GL_TRUE, &projectionMat[0][0]);
+	glUniformMatrix4fv(modelViewMatLocation, 1, GL_TRUE, &modelViewMat[0][0]);
+	
 	return true;
 
 }
 
 void display(void) { 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-	glDrawArrays(GL_LINE_LOOP, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 	//glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 	glutSwapBuffers();
 } 
