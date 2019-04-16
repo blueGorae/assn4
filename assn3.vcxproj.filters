@@ -21,13 +21,21 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Icosphere.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader\my.frag.glsl">
+    <None Include="shader\ball.frag.glsl">
       <Filter>소스 파일\shader</Filter>
     </None>
-    <None Include="shader\my.vert.glsl">
+    <None Include="shader\ball.vert.glsl">
       <Filter>소스 파일\shader</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Icosphere.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

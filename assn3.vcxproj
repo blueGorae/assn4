@@ -127,11 +127,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Icosphere.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader\my.frag.glsl" />
-    <None Include="shader\my.vert.glsl" />
+    <None Include="shader\ball.frag.glsl" />
+    <None Include="shader\ball.vert.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Icosphere.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

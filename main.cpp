@@ -10,7 +10,7 @@
 #include <sstream>
 #include <fstream>
 #include "GL/glut.h"
-
+#include "Icosphere.h"
 
 #define BUFFER_OFFSET(offset) ((GLvoid*) (offset))
 
@@ -23,8 +23,8 @@ using namespace glm;
 mat4 projectionMat;
 mat4 modelViewMat;
 
-GLchar vertexShaderFile[] = "shader/my.vert.glsl";
-GLchar fragShaderFile[] = "shader/my.frag.glsl";
+GLchar vertexShaderFile[] = "shader/ball.vert.glsl";
+GLchar fragShaderFile[] = "shader/ball.frag.glsl";
 GLuint myProgramObj;
 
 
@@ -34,12 +34,10 @@ GLint projectionMatLocation;
 GLint vertexLocation;
 
 GLuint verticesVBO;
+GLuint indiciesVBO;
+GLuint ballVAO;
 
-GLuint VAO;
-
-
-
-vec4 points[] = { vec4(-0.5f, 0.0f, 0.0f, 1.0f), vec4(0.5f, 0.0f, 0.0f, 1.0f) , vec4(-0.5f, 0.5f, 0.0f, 1.0f)};
+Icosphere sphere(0.2f, 2, false);
 
 bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 	GLuint myVertexObj = glCreateShader(GL_VERTEX_SHADER);
@@ -148,6 +146,10 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 }
 
 bool Init() {
+	//Wire Frame Mode
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	//Load Shaders
 	LoadShaders(vertexShaderFile, fragShaderFile);
 
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
@@ -155,21 +157,27 @@ bool Init() {
 	projectionMatLocation = glGetUniformLocation(myProgramObj, "projection");
 	modelViewMatLocation = glGetUniformLocation(myProgramObj, "modelView");
 
-
+	//Init Buffer
 	glGenBuffers(1, &verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-	glBufferData(GL_ARRAY_BUFFER, ARRAYSIZE(points) * 4 * sizeof(GL_FLOAT), points, GL_STATIC_DRAW);
-	
+	glBufferData(GL_ARRAY_BUFFER, sphere.getInterleavedVertexSize(), sphere.getInterleavedVertices(), GL_STATIC_DRAW);
+
+	glGenBuffers(1, &indiciesVBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphere.getIndexSize(), sphere.getIndices(), GL_STATIC_DRAW);
+
 	// Use the program.
 	glUseProgram(myProgramObj);
 
-	// Create the VAO for the program.
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
+	// Create the ballVAO for the program.
+	glGenVertexArrays(1, &ballVAO);
+	glBindVertexArray(ballVAO);
 
-	// Bind the only used VBO in this example.
+	// Bind for VBO 
+	int stride = sphere.getInterleavedStride();
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
+	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, stride, BUFFER_OFFSET(0));
 	glEnableVertexAttribArray(vertexLocation);
 
 
@@ -185,8 +193,7 @@ bool Init() {
 
 void display(void) { 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-	//glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, sphere.getIndexCount(), GL_UNSIGNED_INT, 0);
 	glutSwapBuffers();
 } 
 
@@ -195,7 +202,7 @@ int main(int argc, char **argv) {
 	glutInit(&argc, argv); 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);  
 	glutInitWindowPosition(100, 100);  
-	glutInitWindowSize(320, 320); 
+	glutInitWindowSize(720, 720);
 	glutCreateWindow("Hello OpenGL"); 
 	glutDisplayFunc(display);  
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);  
