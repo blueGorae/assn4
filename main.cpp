@@ -11,6 +11,7 @@
 #include <fstream>
 #include "GL/glut.h"
 #include "Icosphere.h"
+#include "Sphere.h"
 
 #define BUFFER_OFFSET(offset) ((GLvoid*) (offset))
 
@@ -22,14 +23,14 @@ using namespace glm;
 
 mat4 projectionMat;
 mat4 modelViewMat;
+mat4 ctm;
 
 GLchar vertexShaderFile[] = "shader/ball.vert.glsl";
 GLchar fragShaderFile[] = "shader/ball.frag.glsl";
 GLuint myProgramObj;
 
 
-GLint modelViewMatLocation;
-GLint projectionMatLocation;
+GLint ctmLocation;
 
 GLint vertexLocation;
 
@@ -38,6 +39,8 @@ GLuint indiciesVBO;
 GLuint ballVAO;
 
 Icosphere sphere(0.2f, 2, false);
+Sphere sphere1(0.2f, 2);
+
 
 bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 	GLuint myVertexObj = glCreateShader(GL_VERTEX_SHADER);
@@ -146,25 +149,24 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 }
 
 bool Init() {
-	//Wire Frame Mode
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	//Load Shaders
 	LoadShaders(vertexShaderFile, fragShaderFile);
 
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
-
-	projectionMatLocation = glGetUniformLocation(myProgramObj, "projection");
-	modelViewMatLocation = glGetUniformLocation(myProgramObj, "modelView");
+	ctmLocation = glGetUniformLocation(myProgramObj, "ctm");
 
 	//Init Buffer
 	glGenBuffers(1, &verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-	glBufferData(GL_ARRAY_BUFFER, sphere.getInterleavedVertexSize(), sphere.getInterleavedVertices(), GL_STATIC_DRAW);
+	//glBufferData(GL_ARRAY_BUFFER, sphere.getInterleavedVertexSize(), sphere.getInterleavedVertices(), GL_STATIC_DRAW);
+
+	glBufferData(GL_ARRAY_BUFFER, sphere1.getVerticesSize(), &sphere1.getVertices(), GL_STATIC_DRAW);
+
 
 	glGenBuffers(1, &indiciesVBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphere.getIndexSize(), sphere.getIndices(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphere1.getIndiciesSize(), &sphere1.getIndices(), GL_STATIC_DRAW);
 
 	// Use the program.
 	glUseProgram(myProgramObj);
@@ -174,26 +176,26 @@ bool Init() {
 	glBindVertexArray(ballVAO);
 
 	// Bind for VBO 
-	int stride = sphere.getInterleavedStride();
+	//int stride = sphere.getInterleavedStride();
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
-	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, stride, BUFFER_OFFSET(0));
+	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 	glEnableVertexAttribArray(vertexLocation);
 
 
 	projectionMat = mat4(1.0f);
 	modelViewMat = lookAt(vec3(0.0f, 0.0f, 1.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
-	
-	glUniformMatrix4fv(projectionMatLocation, 1, GL_TRUE, &projectionMat[0][0]);
-	glUniformMatrix4fv(modelViewMatLocation, 1, GL_TRUE, &modelViewMat[0][0]);
-	
+
+	ctm = projectionMat * modelViewMat;
+	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
+
 	return true;
 
 }
 
 void display(void) { 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-	glDrawElements(GL_TRIANGLES, sphere.getIndexCount(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_LINE_LOOP, sphere1.getIndexCount(), GL_UNSIGNED_INT, 0);
 	glutSwapBuffers();
 } 
 

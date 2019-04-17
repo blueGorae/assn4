@@ -129,6 +129,8 @@
   <ItemGroup>
     <ClCompile Include="Icosphere.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\ball.frag.glsl" />
@@ -136,6 +138,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Icosphere.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Sphere.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

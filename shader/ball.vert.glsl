@@ -2,11 +2,9 @@
 
 in vec3 vPosition;
 
-uniform mat4 modelView;
-uniform mat4 projection;
-
+uniform mat4 ctm;
 
 void main()
 {
-	gl_Position = projection * modelView * vec4(vPosition, 1.f);
+	gl_Position = ctm * vec4(vPosition, 1.f);
 }
