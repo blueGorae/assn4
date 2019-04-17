@@ -5,7 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include "Icosphere.h"
+#include "Background.h"
 #include "Sphere.h"
 #include "mat.h"
 
@@ -29,7 +29,9 @@ GLint vertexLocation;
 
 GLuint verticesVBO;
 GLuint indiciesVBO;
+
 GLuint ballVAO;
+GLuint bachgroundVAO;
 
 Sphere sphere(0.2f, 2);
 
@@ -165,7 +167,6 @@ bool Init() {
 	glBindVertexArray(ballVAO);
 
 	// Bind for VBO 
-	//int stride = sphere.getInterleavedStride();
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
 	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
