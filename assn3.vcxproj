@@ -133,8 +133,8 @@
     <ClCompile Include="Sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader\ball.frag.glsl" />
-    <None Include="shader\ball.vert.glsl" />
+    <None Include="shader\frag.glsl" />
+    <None Include="shader\vert.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Icosphere.h" />

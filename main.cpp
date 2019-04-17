@@ -18,8 +18,8 @@ mat4 projectionMat;
 mat4 modelViewMat;
 mat4 ctm;
 
-GLchar vertexShaderFile[] = "shader/ball.vert.glsl";
-GLchar fragShaderFile[] = "shader/ball.frag.glsl";
+GLchar vertexShaderFile[] = "shader/vert.glsl";
+GLchar fragShaderFile[] = "shader/frag.glsl";
 GLuint myProgramObj;
 
 
@@ -152,7 +152,6 @@ bool Init() {
 	glGenBuffers(1, &verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
 	glBufferData(GL_ARRAY_BUFFER, sphere.getVerticesSize(), &sphere.getVertices()[0].x, GL_STATIC_DRAW);
-	cout << sphere.getVertices()[0] << endl;
 
 	glGenBuffers(1, &indiciesVBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);

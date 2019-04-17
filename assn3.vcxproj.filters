@@ -32,10 +32,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader\ball.frag.glsl">
+    <None Include="shader\frag.glsl">
       <Filter>소스 파일\shader</Filter>
     </None>
-    <None Include="shader\ball.vert.glsl">
+    <None Include="shader\vert.glsl">
       <Filter>소스 파일\shader</Filter>
     </None>
   </ItemGroup>
