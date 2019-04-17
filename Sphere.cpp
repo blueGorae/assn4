@@ -53,10 +53,6 @@ vector<vec3> Sphere::computeIcosahedronVertices()
 }
 
 void Sphere::buildVerticesFlat() {
-	//const float S_STEP = 1 / 11.0f;         // horizontal texture step
-	//const float T_STEP = 1 / 3.0f;          // vertical texture step
-	const float S_STEP = 186 / 2048.0f;     // horizontal texture step
-	const float T_STEP = 322 / 1024.0f;     // vertical texture step
 
 	// compute 12 vertices of icosahedron
 	vector<vec3> tmpVertices = computeIcosahedronVertices(); 
@@ -108,8 +104,85 @@ void Sphere::buildVerticesFlat() {
 	}
 
 	// subdivide icosahedron
-	//subdivideVerticesFlat();
+	subdivideVerticesFlat();
 
 	// generate interleaved vertex array as well
 	//buildInterleavedVertices();
+}
+
+void Sphere::subdivideVerticesFlat(){
+	vector<vec3> tmpVertices;
+	vector<unsigned int> tmpIndices;
+
+	int indexCount;
+
+	vec3 v1, v2, v3;          // ptr to original vertices of a triangle
+	vec3 newV1, newV2, newV3; // new vertex positions
+
+	unsigned int index = 0;             // new index value
+	int i, j;
+
+	// iteration
+	for (i = 1; i <= subdivision; ++i)
+	{
+		// copy prev arrays
+		tmpVertices = vertices;
+		tmpIndices = indices;
+
+		// clear prev arrays
+		vertices.clear();
+		indices.clear();
+
+		index = 0;
+		indexCount = (int)tmpIndices.size();
+
+		for (j = 0; j < indexCount; j += 3)
+		{
+			// get 3 vertice and texcoords of a triangle
+			v1 = tmpVertices[tmpIndices[j]];
+			v2 = tmpVertices[tmpIndices[j + 1]];
+			v3 = tmpVertices[tmpIndices[j + 2]];
+
+			// get 3 new vertices by spliting half on each edge
+			newV1 = computeHalfVertex(v1, v2, radius);
+			newV2 = computeHalfVertex(v2, v3, radius);
+			newV3 = computeHalfVertex(v1, v3, radius);
+
+			// add 4 new triangles
+			addVertices(v1, newV1, newV3);
+			addIndices(index, index + 1, index + 2);
+
+			addVertices(newV1, v2, newV2);
+			addIndices(index + 3, index + 4, index + 5);
+
+			addVertices(newV1, newV2, newV3);
+			addIndices(index + 6, index + 7, index + 8);
+
+			addVertices(newV3, newV2, v3);
+			addIndices(index + 9, index + 10, index + 11);
+
+			// next index
+			index += 12;
+		}
+	}
+}
+
+vec3 Sphere::computeHalfVertex( vec3 v1, vec3 v2, float length)
+{
+	vec3 newV;
+	newV.x = v1[0] + v2[0];
+	newV.y = v1[1] + v2[1];
+	newV.z = v1[2] + v2[2];
+	float scale = computeScaleForLength(newV, length);
+	newV.x *= scale;
+	newV.y *= scale;
+	newV.z *= scale;
+
+	return newV;
+}
+
+float Sphere::computeScaleForLength(vec3 v, float length)
+{
+	// and normalize the vector then re-scale to new radius
+	return length / sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
 }

@@ -1,25 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "GL/glew.h"
-#include "GL/freeglut.h"
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
 #include <string>
 #include <vector>
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include "GL/glut.h"
 #include "Icosphere.h"
 #include "Sphere.h"
+#include "mat.h"
 
 #define BUFFER_OFFSET(offset) ((GLvoid*) (offset))
 
-template <typename T, size_t N> char(*RtlpNumberOf(T(&)[N]))[N];
-#define ARRAYSIZE(A) (sizeof(*RtlpNumberOf(A)))
-
+using namespace Angel;
 using namespace std;
-using namespace glm;
 
 mat4 projectionMat;
 mat4 modelViewMat;
@@ -38,8 +31,7 @@ GLuint verticesVBO;
 GLuint indiciesVBO;
 GLuint ballVAO;
 
-Icosphere sphere(0.2f, 2, false);
-Sphere sphere1(0.2f, 2);
+Sphere sphere(0.2f, 2);
 
 
 bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
@@ -159,14 +151,12 @@ bool Init() {
 	//Init Buffer
 	glGenBuffers(1, &verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-	//glBufferData(GL_ARRAY_BUFFER, sphere.getInterleavedVertexSize(), sphere.getInterleavedVertices(), GL_STATIC_DRAW);
-
-	glBufferData(GL_ARRAY_BUFFER, sphere1.getVerticesSize(), &sphere1.getVertices(), GL_STATIC_DRAW);
-
+	glBufferData(GL_ARRAY_BUFFER, sphere.getVerticesSize(), &sphere.getVertices()[0].x, GL_STATIC_DRAW);
+	cout << sphere.getVertices()[0] << endl;
 
 	glGenBuffers(1, &indiciesVBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphere1.getIndiciesSize(), &sphere1.getIndices(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphere.getIndiciesSize(), &sphere.getIndices()[0], GL_STATIC_DRAW);
 
 	// Use the program.
 	glUseProgram(myProgramObj);
@@ -183,8 +173,8 @@ bool Init() {
 	glEnableVertexAttribArray(vertexLocation);
 
 
-	projectionMat = mat4(1.0f);
-	modelViewMat = lookAt(vec3(0.0f, 0.0f, 1.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
+	projectionMat = Angel::identity();
+	modelViewMat = LookAt(vec4(1.f, 1.f, 1.f, 1.0f), vec4(1.f, 1.f, 0.0f, 1.0f), vec4(0.0f, 1.0f, 0.0f, 1.0f));
 
 	ctm = projectionMat * modelViewMat;
 	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
@@ -195,9 +185,16 @@ bool Init() {
 
 void display(void) { 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-	glDrawElements(GL_LINE_LOOP, sphere1.getIndexCount(), GL_UNSIGNED_INT, 0);
+	modelViewMat = RotateX(0.1f)* RotateY(0.1f) * RotateZ(0.1f)* modelViewMat;
+	ctm = projectionMat * modelViewMat;
+	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
+	glDrawElements(GL_LINE_LOOP, sphere.getIndexCount(), GL_UNSIGNED_INT, 0);
 	glutSwapBuffers();
 } 
+
+void Idle(void) {
+	
+}
 
 int main(int argc, char **argv) {
 
@@ -206,7 +203,8 @@ int main(int argc, char **argv) {
 	glutInitWindowPosition(100, 100);  
 	glutInitWindowSize(720, 720);
 	glutCreateWindow("Hello OpenGL"); 
-	glutDisplayFunc(display);  
+	glutDisplayFunc(display);
+	glutIdleFunc(Idle);
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);  
 	glewInit();  
 	Init();

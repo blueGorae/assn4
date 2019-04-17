@@ -4,12 +4,10 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
-#include "GL/freeglut.h"
-#include "GL/glut.h"
-#include "glm/glm.hpp"
 #include "Object.h"
+#include "mat.h"
 
-using namespace glm;
+using namespace Angel;
 using namespace std;
 
 class Sphere : public Object
@@ -26,6 +24,9 @@ public:
 private:
 
 	vector<vec3> computeIcosahedronVertices();
+	vec3 computeHalfVertex(vec3 v1, vec3 v2, float length);
+	float computeScaleForLength(vec3 v, float length);
+	void subdivideVerticesFlat();
 	void buildVerticesFlat();
 
 	GLfloat radius;

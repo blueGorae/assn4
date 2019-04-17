@@ -3,12 +3,10 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
-#include "GL/freeglut.h"
-#include "GL/glut.h"
-#include "glm/glm.hpp"
+#include "mat.h"
 
-using namespace glm;
 using namespace std;
+using namespace Angel;
 
 class Object
 {
@@ -18,8 +16,8 @@ public:
 
 	unsigned int getVertexCount() const { return (unsigned int)vertices.size() ; }
 	unsigned int getIndexCount() const { return (unsigned int)indices.size() * 3; }
-	unsigned int getVerticesSize() const { return (unsigned int)vertices.size() * sizeof(vec3); }
-	unsigned int getIndiciesSize() const { return (unsigned int)indices.size() * sizeof(unsigned int) * 3; }
+	unsigned int getVerticesSize() const { return (unsigned int)vertices.size() * sizeof(GLfloat) * 3; }
+	unsigned int getIndiciesSize() const { return (unsigned int)indices.size() * sizeof(unsigned int); }
 
 	const vector<vec3> getVertices() const { return vertices; }
 	const vector<unsigned int > getIndices() const { return indices; }
