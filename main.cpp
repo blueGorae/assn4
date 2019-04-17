@@ -190,10 +190,11 @@ void display(void) {
 	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
 	glDrawElements(GL_LINE_LOOP, sphere.getIndexCount(), GL_UNSIGNED_INT, 0);
 	glutSwapBuffers();
+	cout << "hello" << endl;
 } 
 
 void Idle(void) {
-	
+	glutPostRedisplay();
 }
 
 int main(int argc, char **argv) {
