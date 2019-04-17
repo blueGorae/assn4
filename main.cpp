@@ -174,7 +174,7 @@ bool Init() {
 
 
 	projectionMat = Angel::identity();
-	modelViewMat = LookAt(vec4(1.f, 1.f, 1.f, 1.0f), vec4(1.f, 1.f, 0.0f, 1.0f), vec4(0.0f, 1.0f, 0.0f, 1.0f));
+	modelViewMat = Angel::identity();
 
 	ctm = projectionMat * modelViewMat;
 	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
@@ -185,12 +185,11 @@ bool Init() {
 
 void display(void) { 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-	modelViewMat = RotateX(0.1f)* RotateY(0.1f) * RotateZ(0.1f)* modelViewMat;
+	modelViewMat = RotateY(0.1f) * modelViewMat;
 	ctm = projectionMat * modelViewMat;
 	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
 	glDrawElements(GL_LINE_LOOP, sphere.getIndexCount(), GL_UNSIGNED_INT, 0);
 	glutSwapBuffers();
-	cout << "hello" << endl;
 } 
 
 void Idle(void) {
