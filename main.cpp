@@ -7,8 +7,9 @@
 #include <fstream>
 #include "Background.h"
 #include "Sphere.h"
-#include "mat.h"
+#include "Floor.h"
 
+#include "mat.h"
 #define BUFFER_OFFSET(offset) ((GLvoid*) (offset))
 
 using namespace Angel;
@@ -20,6 +21,8 @@ mat4 ctm;
 
 GLchar vertexShaderFile[] = "shader/vert.glsl";
 GLchar fragShaderFile[] = "shader/frag.glsl";
+GLchar geometryShaderFile[] = "shader/geometry.glsl";
+
 GLuint myProgramObj;
 
 
@@ -34,12 +37,12 @@ GLuint ballVAO;
 GLuint bachgroundVAO;
 
 Sphere sphere(0.2f, 2);
+Floor myfloor(4, 8);
 
-
-bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
+bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, const char * geometryShaderFile) {
 	GLuint myVertexObj = glCreateShader(GL_VERTEX_SHADER);
 	GLuint myFragObj = glCreateShader(GL_FRAGMENT_SHADER);
-
+	GLuint myGeoObj = glCreateShader(GL_GEOMETRY_SHADER);
 
 	//Read Vertex File
 	string vertexShaderCode;
@@ -70,6 +73,24 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 		sstr << fragShaderStream.rdbuf();
 		fragShaderCode = sstr.str();
 		fragShaderStream.close();
+	}
+	else {
+		cout << "File does not open" << endl;
+		getchar();
+		return false;
+	}
+
+	//Read Geometry File
+	string geometryShaderCode;
+	ifstream geometryShaderStream;
+
+	geometryShaderStream.open(geometryShaderFile, ifstream::in);
+
+	if (geometryShaderStream.is_open()) {
+		stringstream sstr;
+		sstr << geometryShaderStream.rdbuf();
+		geometryShaderCode = sstr.str();
+		geometryShaderStream.close();
 	}
 	else {
 		cout << "File does not open" << endl;
@@ -113,10 +134,27 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 		printf("%s\n", &FragmentShaderErrorMessage[0]);
 	}
 
+	// Compile Geometry Shader
+	printf("Compiling shader : %s\n", geometryShaderFile);
+	char const * geometrySourcePointer = geometryShaderCode.c_str();
+	glShaderSource(myGeoObj, 1, &geometrySourcePointer, NULL);
+	glCompileShader(myGeoObj);
+
+	// Check Fragment Shader
+	glGetShaderiv(myGeoObj, GL_COMPILE_STATUS, &Result);
+	glGetShaderiv(myGeoObj, GL_INFO_LOG_LENGTH, &InfoLogLength);
+	if (InfoLogLength > 0) {
+		vector<char> GeometryShaderErrorMessage(InfoLogLength + 1);
+		glGetShaderInfoLog(myGeoObj, InfoLogLength, NULL, &GeometryShaderErrorMessage[0]);
+		printf("%s\n", &GeometryShaderErrorMessage[0]);
+	}
+
+
 	// Link program
 	printf("Linking program\n");
 	myProgramObj = glCreateProgram();
 	glAttachShader(myProgramObj, myVertexObj);
+	//glAttachShader(myProgramObj, myGeoObj);
 	glAttachShader(myProgramObj, myFragObj);
 	glLinkProgram(myProgramObj);
 
@@ -130,6 +168,7 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 		printf("%s\n", &ProgramErrorMessage[0]);
 		glDeleteShader(myVertexObj);
 		glDeleteShader(myFragObj);
+		glDeleteShader(myGeoObj);
 		glDeleteProgram(myProgramObj);
 		return false;
 	}
@@ -137,6 +176,7 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 	glUseProgram(myProgramObj);
 
 	glDeleteShader(myVertexObj);
+	glDeleteShader(myGeoObj);
 	glDeleteShader(myFragObj);
 
 	return true;
@@ -145,7 +185,7 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 bool Init() {
 
 	//Load Shaders
-	LoadShaders(vertexShaderFile, fragShaderFile);
+	LoadShaders(vertexShaderFile, fragShaderFile, geometryShaderFile);
 
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
 	ctmLocation = glGetUniformLocation(myProgramObj, "ctm");
