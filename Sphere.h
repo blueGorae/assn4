@@ -13,7 +13,7 @@ using namespace std;
 class Sphere : public Object
 {
 public:
-	Sphere(GLfloat radius = 1.0f, GLint subDivision = 1);
+	Sphere(GLfloat radius = 1.0f, GLint subDivision = 1, vec3 position = vec3(0.f, 0.f, 0.f));
 	~Sphere();
 
 	GLfloat getRadius() { return this->radius; }

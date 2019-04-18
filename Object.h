@@ -19,8 +19,6 @@ public:
 	unsigned int getVerticesSize() const { return (unsigned int)vertices.size() * sizeof(GLfloat) * 3; }
 	unsigned int getIndiciesSize() const { return (unsigned int)indices.size() * sizeof(unsigned int); }
 
-	vec3 getPos() const { return vec3(posX, posY, posZ); }
-
 	const vector<vec3> getVertices() const { return vertices; }
 	const vector<unsigned int > getIndices() const { return indices; }
 	void addVertex(vec3 vertex) { vertices.push_back(vertex); };
@@ -37,12 +35,23 @@ public:
 		indices.push_back(i3);
 	}
 
+	vec3 getPosition() { return vec3(posX, posY, posZ); }
+
+	void setParent(Object * parent) { this->parent = parent; }
+	Object * getParent() { return this->parent; }
+
+	void addChild(Object * child) { this->children.push_back(child); }
+	vector <Object *> getChildren() { return this->children; }
+
 protected:
 	vector<vec3> vertices;
 	vector<unsigned int> indices;
 
-private:
-	GLfloat posX= 0.f, posY = 0.f, posZ =0.f;
+	GLfloat posX = 0.f, posY = 0.f, posZ = 0.f;
+
+	Object * parent;
+	vector<Object *> children;
+
 
 };
 

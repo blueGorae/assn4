@@ -2,10 +2,14 @@
 
 
 
-Sphere::Sphere(GLfloat radius, GLint subdivision)
+Sphere::Sphere(GLfloat radius, GLint subdivision, vec3 position)
 {
 	this->radius = radius;
 	this->subdivision = subdivision;
+	this->posX = position.x;
+	this->posY = position.y;
+	this->posZ = position.z;
+
 	buildVerticesFlat();
 
 }

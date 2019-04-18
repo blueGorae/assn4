@@ -5,9 +5,9 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include "Background.h"
 #include "Sphere.h"
 #include "Floor.h"
+#include "SceneGraph.h"
 
 #include "mat.h"
 #define BUFFER_OFFSET(offset) ((GLvoid*) (offset))
@@ -35,6 +35,9 @@ GLuint indiciesVBO;
 
 GLuint ballVAO;
 GLuint floorVAO;
+
+SceneGraph sceneGraph;
+
 
 Sphere sphere(0.2f, 2);
 Floor myfloor(4, 8);
@@ -186,6 +189,10 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, con
 
 bool Init() {
 
+	sceneGraph =  SceneGraph();
+	sceneGraph.getRoot()->addChild(&sphere);
+	sceneGraph.getRoot()->addChild(&myfloor);
+
 	//Load Shaders
 	LoadShaders(vertexShaderFile, fragShaderFile, geometryShaderFile);
 
@@ -223,7 +230,7 @@ bool Init() {
 
 }
 
-//CTM은 SceneGraph의 push pop으로 구현해야할듯 합니다
+//CTM은 SceneGraph의 push pop으로 구현해야할듯 합니다 (이 부분을 구조에 맞게 수정 필요)
 void display(void) { 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 
