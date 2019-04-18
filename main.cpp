@@ -34,10 +34,12 @@ GLuint verticesVBO;
 GLuint indiciesVBO;
 
 GLuint ballVAO;
-GLuint bachgroundVAO;
+GLuint floorVAO;
 
 Sphere sphere(0.2f, 2);
 Floor myfloor(4, 8);
+
+vec4 center = vec4(myfloor.getCenter(), 1.f);
 
 bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, const char * geometryShaderFile) {
 	GLuint myVertexObj = glCreateShader(GL_VERTEX_SHADER);
@@ -193,29 +195,27 @@ bool Init() {
 	//Init Buffer
 	glGenBuffers(1, &verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-	glBufferData(GL_ARRAY_BUFFER, sphere.getVerticesSize(), &sphere.getVertices()[0].x, GL_STATIC_DRAW);
-
-	glGenBuffers(1, &indiciesVBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphere.getIndiciesSize(), &sphere.getIndices()[0], GL_STATIC_DRAW);
-
-	// Use the program.
-	glUseProgram(myProgramObj);
+	glBufferData(GL_ARRAY_BUFFER, sphere.getVerticesSize()+ myfloor.getVerticesSize(), NULL, GL_STATIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sphere.getVerticesSize(), &sphere.getVertices()[0].x);
+	glBufferSubData(GL_ARRAY_BUFFER, sphere.getVerticesSize(),myfloor.getVerticesSize() ,&myfloor.getVertices()[0].x);
 
 	// Create the ballVAO for the program.
 	glGenVertexArrays(1, &ballVAO);
 	glBindVertexArray(ballVAO);
-
-	// Bind for VBO 
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
 	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 	glEnableVertexAttribArray(vertexLocation);
+	glBindVertexArray(0);
 
+	// Create the floorVAO for the program.
+	glGenVertexArrays(1, &floorVAO);
+	glBindVertexArray(floorVAO);
+	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sphere.getVerticesSize()));
+	glEnableVertexAttribArray(vertexLocation);
+	glBindVertexArray(0);
 
 	projectionMat = Angel::identity();
 	modelViewMat = Angel::identity();
-
 	ctm = projectionMat * modelViewMat;
 	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
 
@@ -223,16 +223,28 @@ bool Init() {
 
 }
 
+//CTM은 SceneGraph의 push pop으로 구현해야할듯 합니다
 void display(void) { 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-	modelViewMat = RotateY(0.1f) * modelViewMat;
+
+	// 공에 대해서는 translate
+	modelViewMat =  Translate(vec3(0.5f, 0.5f, 0.4f)) * modelViewMat;
+	projectionMat = Angel::identity();
 	ctm = projectionMat * modelViewMat;
 
-	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-
+	glBindVertexArray(ballVAO);
 	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
 	glDrawArrays(GL_TRIANGLES, 0, sphere.getVertexCount());
-	//glDrawElements(GL_POINTS, sphere.getIndexCount(), GL_UNSIGNED_INT, 0);
+
+	//바닥에 대해서는 Identity
+	modelViewMat = Angel::identity();
+	projectionMat = Angel::identity();
+	ctm = projectionMat * modelViewMat;
+
+	glBindVertexArray(floorVAO);
+	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
+	glDrawArrays(GL_TRIANGLES, 0, myfloor.getVertexCount());
+
 	glutSwapBuffers();
 } 
 

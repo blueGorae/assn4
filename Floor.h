@@ -17,6 +17,7 @@ public:
 	};
 	~Floor();
 
+	vec3 getCenter() { return vec3(width / 2.0f, depth / 2.0f, 0.f); }
 private:
 	unsigned int width;
 	unsigned int depth;
