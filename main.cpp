@@ -154,7 +154,7 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, con
 	printf("Linking program\n");
 	myProgramObj = glCreateProgram();
 	glAttachShader(myProgramObj, myVertexObj);
-	//glAttachShader(myProgramObj, myGeoObj);
+	glAttachShader(myProgramObj, myGeoObj);
 	glAttachShader(myProgramObj, myFragObj);
 	glLinkProgram(myProgramObj);
 
@@ -227,8 +227,12 @@ void display(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 	modelViewMat = RotateY(0.1f) * modelViewMat;
 	ctm = projectionMat * modelViewMat;
+
+	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
+
 	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
-	glDrawElements(GL_LINE_LOOP, sphere.getIndexCount(), GL_UNSIGNED_INT, 0);
+	glDrawArrays(GL_TRIANGLES, 0, sphere.getVertexCount());
+	//glDrawElements(GL_POINTS, sphere.getIndexCount(), GL_UNSIGNED_INT, 0);
 	glutSwapBuffers();
 } 
 

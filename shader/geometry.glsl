@@ -1,6 +1,6 @@
 #version 330 core
 
-layout (points) in;
+layout (triangles) in;
 layout (line_strip, max_vertices = 3) out;
 
 
