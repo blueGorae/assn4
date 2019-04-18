@@ -14,15 +14,13 @@ class SceneGraph
 {
 
 public:
-	SceneGraph() {
-		root->setParent(NULL);
-	};
+	SceneGraph() {};
 	~SceneGraph();
 
 	Object * getRoot() { return this->root; }
 
 private:
-	Object * root;
+	Object * root = new Object();
 	mat4 projectionMat = Angel::identity();
 	mat4 modelViewMat = Angel::identity();
 	mat4 ctm = projectionMat * modelViewMat;

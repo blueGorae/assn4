@@ -2,11 +2,6 @@
 
 
 
-SceneGraph::SceneGraph()
-{
-}
-
-
 SceneGraph::~SceneGraph()
 {
 }

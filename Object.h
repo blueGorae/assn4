@@ -49,7 +49,7 @@ protected:
 
 	GLfloat posX = 0.f, posY = 0.f, posZ = 0.f;
 
-	Object * parent;
+	Object * parent = NULL;
 	vector<Object *> children;
 
 
