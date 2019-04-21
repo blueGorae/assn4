@@ -206,10 +206,18 @@ bool Init() {
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sphere.getVerticesSize(), &sphere.getVertices()[0].x);
 	glBufferSubData(GL_ARRAY_BUFFER, sphere.getVerticesSize(),myfloor.getVerticesSize() ,&myfloor.getVertices()[0].x);
 
+	glGenBuffers(1, &indiciesVBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphere.getIndiciesSize()+myfloor.getIndiciesSize(), NULL, GL_STATIC_DRAW);
+	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sphere.getIndiciesSize(), &sphere.getIndices()[0]);
+	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, sphere.getIndiciesSize(), myfloor.getIndiciesSize(), &myfloor.getIndices()[0]);
+
+
+
 	// Create the ballVAO for the program.
 	glGenVertexArrays(1, &ballVAO);
 	glBindVertexArray(ballVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
 	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
 	glEnableVertexAttribArray(vertexLocation);
 	glBindVertexArray(0);
@@ -217,6 +225,7 @@ bool Init() {
 	// Create the floorVAO for the program.
 	glGenVertexArrays(1, &floorVAO);
 	glBindVertexArray(floorVAO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
 	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sphere.getVerticesSize()));
 	glEnableVertexAttribArray(vertexLocation);
 	glBindVertexArray(0);
@@ -241,7 +250,7 @@ void display(void) {
 
 	glBindVertexArray(ballVAO);
 	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
-	glDrawArrays(GL_TRIANGLES, 0, sphere.getVertexCount());
+	glDrawElements(GL_TRIANGLES, sphere.getIndexCount(), GL_UNSIGNED_INT, 0);
 
 	//바닥에 대해서는 Identity
 	modelViewMat = Angel::identity();
@@ -250,7 +259,7 @@ void display(void) {
 
 	glBindVertexArray(floorVAO);
 	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
-	glDrawArrays(GL_TRIANGLES, 0, myfloor.getVertexCount());
+	glDrawElements(GL_TRIANGLES, myfloor.getIndexCount(), GL_UNSIGNED_INT, 0);
 
 	glutSwapBuffers();
 } 
