@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Floor.cpp" />
+    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Icosphere.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -140,7 +140,7 @@
     <None Include="shader\vert.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Floor.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="Icosphere.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="SceneGraph.h" />

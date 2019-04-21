@@ -9,13 +9,13 @@
 using namespace Angel;
 using namespace std;
 
-class Floor : public Object
+class Plane : public Object
 {
 public:
-	Floor(unsigned int width, unsigned int depth) : width(width), depth(depth) {
+	Plane(unsigned int width, unsigned int depth) : width(width), depth(depth) {
 		buildVertices();
 	};
-	~Floor();
+	~Plane();
 
 	vec3 getCenter() { return vec3(width / 2.0f, depth / 2.0f, 0.f); }
 private:

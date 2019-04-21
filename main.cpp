@@ -6,7 +6,7 @@
 #include <sstream>
 #include <fstream>
 #include "Sphere.h"
-#include "Floor.h"
+#include "Plane.h"
 #include "SceneGraph.h"
 
 #include "mat.h"
@@ -40,9 +40,9 @@ SceneGraph sceneGraph;
 
 
 Sphere sphere(0.2f, 2);
-Floor myfloor(4, 8);
+Plane plane(4, 8);
 
-vec4 center = vec4(myfloor.getCenter(), 1.f);
+vec4 center = vec4(plane.getCenter(), 1.f);
 
 bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, const char * geometryShaderFile) {
 	GLuint myVertexObj = glCreateShader(GL_VERTEX_SHADER);
@@ -191,7 +191,7 @@ bool Init() {
 
 	sceneGraph =  SceneGraph();
 	sceneGraph.getRoot()->addChild(&sphere);
-	sceneGraph.getRoot()->addChild(&myfloor);
+	sceneGraph.getRoot()->addChild(&plane);
 
 	//Load Shaders
 	LoadShaders(vertexShaderFile, fragShaderFile, geometryShaderFile);
@@ -202,15 +202,15 @@ bool Init() {
 	//Init Buffer
 	glGenBuffers(1, &verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-	glBufferData(GL_ARRAY_BUFFER, sphere.getVerticesSize()+ myfloor.getVerticesSize(), NULL, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sphere.getVerticesSize()+ plane.getVerticesSize(), NULL, GL_STATIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sphere.getVerticesSize(), &sphere.getVertices()[0].x);
-	glBufferSubData(GL_ARRAY_BUFFER, sphere.getVerticesSize(),myfloor.getVerticesSize() ,&myfloor.getVertices()[0].x);
+	glBufferSubData(GL_ARRAY_BUFFER, sphere.getVerticesSize(), plane.getVerticesSize() ,&plane.getVertices()[0].x);
 
 	glGenBuffers(1, &indiciesVBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphere.getIndiciesSize()+myfloor.getIndiciesSize(), NULL, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphere.getIndiciesSize()+ plane.getIndiciesSize(), NULL, GL_STATIC_DRAW);
 	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sphere.getIndiciesSize(), &sphere.getIndices()[0]);
-	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, sphere.getIndiciesSize(), myfloor.getIndiciesSize(), &myfloor.getIndices()[0]);
+	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, sphere.getIndiciesSize(), plane.getIndiciesSize(), &plane.getIndices()[0]);
 
 
 
@@ -259,7 +259,7 @@ void display(void) {
 
 	glBindVertexArray(floorVAO);
 	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
-	glDrawElements(GL_TRIANGLES, myfloor.getIndexCount(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, plane.getIndexCount(), GL_UNSIGNED_INT, 0);
 
 	glutSwapBuffers();
 } 
