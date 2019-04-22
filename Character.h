@@ -13,7 +13,7 @@ protected:
 
 public:
 	Character() {}
-	Character(glm::vec3 position, bool isAuto = true) : Object(position), isAuto(isAuto)
+	Character(glm::vec3 position, bool isAuto = true) : Object("PICKCKCKCK", position), isAuto(isAuto)
 	{
 
 	}
