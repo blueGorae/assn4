@@ -208,6 +208,7 @@ void DisplayFunc(void) {
 } 
 
 void IdleFunc(void) {
+	sceneGraph.IdleFunc();
 	glutPostRedisplay();
 }
 
