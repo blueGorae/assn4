@@ -14,6 +14,7 @@
 #include "glm/glm.hpp"
 #include "GL/freeglut.h"
 #include "GL/glut.h"
+#include "Character.h"
 
 using namespace std;
 

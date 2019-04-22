@@ -36,7 +36,7 @@ void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset)
 bool Object::loadOBJ(string filename)
 {
 	FILE * file;
-	errno_t err= fopen_s(&file,filename.c_str(), "r");
+	errno_t err= fopen_s(&file, filename.c_str(), "r");
 
 	if (file == NULL) {
 		printf("Impossible to open the file !\n");

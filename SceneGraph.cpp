@@ -3,17 +3,19 @@
 
 Sphere ball(0.2f, 2);
 Background background(4, 8, 4);
+Character player;
 
 void SceneGraph::init() {
     root = new Object();
-
+	
+	player.loadOBJ("resource/Chikorita)OBJ.obj");
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
 	ctmLocation = glGetUniformLocation(myProgramObj, "ctm");
 
     // add 순서 중요 collision check 순서에 영향 - 순서는 reverse 순이다.
 	root->addChild(&ball);
 	root->addChild(&background);
-
+	root->addChild(&player);
 	//Init Buffer
 	glGenBuffers(1, &verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);

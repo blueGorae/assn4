@@ -137,6 +137,7 @@
     <ClCompile Include="Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="resource\Chikorita.mtl" />
     <None Include="shader\frag.glsl" />
     <None Include="shader\geometry.glsl" />
     <None Include="shader\vert.glsl" />
@@ -149,6 +150,14 @@
     <ClInclude Include="SceneGraph.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Camera.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\Body_Bump.jpg" />
+    <Image Include="resource\Body_Diffuse.jpg" />
+    <Image Include="resource\Leaf_Diffuse.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="resource\Chikorita_OBJ.obj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

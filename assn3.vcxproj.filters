@@ -16,6 +16,9 @@
     <Filter Include="소스 파일\shader">
       <UniqueIdentifier>{94f7f741-d901-48a0-9d03-6ee5756b3e45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="리소스 파일\resource">
+      <UniqueIdentifier>{5be05612-6d29-46dc-bad8-896670e4af96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -53,6 +56,9 @@
     <None Include="shader\geometry.glsl">
       <Filter>소스 파일\shader</Filter>
     </None>
+    <None Include="resource\Chikorita.mtl">
+      <Filter>리소스 파일\resource</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sphere.h">
@@ -76,5 +82,21 @@
     <ClInclude Include="Character.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\Body_Bump.jpg">
+      <Filter>리소스 파일\resource</Filter>
+    </Image>
+    <Image Include="resource\Body_Diffuse.jpg">
+      <Filter>리소스 파일\resource</Filter>
+    </Image>
+    <Image Include="resource\Leaf_Diffuse.jpg">
+      <Filter>리소스 파일\resource</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="resource\Chikorita_OBJ.obj">
+      <Filter>리소스 파일\resource</Filter>
+    </Object>
   </ItemGroup>
 </Project>
