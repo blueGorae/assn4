@@ -11,30 +11,58 @@ Object::~Object()
 {
 }
 
-bool Object::loadOBJ(string path)
+bool Object::loadOBJ(string filename)
 {
-	//vector< unsigned int > vertexIndices, uvIndices, normalIndices;
-	//vector< vec3 > temp_vertices;
-	//vector< vec2 > temp_uvs;
-	//vector< vec3 > temp_normals;
+	ifstream in(filename, ios::in);
+	if (!in)
+	{
+		cout << "Cannot open " << filename << endl;
+	}
 
-	//FILE * file = fopen(path.c_str(), "r");
-	//if (file == NULL) {
-	//	printf("Impossible to open the file !\n");
-	//	return false;
-	//}
-	//while (1) {
+	string line;
+	while (getline(in, line))
+	{
+		if (line.substr(0, 2) == "v ")
+		{
+			istringstream s(line.substr(2));
+			vec3 v; s >> v.x; s >> v.y; s >> v.z;
+			addVertex(v);
+		}
+		else if (line.substr(0, 2) == "vt") {
 
-	//	char lineHeader[128];
-	//	// read the first word of the line
-	//	int res = fscanf(file, "%s", lineHeader);
-	//	if (res == EOF)
-	//		break; // EOF = End Of File. Quit the loop.
-	//	// else : parse lineHeader
+		}
+		
+		else if (line.substr(0, 2) == "f ")
+		{
+			istringstream s(line.substr(2));
+			GLushort a, b, c;
+			s >> a; s >> b; s >> c;
+			a--; b--; c--;
+			addIndices(a, b, c);
+		}
+		else if (line[0] == '#')
+		{
+			/* ignoring this line */
+		}
+		else
+		{
+			/* ignoring this line */
+		}
+	}
+
+	for (int i = 0; i < getIndiciesSize(); i += 3)
+	{
+		GLushort ia = indices[i];
+		GLushort ib = indices[i + 1];
+		GLushort ic = indices[i + 2];
+
+		vec3 n = computeFaceNormal(vertices[ia], vertices[ib], vertices[ic]);
+		addNormals(n, n, n);
+	}
+
 	return false;
 
 }
-
 
 vec3 Object::computeFaceNormal( vec3 v1, vec3 v2, vec3 v3)
 {

@@ -1,5 +1,10 @@
 #pragma once
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <sstream>
+#include <fstream>
+#include <string>
 #include <iostream>
 #include <vector>
 #include <math.h>
