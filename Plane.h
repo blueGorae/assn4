@@ -11,6 +11,7 @@ using namespace std;
 class Plane : public Object
 {
 public:
+	Plane() {};
 	Plane(unsigned int width, unsigned int depth) : width(width), depth(depth) {
 		buildVertices();
 	};
