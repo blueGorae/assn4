@@ -87,20 +87,29 @@ void Sphere::buildVerticesFlat() {
 		else
 			v4 = tmpVertices[6];
 
+		vec3 n;
 
 		// add a triangle in 1st row
 		addVertices(v0, v1, v2);
+		n = computeFaceNormal(v0, v1, v2);
+		addNormals(n, n, n);
 		addIndices(index, index + 1, index + 2 );
 
 		// add 2 triangles in 2nd row
 		addVertices(v1, v3, v2);
+		n = computeFaceNormal(v1, v3, v2);
+		addNormals(n, n, n);
 		addIndices(index + 3, index + 4, index + 5);
 
 		addVertices(v2, v3, v4);
+		n = computeFaceNormal(v2, v3, v4);
+		addNormals(n, n, n);
 		addIndices(index + 6, index + 7, index + 8);
 
 		// add a triangle in 3rd row
 		addVertices(v3, v11, v4);
+		n = computeFaceNormal(v3, v11, v4);
+		addNormals(n, n, n);
 		addIndices(index + 9, index + 10, index + 11);
 
 		// next index
@@ -152,17 +161,26 @@ void Sphere::subdivideVerticesFlat(){
 			newV2 = computeHalfVertex(v2, v3, radius);
 			newV3 = computeHalfVertex(v1, v3, radius);
 
+			vec3 n;
 			// add 4 new triangles
 			addVertices(v1, newV1, newV3);
+			n = computeFaceNormal(v1, newV1, newV3);
+			addNormals(n, n, n);
 			addIndices(index, index + 1, index + 2);
 
 			addVertices(newV1, v2, newV2);
+			n = computeFaceNormal(newV1, v2, newV2);
+			addNormals(n, n, n);
 			addIndices(index + 3, index + 4, index + 5);
 
 			addVertices(newV1, newV2, newV3);
+			n = computeFaceNormal(newV1, newV2, newV3);
+			addNormals(n, n, n);
 			addIndices(index + 6, index + 7, index + 8);
 
 			addVertices(newV3, newV2, v3);
+			n = computeFaceNormal(newV3, newV2, v3);
+			addNormals(n, n, n);
 			addIndices(index + 9, index + 10, index + 11);
 
 			// next index

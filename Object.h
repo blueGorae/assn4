@@ -28,6 +28,13 @@ public:
 		addVertex(v3);
 	}
 
+	void addNormal(vec3 n) { this->normals.push_back(n); }
+	void addNormals(vec3 n1, vec3 n2, vec3 n3) {
+		addNormal(n1);
+		addNormal(n2);
+		addNormal(n3);
+	}
+
 	void addIndices(unsigned int i1, unsigned int i2, unsigned int i3)
 	{
 		indices.push_back(i1);
@@ -43,9 +50,15 @@ public:
 	void addChild(Object * child) { this->children.push_back(child); }
 	vector <Object *> getChildren() { return this->children; }
 
+	bool loadOBJ(string path);
+
+	vec3 computeFaceNormal(vec3 v1, vec3 v2, vec3 v3);
+
 protected:
 	vector<vec3> vertices;
 	vector<unsigned int> indices;
+	vector< vec2 > uvs;
+	vector< vec3 > normals;
 
 	GLfloat posX = 0.f, posY = 0.f, posZ = 0.f;
 

@@ -18,7 +18,7 @@ public:
 	~SceneGraph();
 
 	Object * getRoot() { return this->root; }
-
+	
 private:
 	Object * root = new Object();
 	mat4 projectionMat = Angel::identity();

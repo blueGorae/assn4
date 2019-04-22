@@ -1,3 +1,5 @@
+#define GLM_ENABLE_EXPERIMENTAL
+#define BUFFER_OFFSET(offset) ((GLvoid*) (offset))
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
@@ -10,7 +12,8 @@
 #include "SceneGraph.h"
 
 #include "mat.h"
-#define BUFFER_OFFSET(offset) ((GLvoid*) (offset))
+#include "glm/gtx/transform.hpp"
+
 
 using namespace Angel;
 using namespace std;
@@ -212,8 +215,6 @@ bool Init() {
 	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sphere.getIndiciesSize(), &sphere.getIndices()[0]);
 	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, sphere.getIndiciesSize(), plane.getIndiciesSize(), &plane.getIndices()[0]);
 
-
-
 	// Create the ballVAO for the program.
 	glGenVertexArrays(1, &ballVAO);
 	glBindVertexArray(ballVAO);
@@ -233,6 +234,7 @@ bool Init() {
 	projectionMat = Angel::identity();
 	modelViewMat = Angel::identity();
 	ctm = projectionMat * modelViewMat;
+	
 	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
 
 	return true;
@@ -247,7 +249,6 @@ void display(void) {
 	modelViewMat =  Translate(vec3(0.5f, 0.5f, 0.4f)) * modelViewMat;
 	projectionMat = Angel::identity();
 	ctm = projectionMat * modelViewMat;
-
 	glBindVertexArray(ballVAO);
 	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
 	glDrawElements(GL_TRIANGLES, sphere.getIndexCount(), GL_UNSIGNED_INT, 0);
