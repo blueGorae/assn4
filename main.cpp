@@ -16,6 +16,7 @@
 #include "glm/glm.hpp"
 #include "GL/freeglut.h"
 #include "GL/glut.h"
+#include "glm/gtx/transform.hpp"
 
 
 using namespace std;
@@ -39,15 +40,14 @@ GLuint verticesVBO;
 GLuint indiciesVBO;
 
 GLuint ballVAO;
-GLuint floorVAO;
+GLuint backgroundVAO;
 
 SceneGraph sceneGraph;
 Camera camera;
 
-Sphere sphere(0.2f, 2);
-Plane plane(4, 8);
+Sphere ball(0.2f, 2);
+Background background(4, 8, 4);
 
-glm::vec4 center = glm::vec4(plane.getCenter().x, plane.getCenter().y, plane.getCenter().z, 1.f);
 
 bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, const char * geometryShaderFile) {
 	GLuint myVertexObj = glCreateShader(GL_VERTEX_SHADER);
@@ -193,50 +193,12 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, con
 }
 
 bool Init() {
-
-	sceneGraph =  SceneGraph();
-    sceneGraph.init();
-
 	//Load Shaders
 	LoadShaders(vertexShaderFile, fragShaderFile, geometryShaderFile);
 
-	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
-	ctmLocation = glGetUniformLocation(myProgramObj, "ctm");
+	sceneGraph =  SceneGraph();
 
-	//Init Buffer
-	glGenBuffers(1, &verticesVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-	glBufferData(GL_ARRAY_BUFFER, sphere.getVerticesSize()+ plane.getVerticesSize(), NULL, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sphere.getVerticesSize(), &sphere.getVertices()[0].x);
-	glBufferSubData(GL_ARRAY_BUFFER, sphere.getVerticesSize(), plane.getVerticesSize() ,&plane.getVertices()[0].x);
-
-	glGenBuffers(1, &indiciesVBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphere.getIndiciesSize()+ plane.getIndiciesSize(), NULL, GL_STATIC_DRAW);
-	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sphere.getIndiciesSize(), &sphere.getIndices()[0]);
-	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, sphere.getIndiciesSize(), plane.getIndiciesSize(), &plane.getIndices()[0]);
-
-	// Create the ballVAO for the program.
-	glGenVertexArrays(1, &ballVAO);
-	glBindVertexArray(ballVAO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
-	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-	glEnableVertexAttribArray(vertexLocation);
-	glBindVertexArray(0);
-
-	// Create the floorVAO for the program.
-	glGenVertexArrays(1, &floorVAO);
-	glBindVertexArray(floorVAO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
-	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(sphere.getVerticesSize()));
-	glEnableVertexAttribArray(vertexLocation);
-	glBindVertexArray(0);
-
-	projectionMat = glm::mat4(1.f);
-	modelViewMat = glm::mat4(1.f);
-	ctm = projectionMat * modelViewMat;
-	
-	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
+	sceneGraph.init();
 
 	return true;
 }
@@ -256,16 +218,16 @@ void DisplayFunc(void) {
 	ctm = projectionMat * modelViewMat;
 	glBindVertexArray(ballVAO);
 	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
-	glDrawElements(GL_TRIANGLES, sphere.getIndexCount(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, ball.getIndexCount(), GL_UNSIGNED_INT, 0);
 
 	//�ٴڿ� ���ؼ��� Identity
 	modelViewMat = glm::mat4(1.f);
 	projectionMat = glm::mat4(1.f);
 	ctm = projectionMat * modelViewMat;
 
-	glBindVertexArray(floorVAO);
+	glBindVertexArray(backgroundVAO);
 	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
-	glDrawElements(GL_TRIANGLES, plane.getIndexCount(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, background.getIndexCount(), GL_UNSIGNED_INT, 0);
 
 	glutSwapBuffers();
 } 

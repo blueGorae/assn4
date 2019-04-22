@@ -1,5 +1,7 @@
 #pragma once
+#define GLM_ENABLE_EXPERIMENTAL
 
+#include "GL/glew.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sstream>
@@ -9,10 +11,24 @@
 #include <vector>
 #include <math.h>
 #include "glm/glm.hpp"
+#include "GL/freeglut.h"
 #include "GL/glut.h"
 
 
 using namespace std;
+
+extern GLuint myProgramObj;
+
+extern GLint ctmLocation;
+
+extern GLint vertexLocation;
+
+extern GLuint verticesVBO;
+extern GLuint indiciesVBO;
+
+extern GLuint ballVAO;
+extern GLuint backgroundVAO;
+
 
 class Object
 {
@@ -60,7 +76,8 @@ public:
 
 	glm::vec3 computeFaceNormal(glm::vec3 v1, glm::vec3 v2, glm::vec3 v3);
 	
-	void init();
+	void init(unsigned vertexOffset, unsigned indexOffset);
+	virtual void initObject(unsigned vertexOffset, unsigned indexOffset);
 	void draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
 
 	void setOriginalMatrix(glm::mat4 matrix) { this->originMatrix = matrix; }

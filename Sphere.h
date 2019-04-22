@@ -1,5 +1,5 @@
 #pragma once
-
+#define GLM_ENABLE_EXPERIMENTAL
 #define _USE_MATH_DEFINES
 #include <iostream>
 #include <vector>
@@ -9,6 +9,9 @@
 
 using namespace glm;
 using namespace std;
+
+extern GLuint verticesVBO;
+extern GLuint indiciesVBO;
 
 class Sphere : public Object
 {

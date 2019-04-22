@@ -1,13 +1,42 @@
 #pragma once
+#define GLM_ENABLE_EXPERIMENTAL
+#define BUFFER_OFFSET(offset) ((GLvoid*) (offset))
 
+#include "GL/glew.h"
 #include <iostream>
 #include <vector>
 #include <math.h>
 #include "Object.h"
 #include "glm/glm.hpp"
+#include "Camera.h"
+#include "Sphere.h"
+#include "Background.h"
+#include "glm/glm.hpp"
+#include "GL/freeglut.h"
+#include "GL/glut.h"
 
 using namespace std;
 
+extern glm::mat4 projectionMat;
+extern glm::mat4 modelViewMat;
+extern glm::mat4 ctm;
+
+
+extern GLuint myProgramObj;
+
+extern GLint ctmLocation;
+
+extern GLint vertexLocation;
+
+extern GLuint verticesVBO;
+extern GLuint indiciesVBO;
+
+extern GLuint ballVAO;
+extern GLuint backgroundVAO;
+
+
+extern Sphere ball;
+extern Background background;
 
 class SceneGraph
 {
