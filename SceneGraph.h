@@ -25,6 +25,7 @@ public:
 		this->projectionMatrix = projectionMatrix;
 		this->modelViewMatrix = modelViewMatrix;
 	}
+	Object* getRoot() { return root; }
     void KeyboardFunc(unsigned char key, int x, int y);
 	void DisplayFunc();
 	void IdleFunc();

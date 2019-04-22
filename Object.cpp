@@ -103,9 +103,11 @@ void Object::draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix)
     drawShader(projectionMatrix, modelViewMatrix);
 
     glm::mat4 childModelViewMatrix = modelViewMatrix * originMatrix;
-    for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
-        (*it)->draw(projectionMatrix, childModelViewMatrix);
-    }
+	if (children.size() != 0) {
+		for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
+			(*it)->draw(projectionMatrix, childModelViewMatrix);
+		}
+	}
 }
 
 vector<glm::vec3> Object::getVertices() {

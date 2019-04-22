@@ -62,6 +62,9 @@ public:
 	
 	void draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
 
+	void setOriginalMatrix(glm::mat4 matrix) { this->originMatrix = matrix; }
+	glm::mat4 getOriginalMatrix() { return originMatrix; }
+
 protected:
 	vector<glm::vec3> vertices;
 	vector<unsigned int> indices;
@@ -72,7 +75,7 @@ protected:
 
 	Object * parent = NULL;
 	vector<Object *> children;
-    mat4 originMatrix = mat4(1.f);
+    glm::mat4 originMatrix = glm::mat4(1.f);
 
     virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
 };
