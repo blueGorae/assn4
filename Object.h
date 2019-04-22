@@ -60,6 +60,7 @@ public:
 
 	glm::vec3 computeFaceNormal(glm::vec3 v1, glm::vec3 v2, glm::vec3 v3);
 	
+	void init();
 	void draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
 
 	void setOriginalMatrix(glm::mat4 matrix) { this->originMatrix = matrix; }
@@ -77,6 +78,6 @@ protected:
 	vector<Object *> children;
     glm::mat4 originMatrix = glm::mat4(1.f);
 
-    virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
+    virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {}
 };
 
