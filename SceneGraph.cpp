@@ -1,8 +1,8 @@
 #include "SceneGraph.h"
 
 
-// TODO : fix object instance
-
+Sphere ball(0.2f, 2);
+Background background(4, 8, 4);
 
 void SceneGraph::init() {
     root = new Object();

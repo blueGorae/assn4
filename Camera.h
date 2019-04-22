@@ -1,12 +1,11 @@
 #pragma once
 #define GLM_ENABLE_EXPERIMENTAL
 
-#include "SceneGraph.h"
+#include "GL/glew.h"
 #include "glm/glm.hpp"
 #include "glm/gtx/transform.hpp"
 
 using namespace std;
-
 
 
 class Camera
@@ -16,8 +15,8 @@ private :
 	bool pressed = false;
 	bool init = true;
     GLint cameraMode = 3;
-    GLfloat cameraLocationX = -0.5f;
-    GLfloat cameraLocationY = -0.5f;
+    GLfloat cameraLocationX = -0.f;
+    GLfloat cameraLocationY = -0.f;
 public:
 	Camera() {}
 	void KeyboardFunc(unsigned char key, int x, int y);
@@ -32,11 +31,12 @@ public:
             // ĳ���� 3��Ī
         case 3:
             return glm::lookAt(
-                    glm::vec3(cameraLocationX, cameraLocationY, 2),
+                    glm::vec3(cameraLocationX, cameraLocationY, 3),
                     glm::vec3(0.f, 0.f, 0.f),
                     glm::vec3(0, 1, 0)
             );
         }
+		return glm::mat4(1.f);
     }
 	virtual ~Camera(){}
 };

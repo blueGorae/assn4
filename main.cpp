@@ -9,8 +9,6 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include "Sphere.h"
-#include "Plane.h"
 #include "SceneGraph.h"
 #include "Camera.h"
 #include "glm/glm.hpp"
@@ -41,9 +39,6 @@ GLuint indiciesVBO;
 
 SceneGraph sceneGraph;
 Camera camera;
-
-Sphere ball(0.2f, 2);
-Background background(4, 8, 4);
 
 
 bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, const char * geometryShaderFile) {
@@ -204,9 +199,9 @@ bool Init() {
 void DisplayFunc(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 
-	//sceneGraph.updateMatrix(
- //           camera.ProjectionMatrix(),
- //           camera.ModelViewMatrix());
+	sceneGraph.updateMatrix(
+            camera.ProjectionMatrix(),
+            camera.ModelViewMatrix());
 	sceneGraph.DisplayFunc();
 
 	glutSwapBuffers();

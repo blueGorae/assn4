@@ -32,15 +32,12 @@ extern GLuint verticesVBO;
 extern GLuint indiciesVBO;
 
 
-extern Sphere ball;
-extern Background background;
-
 class SceneGraph
 {
 private:
 	Object * root = new Object();
-	glm::mat4 projectionMatrix = glm::mat4(1.f);
-	glm::mat4 modelViewMatrix = glm::mat4(1.f);
+	glm::mat4 projectionMatrix;
+	glm::mat4 modelViewMatrix;
 
 public:
 	SceneGraph() {};
