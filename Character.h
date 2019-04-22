@@ -38,6 +38,20 @@ public:
 	}
 	Character(glm::vec3 position, bool isAuto = true) : Object(position, "Chiko"), isAuto(isAuto)
 	{
+		setOriginalMatrix(
+			glm::scale(glm::vec3(1 / 1000.f, 1 / 1000.f, 1 / 1000.f)));
+
+		if (isAuto) {
+			setOriginalMatrix(glm::translate(glm::mat4(1.f), position)
+				* glm::rotate((float)M_PI_2, glm::vec3(1.f, 0.f, 0.f))
+				* getOriginalMatrix());
+		}
+		else {
+			setOriginalMatrix(glm::translate(glm::mat4(1.f),position)
+				* glm::rotate((float)M_PI_2, glm::vec3(1.f, 0.f, 0.f))
+				* glm::rotate((float)M_PI, glm::vec3(0.f, 1.f, 0.f))
+				* getOriginalMatrix());
+		}
 
 	}
 	void pressed(unsigned char key);

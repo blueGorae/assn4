@@ -11,19 +11,11 @@ Character com;
 
 void SceneGraph::init() {
     root = new Object();
-	
+
+	player = Character(glm::vec3(0.f, -0.5f, 0.f), false);
+	com = Character(glm::vec3(0.f, 0.5f, 0.f), true);
 	player.loadOBJ("resource/Chikorita_OBJ.obj");
 	com.loadOBJ("resource/Chikorita_OBJ.obj");
-	
-	player.setOriginalMatrix( glm::translate(glm::mat4(1.f), glm::vec3(0.f, - 0.5f , 0.f))
-		* glm::rotate((float) M_PI_2, glm::vec3(1.f, 0.f, 0.f)) 
-		* glm::rotate((float)M_PI, glm::vec3(0.f, 1.f, 0.f)) 
-		* player.getOriginalMatrix());
-
-
-	com.setOriginalMatrix(glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.5f, 0.f))
-		* glm::rotate((float)M_PI_2, glm::vec3(1.f, 0.f, 0.f))
-		* com.getOriginalMatrix());
 
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
 	ctmLocation = glGetUniformLocation(myProgramObj, "ctm");
@@ -50,6 +42,7 @@ void SceneGraph::init() {
 
 void SceneGraph::KeyboardFunc(unsigned char key, int x, int y)
 {
+	player.pressed(key);
 
 }
 
