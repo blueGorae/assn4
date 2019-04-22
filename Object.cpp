@@ -35,34 +35,44 @@ void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset)
 
 bool Object::loadOBJ(string filename)
 {
-	ifstream in(filename, ios::in);
-	if (!in)
-	{
-		cout << "Cannot open " << filename << endl;
+	FILE * file = fopen(filename.c_str(), "r");
+
+	if (file == NULL) {
+		printf("Impossible to open the file !\n");
+		return false;
 	}
 
-	string line;
-	while (getline(in, line))
+	while (true)
 	{
-		if (line.substr(0, 2) == "v ")
-		{
-			istringstream s(line.substr(2));
-			glm::vec3 v; s >> v.x; s >> v.y; s >> v.z;
-			addVertex(v);
+		char lineHeader[128];
+		// read the first word of the line
+		int res = fscanf(file, "%s", lineHeader);
+		if (res == EOF)
+			break; 
+
+		if (strcmp(lineHeader, "v") == 0) {
+			glm::vec3 vertex;
+			fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
+			addVertex(vertex);
 		}
-		else if (line.substr(0, 2) == "vt") {
+		else if (strcmp(lineHeader, "vt") == 0) {
 
 		}
-		
-		else if (line.substr(0, 2) == "f ")
-		{
-			istringstream s(line.substr(2));
-			GLushort a, b, c;
-			s >> a; s >> b; s >> c;
-			a--; b--; c--;
-			addIndices(a, b, c);
+		else if (strcmp(lineHeader, "vn") == 0) {
+
 		}
-		else if (line[0] == '#')
+		else if (strcmp(lineHeader, "f") == 0) {
+
+			unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
+
+			int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
+			if (matches != 9) {
+				printf("File can't be read by our simple parser : ( Try exporting with other options\n");
+				return false;
+			}
+			addIndices(vertexIndex[0], vertexIndex[1], vertexIndex[2]);
+		}
+		else if (strcmp(lineHeader, "#") == 0)
 		{
 			/* ignoring this line */
 		}
@@ -82,7 +92,7 @@ bool Object::loadOBJ(string filename)
 		addNormals(n, n, n);
 	}
 
-	return false;
+	return true;
 
 }
 
