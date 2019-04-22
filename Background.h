@@ -7,6 +7,8 @@
 #include "glm/glm.hpp"
 #include "glm/gtx/transform.hpp"
 
+extern GLuint backgroundVAO;
+
 
 class Background : public Object
 {
@@ -32,8 +34,11 @@ public:
 		addChild(&rightPlane);
 		addChild(&upperPlane);
 		addChild(&downPlane);
+
 	}
 	~Background();
+
+	virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
 
 private:
 	Plane frontPlane;

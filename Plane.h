@@ -9,6 +9,7 @@
 
 using namespace std;
 
+extern GLint ctmLocation;
 
 class Plane : public Object
 {
@@ -20,7 +21,7 @@ public:
 	~Plane();
 
 	glm::vec3 getCenter() { return glm::vec3(width / 2.0f, depth / 2.0f, 0.f); }
-
+	virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
 private:
 	unsigned int width;
 	unsigned int depth;

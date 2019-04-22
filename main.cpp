@@ -212,23 +212,6 @@ void DisplayFunc(void) {
             camera.ModelViewMatrix());
 	sceneGraph.DisplayFunc();
 
-	// ���� ���ؼ��� translate
-	modelViewMat =  glm::translate(glm::vec3(0.5f, 0.5f, 0.4f)) * modelViewMat;
-	projectionMat = glm::mat4(1.f);
-	ctm = projectionMat * modelViewMat;
-	glBindVertexArray(ballVAO);
-	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
-	glDrawElements(GL_TRIANGLES, ball.getIndexCount(), GL_UNSIGNED_INT, 0);
-
-	//�ٴڿ� ���ؼ��� Identity
-	modelViewMat = glm::mat4(1.f);
-	projectionMat = glm::mat4(1.f);
-	ctm = projectionMat * modelViewMat;
-
-	glBindVertexArray(backgroundVAO);
-	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
-	glDrawElements(GL_TRIANGLES, background.getIndexCount(), GL_UNSIGNED_INT, 0);
-
 	glutSwapBuffers();
 } 
 
