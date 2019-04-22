@@ -24,23 +24,23 @@ public:
 		upperPlane = Plane(width, depth);
 		downPlane = Plane(width, depth);
 
-		frontPlane.setOriginalMatrix (glm::translate(glm::mat4(1.f), glm::vec3( 0.f,-(depth/20.0f), 0.f)) 
-			* glm::rotate((float)M_PI_2, glm::vec3(1.f, 0.f, 0.f))* glm::translate(glm::mat4(1.f), glm::vec3(-frontPlane.getCenter()/10.f))) ;
+		frontPlane.setOriginalMatrix (glm::translate(glm::mat4(1.f), glm::vec3( 0.f,-(depth/2.f), 0.f)) 
+			* glm::rotate((float)M_PI_2, glm::vec3(1.f, 0.f, 0.f))* glm::translate(glm::mat4(1.f), glm::vec3(-frontPlane.getCenter()))) ;
 
-		backPlane.setOriginalMatrix(glm::translate(glm::mat4(1.f), glm::vec3(0.f, (depth / 20.0f), 0.f))
-			* glm::rotate((float)M_PI_2, glm::vec3(1.f, 0.f, 0.f))* glm::translate(glm::mat4(1.f), glm::vec3(-backPlane.getCenter() / 10.f)));
+		backPlane.setOriginalMatrix(glm::translate(glm::mat4(1.f), glm::vec3(0.f, (depth / 2.f), 0.f))
+			* glm::rotate((float)M_PI_2, glm::vec3(1.f, 0.f, 0.f))* glm::translate(glm::mat4(1.f), glm::vec3(-backPlane.getCenter())));
 
-		leftPlane.setOriginalMatrix(glm::translate(glm::mat4(1.f), glm::vec3(-(width/20.f), 0.f, 0.f))
-			* glm::rotate((float)M_PI_2, glm::vec3(0.f, 1.f, 0.f))* glm::translate(glm::mat4(1.f), glm::vec3(-leftPlane.getCenter() / 10.f)));
+		leftPlane.setOriginalMatrix(glm::translate(glm::mat4(1.f), glm::vec3(-(width/2.f), 0.f, 0.f))
+			* glm::rotate((float)M_PI_2, glm::vec3(0.f, 1.f, 0.f))* glm::translate(glm::mat4(1.f), glm::vec3(-leftPlane.getCenter() )));
 
-		rightPlane.setOriginalMatrix(glm::translate(glm::mat4(1.f), glm::vec3((width / 20.f), 0.f, 0.f))
-			* glm::rotate((float)M_PI_2, glm::vec3(0.f, 1.f, 0.f))* glm::translate(glm::mat4(1.f), glm::vec3(-rightPlane.getCenter() / 10.f)));
+		rightPlane.setOriginalMatrix(glm::translate(glm::mat4(1.f), glm::vec3((width / 2.f), 0.f, 0.f))
+			* glm::rotate((float)M_PI_2, glm::vec3(0.f, 1.f, 0.f))* glm::translate(glm::mat4(1.f), glm::vec3(-rightPlane.getCenter() )));
 
-		upperPlane.setOriginalMatrix(glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, (height/20.f)))
-			* glm::translate(glm::mat4(1.f), glm::vec3(-upperPlane.getCenter() / 10.f)));
+		upperPlane.setOriginalMatrix(glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, (height/2.f)))
+			* glm::translate(glm::mat4(1.f), glm::vec3(-upperPlane.getCenter())));
 
-		downPlane.setOriginalMatrix(glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, -(height / 20.f)))
-			* glm::translate(glm::mat4(1.f), glm::vec3(-downPlane.getCenter() / 10.f)));
+		downPlane.setOriginalMatrix(glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, -(height / 2.f)))
+			* glm::translate(glm::mat4(1.f), glm::vec3(-downPlane.getCenter() )));
 
 		addChild(&frontPlane);
 		addChild(&backPlane);
