@@ -37,7 +37,7 @@ public:
 		translateOrigin(position);
 		GLfloat w_2 = 0.f;// w * 0.5f;
 		GLfloat h_2 = 0.f;// h * 0.5f;
-		originPositions[0] = glm::vec4(0.f, 0.f, 0.f, 1.f);
+		originPositions[0] = glm::vec4(position, 1.f);
 		originPositions[1] = glm::vec4(-w_2, -h_2, 0.f, 1.f);
 		originPositions[2] = glm::vec4(+w_2, -h_2, 0.f, 1.f);
 		originPositions[3] = glm::vec4(+w_2, +h_2, 0.f, 1.f);

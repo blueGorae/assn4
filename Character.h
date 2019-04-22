@@ -29,7 +29,7 @@ private:
 
 
 protected:
-	virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
+	glm::vec3 translateVector(glm::vec3 direction);
 	virtual void moveObject();
 
 public:
