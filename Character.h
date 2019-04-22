@@ -26,13 +26,17 @@ class Character : public Object
 private:
 	bool isAuto;
 
+
 protected:
 	virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
 	virtual void moveObject();
 
 public:
-	Character() { setOriginalMatrix(glm::scale(glm::vec3(1/1000.f, 1/1000.f, 1/1000.f))); }
-	Character(glm::vec3 position, bool isAuto = true) : Object(position, "PICKCKCKCK"), isAuto(isAuto)
+	Character() { 
+		setOriginalMatrix(
+			glm::scale(glm::vec3(1/1000.f, 1/1000.f, 1/1000.f)));
+	}
+	Character(glm::vec3 position, bool isAuto = true) : Object(position, "Chiko"), isAuto(isAuto)
 	{
 
 	}

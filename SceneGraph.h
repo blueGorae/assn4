@@ -11,7 +11,6 @@
 #include "Camera.h"
 #include "Sphere.h"
 #include "Background.h"
-#include "glm/glm.hpp"
 #include "GL/freeglut.h"
 #include "GL/glut.h"
 #include "Character.h"

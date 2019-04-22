@@ -54,7 +54,6 @@ bool Object::loadOBJ(string filename)
 		if (strcmp(lineHeader, "v") == 0) {
 			glm::vec3 vertex;
 			fscanf_s(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
-			cout << vertex.x << " " << vertex.y << endl;
 			addVertex(vertex);
 		}
 		else if (strcmp(lineHeader, "vt") == 0) {
@@ -72,7 +71,6 @@ bool Object::loadOBJ(string filename)
 				printf("File can't be read by our simple parser : ( Try exporting with other options\n");
 				return false;
 			}
-			cout << vertexIndex[0] << " " <<vertexIndex[1] << " " << vertexIndex[2] << endl;
 			addIndices(vertexIndex[0]-1, vertexIndex[1]-1, vertexIndex[2]-1);
 		}
 		else if (strcmp(lineHeader, "#") == 0)
