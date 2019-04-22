@@ -39,9 +39,6 @@ GLint vertexLocation;
 GLuint verticesVBO;
 GLuint indiciesVBO;
 
-GLuint ballVAO;
-GLuint backgroundVAO;
-
 SceneGraph sceneGraph;
 Camera camera;
 
@@ -257,7 +254,7 @@ int main(int argc, char **argv) {
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);  
 	glutInitWindowPosition(100, 100);  
 	glutInitWindowSize(720, 720);
-	glutCreateWindow("Hello OpenGL"); 
+	glutCreateWindow("Assignment3"); 
 	glutKeyboardFunc(KeyboardFunc);
 	glutDisplayFunc(DisplayFunc);
 	glutIdleFunc(IdleFunc);

@@ -11,33 +11,35 @@ Object::~Object()
 {
 }
 
-void Object::init(unsigned vertexOffset, unsigned indexOffset) {
+void Object::init(unsigned *vertexOffset, unsigned *indexOffset) {
 	//loadOBJ(objPath);
-	localInit();
+	cout << "Init " << *vertexOffset << *indexOffset << endl;
+	initObject( vertexOffset,  indexOffset);
+	*vertexOffset += getVerticesSize();
+	*indexOffset += getIndiciesSize();
 	if (children.size() != 0) {
 		for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
-			(*it)->initObject(vertexOffset, indexOffset);
-			vertexOffset += (*it)->getVerticesSize();
-			indexOffset += (*it)->getIndiciesSize();
+			(*it)->init(vertexOffset, indexOffset);
 		}
 	}
 }
 
-void Object::initObject(unsigned vertexOffset, unsigned indexOffset)
+void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset)
 {
-	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-	glBufferSubData(GL_ARRAY_BUFFER, vertexOffset, this->getVerticesSize(), &this->getVertices()[0].x);
-	
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
-	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, indexOffset, this->getIndiciesSize(), &this->getIndices()[0]);
+	if (vertices.size() != 0) {
+		glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
+		glBufferSubData(GL_ARRAY_BUFFER, *vertexOffset, getVerticesSize(), &getVertices()[0].x);
 
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
-	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(getVerticesSize()));
-	glEnableVertexAttribArray(vertexLocation);
-	glBindVertexArray(0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
+		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, *indexOffset, getIndiciesSize(), &getIndices()[0]);
 
+		glGenVertexArrays(1, &VAO);
+		glBindVertexArray(VAO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
+		glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(*vertexOffset));
+		glEnableVertexAttribArray(vertexLocation);
+		glBindVertexArray(0);
+	}
 }
 
 bool Object::loadOBJ(string filename)
@@ -139,32 +141,20 @@ void Object::draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix)
 	}
 }
 
-vector<glm::vec3> Object::getVertices() {
-	vector<glm::vec3> temp_vertices = vertices;
-	vector<glm::vec3> temp_vertices2;
+void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
+	ctm = projectionMatrix * modelViewMatrix * originMatrix;
+	glBindVertexArray(VAO);
+	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
+	glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
 
-	if (children.size() != 0) {
-		for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
-			temp_vertices2 = (*it)->getVertices();
-			temp_vertices.reserve(temp_vertices.size() + temp_vertices2.size());
-			temp_vertices.insert(temp_vertices.end(), temp_vertices2.begin(), temp_vertices2.end());
-		}
-	}
-	return temp_vertices;
+vector<glm::vec3> Object::getVertices() {
+	return vertices;
 }
 
 vector<unsigned int >Object:: getIndices() {
-	vector<unsigned int> temp_indices = indices;
-	vector<unsigned int> temp_indices2 = indices;
-
-	if (children.size() != 0) {
-		for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
-			temp_indices2 = (*it)->getIndices();
-			temp_indices.reserve(temp_indices.size() + temp_indices2.size());
-			temp_indices.insert(temp_indices.end(), temp_indices2.begin(), temp_indices2.end());
-		}
-	}
-	return temp_indices;
+	return indices;
 
 }
 
@@ -175,4 +165,29 @@ void Object::move()
 		(*it)->move();
 	}
 	//while (doCollision()) {}
+}
+
+unsigned Object::totalVerticesSize()
+{
+	unsigned size = getVerticesSize();
+
+	if (children.size() != 0) {
+		for (vector<Object*>::iterator it = children.begin(); it != children.end(); ++it) {
+			size += (*it)->totalVerticesSize();
+		}
+	}
+	return size;
+
+}
+
+unsigned Object::totalIndicesSize()
+{
+	unsigned size = getIndiciesSize();
+
+	if (children.size() != 0) {
+		for (vector<Object*>::iterator it = children.begin(); it != children.end(); ++it) {
+			size += (*it)->totalIndicesSize();
+		}
+	}
+	return size;
 }

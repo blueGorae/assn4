@@ -9,6 +9,7 @@
 
 extern GLuint backgroundVAO;
 
+extern glm::mat4 ctm;
 
 class Background : public Object
 {
@@ -38,7 +39,6 @@ public:
 	}
 	~Background();
 
-	virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
 
 private:
 	Plane frontPlane;

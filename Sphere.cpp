@@ -19,13 +19,6 @@ Sphere::~Sphere()
 {
 }
 
-void Sphere::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix)
-{
-	glm::mat4 ctm = projectionMatrix * modelViewMatrix * originMatrix;
-	glBindVertexArray(VAO);
-	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
-	glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, 0);
-}
 
 vector<glm::vec3> Sphere::computeIcosahedronVertices()
 {

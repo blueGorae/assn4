@@ -17,15 +17,15 @@ void SceneGraph::init() {
 	//Init Buffer
 	glGenBuffers(1, &verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-	glBufferData(GL_ARRAY_BUFFER, this->getRoot()->getVerticesSize(), NULL, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, this->getRoot()->totalVerticesSize(), NULL, GL_STATIC_DRAW);
 
 	glGenBuffers(1, &indiciesVBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->getRoot()->getIndiciesSize(), NULL, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->getRoot()->totalIndicesSize(), NULL, GL_STATIC_DRAW);
 
 	unsigned vertexOffset = 0;
 	unsigned indexOffset = 0;
-	root->init(vertexOffset, indexOffset);
+	root->init(&vertexOffset, &indexOffset);
 
 	projectionMat = glm::mat4(1.f);
 	modelViewMat = glm::mat4(1.f);

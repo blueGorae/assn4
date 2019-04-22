@@ -10,12 +10,13 @@
 using namespace glm;
 using namespace std;
 
+extern GLint vertexLocation;
 extern GLint ctmLocation;
 
 extern GLuint verticesVBO;
 extern GLuint indiciesVBO;
 
-extern GLuint ballVAO;
+extern glm::mat4 ctm;
 
 class Sphere : public Object
 {
@@ -27,9 +28,8 @@ public:
 	void setRadius(GLfloat radius) { this->radius = radius; }
 	GLint getSubdivision() { return this->subdivision; }
 	void setSubdivision(GLint subdivision) { this->subdivision = subdivision; }
-	virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
-private:
 
+private:
 	vector<glm::vec3> computeIcosahedronVertices();
 	glm::vec3 computeHalfVertex(glm::vec3 v1, glm::vec3 v2, float length);
 	float computeScaleForLength(glm::vec3 v, float length);
