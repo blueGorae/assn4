@@ -20,15 +20,6 @@ extern glm::mat4 ctm;
 
 class Sphere : public Object
 {
-public:
-	Sphere(GLfloat radius = 1.0f, GLint subDivision = 1, glm::vec3 position = glm::vec3(0.f, 0.f, 0.f));
-	~Sphere();
-
-	GLfloat getRadius() { return this->radius; }
-	void setRadius(GLfloat radius) { this->radius = radius; }
-	GLint getSubdivision() { return this->subdivision; }
-	void setSubdivision(GLint subdivision) { this->subdivision = subdivision; }
-
 private:
 	vector<glm::vec3> computeIcosahedronVertices();
 	glm::vec3 computeHalfVertex(glm::vec3 v1, glm::vec3 v2, float length);
@@ -38,6 +29,22 @@ private:
 
 	GLfloat radius;
 	GLint subdivision;
+	GLfloat angle = 90.f + 19.f;
+
+protected:
+	virtual void moveObject();
+
+public:
+	Sphere(GLfloat radius = 1.0f, GLint subDivision = 1) 
+		: Object(glm::vec3(0.f, 0.f, radius)), radius(radius), subdivision(subDivision) {
+		buildVerticesFlat();
+	};
+	~Sphere() {};
+
+	GLfloat getRadius() { return this->radius; }
+	void setRadius(GLfloat radius) { this->radius = radius; }
+	GLint getSubdivision() { return this->subdivision; }
+	void setSubdivision(GLint subdivision) { this->subdivision = subdivision; }
 
 };
 

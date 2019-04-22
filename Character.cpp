@@ -2,11 +2,6 @@
 
 
 
-void Character::localInit()
-{
-
-}
-
 void Character::pressed(unsigned char key)
 {
 	if (!isAuto) {

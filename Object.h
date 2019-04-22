@@ -32,12 +32,11 @@ extern GLuint indiciesVBO;
 class Object
 {
 public:
-	Object();
-	Object(string objPath, glm::vec3 position) : objPath(objPath), position(position)
+	Object(glm::vec3 position = glm::vec3(0.f, 0.f, 0.f), string objPath = "") : objPath(objPath), position(position)
 	{
-
+		translateOrigin(position);
 	}
-	~Object();
+	~Object() {};
 
 	unsigned int getVertexCount()  { return (unsigned int)getVertices().size() ; }
 	unsigned int getIndexCount()  { return (unsigned int)getIndices().size(); }
@@ -67,8 +66,6 @@ public:
 		indices.push_back(i3);
 	}
 
-	glm::vec3 getPosition() { return glm::vec3(posX, posY, posZ); }
-
 	void setParent(Object * parent) { this->parent = parent; }
 	Object * getParent() { return this->parent; }
 
@@ -84,10 +81,19 @@ public:
 	void draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
 	void move();
 	void translateOrigin(GLfloat x, GLfloat y) {
-		originMatrix = glm::translate(glm::mat4(1.f), glm::vec3(x, y, 0.f)) * originMatrix;
+		translateOrigin(x, y, 0);
+	}
+	void translateOrigin(GLfloat x, GLfloat y, GLfloat z) {
+		translateOrigin(glm::vec3(x, y, z));
+	}
+	void translateOrigin(glm::vec3 translate) {
+		originMatrix = glm::translate(glm::mat4(1.f), translate) * originMatrix;
 	}
 	void rotateOrigin(GLfloat angle) {
-		originMatrix = glm::rotate(glm::mat4(1.f), angle, glm::vec3(0.f, 0.f, 1.f)) * originMatrix;
+		rotateOrigin(angle, glm::vec3(0.f, 0.f, 1.f));
+	}
+	void rotateOrigin(GLfloat angle, glm::vec3 pivot) {
+		originMatrix = glm::rotate(glm::mat4(1.f), angle, pivot) * originMatrix;
 	}
 
 	void setOriginalMatrix(glm::mat4 matrix) { this->originMatrix = matrix; }
@@ -103,8 +109,6 @@ protected:
 	vector<unsigned int> indices;
 	vector< glm::vec2 > uvs;
 	vector< glm::vec3 > normals;
-
-	GLfloat posX = 0.f, posY = 0.f, posZ = 0.f;
 
 	Object * parent = NULL;
 	vector<Object *> children;
