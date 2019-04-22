@@ -35,7 +35,7 @@ class Object
 {
 public:
 	Object();
-	Object(glm::vec3 position) : position(position)
+	Object(string objPath, glm::vec3 position) : objPath(objPath), position(position)
 	{
 
 	}
@@ -105,6 +105,7 @@ protected:
 
 	Object * parent = NULL;
 	vector<Object *> children;
+	string objPath;
 	glm::vec3 position;
     glm::mat4 originMatrix = glm::mat4(1.f);
 
