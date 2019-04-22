@@ -2,15 +2,6 @@
 
 
 
-Object::Object()
-{
-}
-
-
-Object::~Object()
-{
-}
-
 void Object::init(unsigned *vertexOffset, unsigned *indexOffset) {
 	//loadOBJ(objPath);
 	cout << "Init " << *vertexOffset << *indexOffset << endl;
