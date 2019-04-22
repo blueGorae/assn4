@@ -35,7 +35,8 @@ void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset)
 
 bool Object::loadOBJ(string filename)
 {
-	FILE * file = fopen(filename.c_str(), "r");
+	FILE * file;
+	errno_t err= fopen_s(&file,filename.c_str(), "r");
 
 	if (file == NULL) {
 		printf("Impossible to open the file !\n");
@@ -46,13 +47,13 @@ bool Object::loadOBJ(string filename)
 	{
 		char lineHeader[128];
 		// read the first word of the line
-		int res = fscanf(file, "%s", lineHeader);
+		int res = fscanf_s(file, "%s", lineHeader, sizeof(lineHeader));
 		if (res == EOF)
 			break; 
 
 		if (strcmp(lineHeader, "v") == 0) {
 			glm::vec3 vertex;
-			fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
+			fscanf_s(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
 			addVertex(vertex);
 		}
 		else if (strcmp(lineHeader, "vt") == 0) {
@@ -65,7 +66,7 @@ bool Object::loadOBJ(string filename)
 
 			unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
 
-			int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
+			int matches = fscanf_s(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
 			if (matches != 9) {
 				printf("File can't be read by our simple parser : ( Try exporting with other options\n");
 				return false;
