@@ -98,3 +98,6 @@ vec3 Object::computeFaceNormal( vec3 v1, vec3 v2, vec3 v3)
 	return n;
 }
 
+void Object::draw() {
+
+}

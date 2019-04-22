@@ -58,6 +58,8 @@ public:
 	bool loadOBJ(string path);
 
 	vec3 computeFaceNormal(vec3 v1, vec3 v2, vec3 v3);
+	
+	void draw();
 
 protected:
 	vector<vec3> vertices;

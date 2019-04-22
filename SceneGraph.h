@@ -5,6 +5,7 @@
 #include <math.h>
 #include "mat.h"
 #include "Object.h"
+#include "glm/glm.hpp"
 
 using namespace std;
 using namespace Angel;
@@ -12,20 +13,23 @@ using namespace Angel;
 
 class SceneGraph
 {
+private:
+	Object * root = new Object();
+	glm::mat4 Projection;
+	glm::mat4 View;
 
 public:
 	SceneGraph() {};
 	~SceneGraph();
 
 	Object * getRoot() { return this->root; }
-	
-private:
-	Object * root = new Object();
-	mat4 projectionMat = Angel::identity();
-	mat4 modelViewMat = Angel::identity();
-	mat4 ctm = projectionMat * modelViewMat;
+	void updateMatrix(glm::mat4 projection, glm::mat4 view) {
+		this->Projection = projection;
+		this->View = view;
+	}
 
-
-
+	void draw() {
+		root->draw();
+	}
 };
 

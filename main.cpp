@@ -10,6 +10,7 @@
 #include "Sphere.h"
 #include "Plane.h"
 #include "SceneGraph.h"
+#include "glm/glm.hpp"
 
 #include "mat.h"
 #include "glm/gtx/transform.hpp"
@@ -46,6 +47,10 @@ Sphere sphere(0.2f, 2);
 Plane plane(4, 8);
 
 vec4 center = vec4(plane.getCenter(), 1.f);
+
+GLint cameraMode = 3;
+GLfloat cameraLocationX = -0.5f;
+GLfloat cameraLocationY = -0.5f;
 
 bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, const char * geometryShaderFile) {
 	GLuint myVertexObj = glCreateShader(GL_VERTEX_SHADER);
@@ -245,6 +250,27 @@ bool Init() {
 void display(void) { 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 
+	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 1.f, 0.1f, 100.0f);
+	glm::mat4 View;
+	switch (cameraMode) {
+	case 1:
+		// 캐릭터 1인칭
+		break;
+	case 2:
+		// 캐릭터 3인칭
+		break;
+	case 3:
+		View = glm::lookAt(
+			glm::vec3(cameraLocationX, cameraLocationY, 2),
+			glm::vec3(0.f, 0.f, 0.f),
+			glm::vec3(0, 1, 0)
+		);
+		break;
+	}
+
+	sceneGraph.updateMatrix(Projection, View);
+	sceneGraph.draw();
+
 	// 공에 대해서는 translate
 	modelViewMat =  Translate(vec3(0.5f, 0.5f, 0.4f)) * modelViewMat;
 	projectionMat = Angel::identity();
@@ -269,6 +295,54 @@ void Idle(void) {
 	glutPostRedisplay();
 }
 
+void KeyboardFunc(unsigned char key, int x, int y)
+{
+	switch (key) {
+	case '1':
+		cameraMode = 1;
+		break;
+	case '2':
+		cameraMode = 2;
+		break;
+	case '3':
+		cameraMode = 3;
+		break;
+	case 'W':
+	case 'w':
+		break;
+	case 'A':
+	case 'a':
+		// 캐릭터 회전 -
+		break;
+	case 'S':
+	case 's':
+		break;
+	case 'D':
+	case 'd':
+		// 캐릭터 회전 +
+		break;
+	case 'I':
+	case 'i':
+		cameraLocationY = glm::min(cameraLocationY + 0.01f, 0.f);
+		break;
+	case 'J':
+	case 'j':
+		cameraLocationX = glm::max(cameraLocationX - 0.01f, -1.f);
+		break;
+	case 'K':
+	case 'k':
+		cameraLocationY = glm::max(cameraLocationY - 0.01f, -1.f);
+		break;
+	case 'L':
+	case 'l':
+		cameraLocationX = glm::min(cameraLocationX + 0.01f, 1.f);
+		break;
+	default:
+		return;
+	}
+	glutPostRedisplay();
+}
+
 int main(int argc, char **argv) {
 
 	glutInit(&argc, argv); 
@@ -276,6 +350,7 @@ int main(int argc, char **argv) {
 	glutInitWindowPosition(100, 100);  
 	glutInitWindowSize(720, 720);
 	glutCreateWindow("Hello OpenGL"); 
+	glutKeyboardFunc(KeyboardFunc);
 	glutDisplayFunc(display);
 	glutIdleFunc(Idle);
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);  
