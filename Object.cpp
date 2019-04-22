@@ -98,8 +98,14 @@ glm::vec3 Object::computeFaceNormal( glm::vec3 v1, glm::vec3 v2, glm::vec3 v3)
 	return n;
 }
 
-void Object::draw() {
+void Object::draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix)
+{
+    drawShader(projectionMatrix, modelViewMatrix);
 
+    glm::mat4 childModelViewMatrix = modelViewMatrix * originMatrix;
+    for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
+        (*it)->draw(projectionMatrix, childModelViewMatrix);
+    }
 }
 
 vector<glm::vec3> Object::getVertices() {

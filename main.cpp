@@ -195,6 +195,9 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, con
 bool Init() {
 
 	sceneGraph =  SceneGraph();
+    sceneGraph.init();
+
+    // TODO: Move to sceneGraph::init()
 	sceneGraph.getRoot()->addChild(&sphere);
 	sceneGraph.getRoot()->addChild(&plane);
 
@@ -243,13 +246,13 @@ bool Init() {
 }
 
 //CTM�� SceneGraph�� push pop���� �����ؾ��ҵ� �մϴ� (�� �κ��� ������ �°� ���� �ʿ�)
-void display(void) { 
+void DisplayFunc(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 
 	sceneGraph.updateMatrix(
             camera.ProjectionMatrix(),
             camera.ModelViewMatrix());
-	sceneGraph.draw();
+	sceneGraph.DisplayFunc();
 
 	// ���� ���ؼ��� translate
 	modelViewMat =  glm::translate(glm::vec3(0.5f, 0.5f, 0.4f)) * modelViewMat;
@@ -271,7 +274,7 @@ void display(void) {
 	glutSwapBuffers();
 } 
 
-void Idle(void) {
+void IdleFunc(void) {
 	glutPostRedisplay();
 }
 
@@ -319,8 +322,8 @@ int main(int argc, char **argv) {
 	glutInitWindowSize(720, 720);
 	glutCreateWindow("Hello OpenGL"); 
 	glutKeyboardFunc(KeyboardFunc);
-	glutDisplayFunc(display);
-	glutIdleFunc(Idle);
+	glutDisplayFunc(DisplayFunc);
+	glutIdleFunc(IdleFunc);
 	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);  
 	glewInit();  
 	Init();

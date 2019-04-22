@@ -13,21 +13,20 @@ class SceneGraph
 {
 private:
 	Object * root = new Object();
-	glm::mat4 Projection;
-	glm::mat4 View;
+	glm::mat4 projectionMatrix;
+	glm::mat4 modelViewMatrix;
 
 public:
 	SceneGraph() {};
-	~SceneGraph();
+	~SceneGraph() {};
 
-	Object * getRoot() { return this->root; }
-	void updateMatrix(glm::mat4 projection, glm::mat4 view) {
-		this->Projection = projection;
-		this->View = view;
+	void init();
+	void updateMatrix(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
+		this->projectionMatrix = projectionMatrix;
+		this->modelViewMatrix = modelViewMatrix;
 	}
-
-	void draw() {
-		root->draw();
-	}
+    void KeyboardFunc(unsigned char key, int x, int y);
+	void DisplayFunc();
+	void IdleFunc();
 };
 
