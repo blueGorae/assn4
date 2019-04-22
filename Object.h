@@ -8,10 +8,11 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
-#include "mat.h"
+#include "glm/glm.hpp"
+#include "GL/glut.h"
+
 
 using namespace std;
-using namespace Angel;
 
 class Object
 {
@@ -19,22 +20,22 @@ public:
 	Object();
 	~Object();
 
-	unsigned int getVertexCount() const { return (unsigned int)vertices.size() ; }
-	unsigned int getIndexCount() const { return (unsigned int)indices.size() * 3; }
-	unsigned int getVerticesSize() const { return (unsigned int)vertices.size() * sizeof(GLfloat) * 3; }
-	unsigned int getIndiciesSize() const { return (unsigned int)indices.size() * sizeof(unsigned int); }
+	unsigned int getVertexCount()  { return (unsigned int)getVertices().size() ; }
+	unsigned int getIndexCount()  { return (unsigned int)getIndices().size(); }
+	unsigned int getVerticesSize()  { return (unsigned int)getVertices().size() * sizeof(GLfloat) * 3; }
+	unsigned int getIndiciesSize()  { return (unsigned int)getIndices().size() * sizeof(unsigned int); }
 
-	const vector<vec3> getVertices() const { return vertices; }
-	const vector<unsigned int > getIndices() const { return indices; }
-	void addVertex(vec3 vertex) { vertices.push_back(vertex); };
-	void addVertices(vec3 v1, vec3 v2, vec3 v3) { 
+	vector<glm::vec3> getVertices();
+	vector<unsigned int > getIndices();
+	void addVertex(glm::vec3 vertex) { vertices.push_back(vertex); };
+	void addVertices(glm::vec3 v1, glm::vec3 v2, glm::vec3 v3) {
 		addVertex(v1);
 		addVertex(v2);
 		addVertex(v3);
 	}
 
-	void addNormal(vec3 n) { this->normals.push_back(n); }
-	void addNormals(vec3 n1, vec3 n2, vec3 n3) {
+	void addNormal(glm::vec3 n) { this->normals.push_back(n); }
+	void addNormals(glm::vec3 n1, glm::vec3 n2, glm::vec3 n3) {
 		addNormal(n1);
 		addNormal(n2);
 		addNormal(n3);
@@ -47,7 +48,7 @@ public:
 		indices.push_back(i3);
 	}
 
-	vec3 getPosition() { return vec3(posX, posY, posZ); }
+	glm::vec3 getPosition() { return glm::vec3(posX, posY, posZ); }
 
 	void setParent(Object * parent) { this->parent = parent; }
 	Object * getParent() { return this->parent; }
@@ -57,15 +58,16 @@ public:
 
 	bool loadOBJ(string path);
 
-	vec3 computeFaceNormal(vec3 v1, vec3 v2, vec3 v3);
+	glm::vec3 computeFaceNormal(glm::vec3 v1, glm::vec3 v2, glm::vec3 v3);
 	
+
 	void draw();
 
 protected:
-	vector<vec3> vertices;
+	vector<glm::vec3> vertices;
 	vector<unsigned int> indices;
-	vector< vec2 > uvs;
-	vector< vec3 > normals;
+	vector< glm::vec2 > uvs;
+	vector< glm::vec3 > normals;
 
 	GLfloat posX = 0.f, posY = 0.f, posZ = 0.f;
 

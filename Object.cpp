@@ -25,7 +25,7 @@ bool Object::loadOBJ(string filename)
 		if (line.substr(0, 2) == "v ")
 		{
 			istringstream s(line.substr(2));
-			vec3 v; s >> v.x; s >> v.y; s >> v.z;
+			glm::vec3 v; s >> v.x; s >> v.y; s >> v.z;
 			addVertex(v);
 		}
 		else if (line.substr(0, 2) == "vt") {
@@ -56,7 +56,7 @@ bool Object::loadOBJ(string filename)
 		GLushort ib = indices[i + 1];
 		GLushort ic = indices[i + 2];
 
-		vec3 n = computeFaceNormal(vertices[ia], vertices[ib], vertices[ic]);
+		glm::vec3 n = computeFaceNormal(vertices[ia], vertices[ib], vertices[ic]);
 		addNormals(n, n, n);
 	}
 
@@ -64,10 +64,10 @@ bool Object::loadOBJ(string filename)
 
 }
 
-vec3 Object::computeFaceNormal( vec3 v1, vec3 v2, vec3 v3)
+glm::vec3 Object::computeFaceNormal( glm::vec3 v1, glm::vec3 v2, glm::vec3 v3)
 {
 	const float EPSILON = 0.000001f;
-	vec3 n = (0.f, 0.f, 0.f);
+	glm::vec3 n = glm::vec3(0.f, 0.f, 0.f);
 	// default return value (0, 0, 0)
 
 	// find 2 edge vectors: v1-v2, v1-v3
@@ -99,5 +99,34 @@ vec3 Object::computeFaceNormal( vec3 v1, vec3 v2, vec3 v3)
 }
 
 void Object::draw() {
+
+}
+
+vector<glm::vec3> Object::getVertices() {
+	vector<glm::vec3> temp_vertices = vertices;
+	vector<glm::vec3> temp_vertices2;
+
+	if (children.size() != 0) {
+		for (vector<Object *>::iterator it = getChildren().begin(); it != getChildren().end(); ++it) {
+			temp_vertices2 = (*it)->getVertices();
+			temp_vertices.reserve(temp_vertices.size() + temp_vertices2.size());
+			temp_vertices.insert(temp_vertices.end(), temp_vertices2.begin(), temp_vertices2.end());
+		}
+	}
+	return temp_vertices;
+}
+
+vector<unsigned int >Object:: getIndices() {
+	vector<unsigned int> temp_indices = indices;
+	vector<unsigned int> temp_indices2 = indices;
+
+	if (children.size() != 0) {
+		for (vector<Object *>::iterator it = getChildren().begin(); it != getChildren().end(); ++it) {
+			temp_indices2 = (*it)->getIndices();
+			temp_indices.reserve(temp_indices.size() + temp_indices2.size());
+			temp_indices.insert(temp_indices.end(), temp_indices2.begin(), temp_indices2.end());
+		}
+	}
+	return temp_indices;
 
 }

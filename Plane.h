@@ -4,9 +4,8 @@
 #include <vector>
 #include <math.h>
 #include "Object.h"
-#include "mat.h"
+#include "glm/glm.hpp"
 
-using namespace Angel;
 using namespace std;
 
 class Plane : public Object
@@ -17,7 +16,7 @@ public:
 	};
 	~Plane();
 
-	vec3 getCenter() { return vec3(width / 2.0f, depth / 2.0f, 0.f); }
+	glm::vec3 getCenter() { return glm::vec3(width / 2.0f, depth / 2.0f, 0.f); }
 private:
 	unsigned int width;
 	unsigned int depth;

@@ -128,7 +128,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Plane.cpp" />
-    <ClCompile Include="Icosphere.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="SceneGraph.cpp" />
@@ -142,7 +141,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Plane.h" />
-    <ClInclude Include="Icosphere.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="SceneGraph.h" />
     <ClInclude Include="Sphere.h" />

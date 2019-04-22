@@ -1,5 +1,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #define BUFFER_OFFSET(offset) ((GLvoid*) (offset))
+
+#include "GL/glew.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
@@ -10,16 +12,17 @@
 #include "Sphere.h"
 #include "Plane.h"
 #include "SceneGraph.h"
+#include "Camera.h"
+#include "glm/glm.hpp"
+#include "GL/freeglut.h"
+#include "GL/glut.h"
 
-#include "mat.h"
 
-
-using namespace Angel;
 using namespace std;
 
-mat4 projectionMat;
-mat4 modelViewMat;
-mat4 ctm;
+glm::mat4 projectionMat;
+glm::mat4 modelViewMat;
+glm::mat4 ctm;
 
 GLchar vertexShaderFile[] = "shader/vert.glsl";
 GLchar fragShaderFile[] = "shader/frag.glsl";
@@ -44,7 +47,7 @@ Camera camera;
 Sphere sphere(0.2f, 2);
 Plane plane(4, 8);
 
-vec4 center = vec4(plane.getCenter(), 1.f);
+glm::vec4 center = glm::vec4(plane.getCenter().x, plane.getCenter().y, plane.getCenter().z, 1.f);
 
 bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, const char * geometryShaderFile) {
 	GLuint myVertexObj = glCreateShader(GL_VERTEX_SHADER);
@@ -230,8 +233,8 @@ bool Init() {
 	glEnableVertexAttribArray(vertexLocation);
 	glBindVertexArray(0);
 
-	projectionMat = Angel::identity();
-	modelViewMat = Angel::identity();
+	projectionMat = glm::mat4(1.f);
+	modelViewMat = glm::mat4(1.f);
 	ctm = projectionMat * modelViewMat;
 	
 	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
@@ -249,16 +252,16 @@ void display(void) {
 	sceneGraph.draw();
 
 	// ���� ���ؼ��� translate
-	modelViewMat =  Translate(vec3(0.5f, 0.5f, 0.4f)) * modelViewMat;
-	projectionMat = Angel::identity();
+	modelViewMat =  glm::translate(glm::vec3(0.5f, 0.5f, 0.4f)) * modelViewMat;
+	projectionMat = glm::mat4(1.f);
 	ctm = projectionMat * modelViewMat;
 	glBindVertexArray(ballVAO);
 	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
 	glDrawElements(GL_TRIANGLES, sphere.getIndexCount(), GL_UNSIGNED_INT, 0);
 
 	//�ٴڿ� ���ؼ��� Identity
-	modelViewMat = Angel::identity();
-	projectionMat = Angel::identity();
+	modelViewMat = glm::mat4(1.f);
+	projectionMat = glm::mat4(1.f);
 	ctm = projectionMat * modelViewMat;
 
 	glBindVertexArray(floorVAO);

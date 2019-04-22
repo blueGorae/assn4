@@ -2,7 +2,7 @@
 
 
 
-Sphere::Sphere(GLfloat radius, GLint subdivision, vec3 position)
+Sphere::Sphere(GLfloat radius, GLint subdivision, glm::vec3 position)
 {
 	this->radius = radius;
 	this->subdivision = subdivision;
@@ -19,19 +19,19 @@ Sphere::~Sphere()
 {
 }
 
-vector<vec3> Sphere::computeIcosahedronVertices()
+vector<glm::vec3> Sphere::computeIcosahedronVertices()
 {
 	const GLfloat H_ANGLE = M_PI / 180 * 72;    // 72 degree = 360 / 5
 	const GLfloat V_ANGLE = atanf(1.0f / 2);  // elevation = 26.565 degree
 
-	vector<vec3> vertices(12);    // 12 vertices
+	vector<glm::vec3> vertices(12);    // 12 vertices
 	int i1, i2;                             // indices
 	GLfloat z, xy;                            // coords
 	GLfloat hAngle1 = -M_PI / 2 - H_ANGLE / 2;  // start from -126 deg at 2nd row
 	GLfloat hAngle2 = -M_PI / 2;                // start from -90 deg at 3rd row
 
 	// the first top vertex (0, 0, r)
-	vertices[0] = vec3(0.f, 0.f, this->radius);
+	vertices[0] = glm::vec3(0.f, 0.f, this->radius);
 
 	// 10 vertices at 2nd and 3rd rows
 	for (int i = 1; i <= 5; ++i)
@@ -42,8 +42,8 @@ vector<vec3> Sphere::computeIcosahedronVertices()
 		z = radius * sinf(V_ANGLE);              // elevaton
 		xy = radius * cosf(V_ANGLE);
 
-		vertices[i1] = vec3(xy * cosf(hAngle1), xy * sinf(hAngle1), z);
-		vertices[i2] = vec3(xy * cosf(hAngle2), xy * sinf(hAngle2), -z);
+		vertices[i1] = glm::vec3(xy * cosf(hAngle1), xy * sinf(hAngle1), z);
+		vertices[i2] = glm::vec3(xy * cosf(hAngle2), xy * sinf(hAngle2), -z);
 
 		// next horizontal angles
 		hAngle1 += H_ANGLE;
@@ -51,21 +51,21 @@ vector<vec3> Sphere::computeIcosahedronVertices()
 	}
 
 	// the last bottom vertex (0, 0, -r)
-	vertices[11] = vec3(0.f, 0.f, -radius);
+	vertices[11] = glm::vec3(0.f, 0.f, -radius);
 
-	return vector<vec3>(vertices);
+	return vector<glm::vec3>(vertices);
 }
 
 void Sphere::buildVerticesFlat() {
 
 	// compute 12 vertices of icosahedron
-	vector<vec3> tmpVertices = computeIcosahedronVertices(); 
+	vector<glm::vec3> tmpVertices = computeIcosahedronVertices(); 
 
 	// clear memory of prev arrays
-	vector<vec3>().swap(vertices);
+	vector<glm::vec3>().swap(vertices);
 	vector<unsigned int>().swap(indices);
 
-	vec3 v0, v1, v2, v3, v4, v11;          // vertex positions
+	glm::vec3 v0, v1, v2, v3, v4, v11;          // vertex positions
 	unsigned int index = 0;
 
 	// compute and add 20 tiangles of icosahedron first
@@ -87,7 +87,7 @@ void Sphere::buildVerticesFlat() {
 		else
 			v4 = tmpVertices[6];
 
-		vec3 n;
+		glm::vec3 n;
 
 		// add a triangle in 1st row
 		addVertices(v0, v1, v2);
@@ -124,13 +124,13 @@ void Sphere::buildVerticesFlat() {
 }
 
 void Sphere::subdivideVerticesFlat(){
-	vector<vec3> tmpVertices;
+	vector<glm::vec3> tmpVertices;
 	vector<unsigned int> tmpIndices;
 
 	int indexCount;
 
-	vec3 v1, v2, v3;          // ptr to original vertices of a triangle
-	vec3 newV1, newV2, newV3; // new vertex positions
+	glm::vec3 v1, v2, v3;          // ptr to original vertices of a triangle
+	glm::vec3 newV1, newV2, newV3; // new vertex positions
 
 	unsigned int index = 0;             // new index value
 	int i, j;
@@ -161,7 +161,7 @@ void Sphere::subdivideVerticesFlat(){
 			newV2 = computeHalfVertex(v2, v3, radius);
 			newV3 = computeHalfVertex(v1, v3, radius);
 
-			vec3 n;
+			glm::vec3 n;
 			// add 4 new triangles
 			addVertices(v1, newV1, newV3);
 			n = computeFaceNormal(v1, newV1, newV3);
@@ -189,9 +189,9 @@ void Sphere::subdivideVerticesFlat(){
 	}
 }
 
-vec3 Sphere::computeHalfVertex( vec3 v1, vec3 v2, float length)
+glm::vec3 Sphere::computeHalfVertex( glm::vec3 v1, glm::vec3 v2, float length)
 {
-	vec3 newV;
+	glm::vec3 newV;
 	newV.x = v1[0] + v2[0];
 	newV.y = v1[1] + v2[1];
 	newV.z = v1[2] + v2[2];
@@ -203,7 +203,7 @@ vec3 Sphere::computeHalfVertex( vec3 v1, vec3 v2, float length)
 	return newV;
 }
 
-float Sphere::computeScaleForLength(vec3 v, float length)
+float Sphere::computeScaleForLength(glm::vec3 v, float length)
 {
 	// and normalize the vector then re-scale to new radius
 	return length / sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);

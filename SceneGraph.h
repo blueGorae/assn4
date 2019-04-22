@@ -3,12 +3,10 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
-#include "mat.h"
 #include "Object.h"
 #include "glm/glm.hpp"
 
 using namespace std;
-using namespace Angel;
 
 
 class SceneGraph

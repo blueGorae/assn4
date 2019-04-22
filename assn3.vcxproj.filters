@@ -21,9 +21,6 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Icosphere.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Sphere.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -52,9 +49,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Icosphere.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Sphere.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>

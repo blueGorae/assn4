@@ -5,15 +5,15 @@
 #include <vector>
 #include <math.h>
 #include "Object.h"
-#include "mat.h"
+#include "glm/glm.hpp"
 
-using namespace Angel;
+using namespace glm;
 using namespace std;
 
 class Sphere : public Object
 {
 public:
-	Sphere(GLfloat radius = 1.0f, GLint subDivision = 1, vec3 position = vec3(0.f, 0.f, 0.f));
+	Sphere(GLfloat radius = 1.0f, GLint subDivision = 1, glm::vec3 position = glm::vec3(0.f, 0.f, 0.f));
 	~Sphere();
 
 	GLfloat getRadius() { return this->radius; }
@@ -23,9 +23,9 @@ public:
 
 private:
 
-	vector<vec3> computeIcosahedronVertices();
-	vec3 computeHalfVertex(vec3 v1, vec3 v2, float length);
-	float computeScaleForLength(vec3 v, float length);
+	vector<glm::vec3> computeIcosahedronVertices();
+	glm::vec3 computeHalfVertex(glm::vec3 v1, glm::vec3 v2, float length);
+	float computeScaleForLength(glm::vec3 v, float length);
 	void subdivideVerticesFlat();
 	void buildVerticesFlat();
 
