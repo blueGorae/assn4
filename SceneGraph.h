@@ -39,8 +39,8 @@ class SceneGraph
 {
 private:
 	Object * root = new Object();
-	glm::mat4 projectionMatrix;
-	glm::mat4 modelViewMatrix;
+	glm::mat4 projectionMatrix = glm::mat4(1.f);
+	glm::mat4 modelViewMatrix = glm::mat4(1.f);
 
 public:
 	SceneGraph() {};

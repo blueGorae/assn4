@@ -26,13 +26,6 @@ void SceneGraph::init() {
 	unsigned vertexOffset = 0;
 	unsigned indexOffset = 0;
 	root->init(&vertexOffset, &indexOffset);
-
-	projectionMat = glm::mat4(1.f);
-	modelViewMat = glm::mat4(1.f);
-	ctm = projectionMat * modelViewMat;
-
-	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
-
 }
 
 void SceneGraph::KeyboardFunc(unsigned char key, int x, int y)
