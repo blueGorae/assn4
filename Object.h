@@ -35,6 +35,10 @@ class Object
 {
 public:
 	Object();
+	Object(glm::vec3 position) : position(position)
+	{
+
+	}
 	~Object();
 
 	unsigned int getVertexCount()  { return (unsigned int)getVertices().size() ; }
@@ -101,8 +105,10 @@ protected:
 
 	Object * parent = NULL;
 	vector<Object *> children;
+	glm::vec3 position;
     glm::mat4 originMatrix = glm::mat4(1.f);
 
+	virtual void localInit() {}
 	virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {}
 	virtual void moveObject() {}
 };

@@ -12,6 +12,7 @@ Object::~Object()
 }
 
 void Object::init(unsigned vertexOffset, unsigned indexOffset) {
+	localInit();
 	if (children.size() != 0) {
 		for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
 			(*it)->initObject(vertexOffset, indexOffset);

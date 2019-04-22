@@ -241,17 +241,13 @@ void KeyboardFunc(unsigned char key, int x, int y)
 	switch (key) {
 	case 'W':
 	case 'w':
-		break;
 	case 'A':
 	case 'a':
-		// ĳ���� ȸ�� -
-		break;
 	case 'S':
 	case 's':
-		break;
 	case 'D':
 	case 'd':
-		// ĳ���� ȸ�� +
+		sceneGraph.KeyboardFunc(key, x, y);
 		break;
     case '1':
     case '2':
