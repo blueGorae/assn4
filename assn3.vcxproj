@@ -133,6 +133,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="SceneGraph.cpp" />
     <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\frag.glsl" />
@@ -145,6 +146,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="SceneGraph.h" />
     <ClInclude Include="Sphere.h" />
+    <ClInclude Include="Camera.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
