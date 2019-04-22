@@ -197,10 +197,6 @@ bool Init() {
 	sceneGraph =  SceneGraph();
     sceneGraph.init();
 
-    // TODO: Move to sceneGraph::init()
-	sceneGraph.getRoot()->addChild(&sphere);
-	sceneGraph.getRoot()->addChild(&plane);
-
 	//Load Shaders
 	LoadShaders(vertexShaderFile, fragShaderFile, geometryShaderFile);
 

@@ -11,6 +11,12 @@ Object::~Object()
 {
 }
 
+void Object::init() {
+	for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
+		(*it)->init();
+	}
+}
+
 bool Object::loadOBJ(string filename)
 {
 	ifstream in(filename, ios::in);
