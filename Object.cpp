@@ -135,12 +135,16 @@ glm::vec3 Object::computeFaceNormal( glm::vec3 v1, glm::vec3 v2, glm::vec3 v3)
 
 void Object::draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix)
 {
-	glm::mat4 curStackMatrix = modelViewMatrix * originMatrix;
-    drawShader(projectionMatrix, curStackMatrix);
+	windowMatrix = modelViewMatrix * originMatrix;
+	for (int i = 0; i < 5; i++) {
+		finalPositions[i] = originMatrix * originPositions[i];
+		windowPositions[i] = windowMatrix * originPositions[i];
+	}
+	drawShader(projectionMatrix, windowMatrix);
 
 	if (children.size() != 0) {
 		for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
-			(*it)->draw(projectionMatrix, curStackMatrix);
+			(*it)->draw(projectionMatrix, windowMatrix);
 		}
 	}
 }

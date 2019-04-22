@@ -1,5 +1,4 @@
 #pragma once
-#include "Object.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #define _USE_MATH_DEFINES
@@ -25,6 +24,8 @@ class Character : public Object
 {
 private:
 	bool isAuto;
+	GLfloat diffAngle = 10.f;
+	GLfloat angle = 0.f;
 
 
 protected:
@@ -34,12 +35,12 @@ protected:
 public:
 	Character() { 
 		setOriginalMatrix(
-			glm::scale(glm::vec3(1/1000.f, 1/1000.f, 1/1000.f)));
+			glm::scale(glm::vec3(1/2000.f, 1/2000.f, 1/2000.f)));
 	}
 	Character(glm::vec3 position, bool isAuto = true) : Object(position, "Chiko"), isAuto(isAuto)
 	{
 		setOriginalMatrix(
-			glm::scale(glm::vec3(1 / 1000.f, 1 / 1000.f, 1 / 1000.f)));
+			glm::scale(glm::vec3(1 / 2000.f, 1 / 2000.f, 1 / 2000.f)));
 
 		if (isAuto) {
 			setOriginalMatrix(glm::translate(glm::mat4(1.f), position)

@@ -35,6 +35,17 @@ public:
 	Object(glm::vec3 position = glm::vec3(0.f, 0.f, 0.f), string objPath = "") : objPath(objPath), position(position)
 	{
 		translateOrigin(position);
+		GLfloat w_2 = 0.f;// w * 0.5f;
+		GLfloat h_2 = 0.f;// h * 0.5f;
+		originPositions[0] = glm::vec4(0.f, 0.f, 0.f, 1.f);
+		originPositions[1] = glm::vec4(-w_2, -h_2, 0.f, 1.f);
+		originPositions[2] = glm::vec4(+w_2, -h_2, 0.f, 1.f);
+		originPositions[3] = glm::vec4(+w_2, +h_2, 0.f, 1.f);
+		originPositions[4] = glm::vec4(-w_2, +h_2, 0.f, 1.f);
+		for (int i = 0; i < 5; i++) {
+			finalPositions[i] = originPositions[i];
+			windowPositions[i] = originPositions[i];
+		}
 	}
 	~Object() {};
 
@@ -114,7 +125,11 @@ protected:
 	vector<Object *> children;
 	string objPath;
 	glm::vec3 position;
-    glm::mat4 originMatrix = glm::mat4(1.f);
+	glm::mat4 windowMatrix = glm::mat4(1.f);
+	glm::mat4 originMatrix = glm::mat4(1.f);
+	glm::vec4 originPositions[5];
+	glm::vec4 finalPositions[5];
+	glm::vec4 windowPositions[5];
 
 	void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
 	virtual void moveObject() {}
