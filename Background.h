@@ -22,7 +22,7 @@ public:
 		upperPlane = Plane(width, depth);
 		downPlane = Plane(width, depth);
 
-		//frontPlane.setOriginalMatrix (glm::translate(glm::vec3(-frontPlane.getCenter().x, -frontPlane.getCenter().y, 0.f)));
+		frontPlane.setOriginalMatrix (glm::translate(glm::mat4(1.f), glm::vec3(0.5f, 0.f, 0.f)));
 		//backPlane.setOriginalMatrix(glm::translate(glm::vec3(-frontPlane.getCenter().x, -frontPlane.getCenter().y, 0.f)));
 		//leftPlane.setOriginalMatrix(glm::translate(glm::vec3(-frontPlane.getCenter().x, -frontPlane.getCenter().y, 0.f)));
 		//rightPlane.setOriginalMatrix(glm::translate(glm::vec3(-frontPlane.getCenter().x, -frontPlane.getCenter().y, 0.f)));

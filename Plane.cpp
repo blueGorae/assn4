@@ -16,6 +16,7 @@ void Plane::buildVertices()
 			v1 = glm::vec3(float(i) / 10.f, float(j) / 10.f, 0.f);
 			v2 = glm::vec3(float(i + 1) / 10.f, float(j) / 10.f, 0.f);
 			v3 = glm::vec3(float(i) / 10.f, float(j + 1) / 10.f, 0.f);
+
 			addVertices( v1, v2, v3);
 			n = computeFaceNormal(v1, v2, v3);
 			addNormals(n, n, n);

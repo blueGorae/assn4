@@ -142,9 +142,9 @@ void Object::draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix)
 }
 
 void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
-	ctm = projectionMatrix * modelViewMatrix * originMatrix;
+	ctm = projectionMatrix * modelViewMatrix ;
 	glBindVertexArray(VAO);
-	glUniformMatrix4fv(ctmLocation, 1, GL_TRUE, &ctm[0][0]);
+	glUniformMatrix4fv(ctmLocation, 1, GL_FALSE, &ctm[0][0]);
 	glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
