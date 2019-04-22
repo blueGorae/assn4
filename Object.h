@@ -1,5 +1,6 @@
 #pragma once
 #define GLM_ENABLE_EXPERIMENTAL
+#define BUFFER_OFFSET(offset) ((GLvoid*) (offset))
 
 #include "GL/glew.h"
 #include <stdio.h>
@@ -96,6 +97,8 @@ public:
 	glm::mat4 getOriginalMatrix() { return originMatrix; }
 
 protected:
+	GLuint VAO;
+
 	vector<glm::vec3> vertices;
 	vector<unsigned int> indices;
 	vector< glm::vec2 > uvs;

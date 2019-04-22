@@ -31,6 +31,13 @@ void Object::initObject(unsigned vertexOffset, unsigned indexOffset)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
 	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, indexOffset, this->getIndiciesSize(), &this->getIndices()[0]);
 
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
+	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(getVerticesSize()));
+	glEnableVertexAttribArray(vertexLocation);
+	glBindVertexArray(0);
+
 }
 
 bool Object::loadOBJ(string filename)

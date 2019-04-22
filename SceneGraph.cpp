@@ -27,22 +27,6 @@ void SceneGraph::init() {
 	unsigned indexOffset = 0;
 	root->init(vertexOffset, indexOffset);
 
-	// Create the ballVAO for the program.
-	glGenVertexArrays(1, &ballVAO);
-	glBindVertexArray(ballVAO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
-	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-	glEnableVertexAttribArray(vertexLocation);
-	glBindVertexArray(0);
-
-	// Create the floorVAO for the program.
-	glGenVertexArrays(1, &backgroundVAO);
-	glBindVertexArray(backgroundVAO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
-	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(ball.getVerticesSize()));
-	glEnableVertexAttribArray(vertexLocation);
-	glBindVertexArray(0);
-
 	projectionMat = glm::mat4(1.f);
 	modelViewMat = glm::mat4(1.f);
 	ctm = projectionMat * modelViewMat;
