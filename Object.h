@@ -11,6 +11,7 @@
 #include <vector>
 #include <math.h>
 #include "glm/glm.hpp"
+#include "glm/gtx/transform.hpp"
 #include "GL/freeglut.h"
 #include "GL/glut.h"
 
@@ -79,6 +80,13 @@ public:
 	void init(unsigned vertexOffset, unsigned indexOffset);
 	virtual void initObject(unsigned vertexOffset, unsigned indexOffset);
 	void draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
+	void move();
+	void translateOrigin(GLfloat x, GLfloat y) {
+		originMatrix = glm::translate(glm::mat4(1.f), glm::vec3(x, y, 0.f)) * originMatrix;
+	}
+	void rotateOrigin(GLfloat angle) {
+		originMatrix = glm::rotate(glm::mat4(1.f), angle, glm::vec3(0.f, 0.f, 1.f)) * originMatrix;
+	}
 
 	void setOriginalMatrix(glm::mat4 matrix) { this->originMatrix = matrix; }
 	glm::mat4 getOriginalMatrix() { return originMatrix; }
@@ -95,6 +103,7 @@ protected:
 	vector<Object *> children;
     glm::mat4 originMatrix = glm::mat4(1.f);
 
-    virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {}
+	virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {}
+	virtual void moveObject() {}
 };
 

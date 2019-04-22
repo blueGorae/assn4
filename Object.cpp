@@ -158,3 +158,12 @@ vector<unsigned int >Object:: getIndices() {
 	return temp_indices;
 
 }
+
+void Object::move()
+{
+	moveObject();
+	for (vector<Object *>::reverse_iterator it = children.rbegin(); it != children.rend(); ++it) {
+		(*it)->move();
+	}
+	//while (doCollision()) {}
+}

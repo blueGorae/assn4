@@ -63,5 +63,5 @@ void SceneGraph::DisplayFunc()
 
 void SceneGraph::IdleFunc()
 {
-
+	root->move();
 }
