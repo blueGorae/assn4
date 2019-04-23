@@ -33,15 +33,29 @@ extern GLint colorLocation;
 extern GLuint verticesVBO;
 extern GLuint indiciesVBO;
 
+struct Collision {
+    bool occur;
+    GLfloat overlapX;
+    GLfloat overlapY;
+}
+class Object;
+
+extern vector<Object*> allNodes;
 
 class Object
 {
 public:
-	Object(glm::vec3 position = glm::vec3(0.f, 0.f, 0.f), string objPath = "") : objPath(objPath), position(position)
+	Object(
+        glm::vec3 position = glm::vec3(0.f, 0.f, 0.f),
+        string objPath = "",
+        GLfloat w = 0.f, GLfloat h = 0.f,
+        bool collisionCheck = false, bool isSolid = false
+        )
+	: w(w), h(h), objPath(objPath), position(position), collisionCheck(collisionCheck), isSolid(isSolid)
 	{
 		translateOrigin(position);
-		GLfloat w_2 = 0.f;// w * 0.5f;
-		GLfloat h_2 = 0.f;// h * 0.5f;
+		GLfloat w_2 = w * 0.5f;
+		GLfloat h_2 = h * 0.5f;
 		originPositions[0] = glm::vec4(position, 1.f);
 		originPositions[1] = glm::vec4(-w_2, -h_2, 0.f, 1.f);
 		originPositions[2] = glm::vec4(+w_2, -h_2, 0.f, 1.f);
@@ -51,7 +65,8 @@ public:
 			finalPositions[i] = originPositions[i];
 			windowPositions[i] = originPositions[i];
 		}
-	}
+        allNodes.push_back(this);
+    }
 	~Object() {};
 	GLuint VAO;
 
@@ -86,7 +101,10 @@ public:
 	void setParent(Object * parent) { this->parent = parent; }
 	Object * getParent() { return this->parent; }
 
-	void addChild(Object * child) { this->children.push_back(child); }
+	void addChild(Object * child) {
+	    this->children.push_back(child);
+	    child->setParent(this);
+	}
 	vector <Object *> getChildren() { return this->children; }
 
 	bool loadOBJ(string path);
@@ -97,6 +115,25 @@ public:
 	void initObject(unsigned* vertexOffset, unsigned* indexOffset);
 	void draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
 	void move();
+    virtual bool checkCollision();
+    virtual void draw();
+    virtual void resetPosition() {};
+    virtual void reset();
+    virtual bool criticalCollisionAction(Object* from) { return false; }
+    bool skipCollision(Object* node);
+    void updateCurrentTransformationMatrix();
+    virtual bool doCollision();
+    virtual Object* actionCollision(Collision* collision) {
+        if (parent)
+            return parent->actionCollision(collision);
+        else
+            return this;
+    }
+    GLfloat windowLeft() { return windowPositions[0].x - w * .5f; }
+    GLfloat windowBottom() { return windowPositions[0].y - h * .5f; }
+    GLfloat windowRight() { return windowPositions[0].x + w * .5f; }
+    GLfloat windowTop() { return windowPositions[0].y + h * .5f; }
+
 	void translateOrigin(GLfloat x, GLfloat y) {
 		translateOrigin(x, y, 0);
 	}
@@ -125,10 +162,12 @@ protected:
 	vector<unsigned int> indices;
 	vector< glm::vec2 > uvs;
 	vector< glm::vec3 > normals;
-
+    GLfloat w, h;
 	Object * parent = NULL;
 	vector<Object *> children;
 	string objPath;
+    bool collisionCheck;
+    bool isSolid;
 	glm::vec3 position;
 	glm::mat4 windowMatrix = glm::mat4(1.f);
 	glm::mat4 originMatrix = glm::mat4(1.f);
