@@ -25,11 +25,10 @@ void SceneGraph::init() {
     // add 순서 중요 collision check 순서에 영향 - 순서는 reverse 순이다.
 
 	//순서를 바꾸면 이상해짐
-	root->addChild(&background);
 	root->addChild(&com);
 	root->addChild(&ball);
 	root->addChild(&player);
-
+	root->addChild(&background);
 	//Init Buffer
 	glGenBuffers(1, &verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);

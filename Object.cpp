@@ -161,7 +161,9 @@ void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
 
 	if (isLineRemoval) {
 		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LESS);
+		glDepthFunc(GL_LEQUAL);
+		//glClear(GL_DEPTH_BUFFER_BIT);
+
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glUniform4f(colorLocation, backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 		glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
