@@ -2,18 +2,18 @@
 
 vector<Object*> allNodes = vector<Object*>();
 
-ScoreBox userScore = ScoreBox(- 0.9f, 0.9f);;
+ScoreBox userScore = ScoreBox(- 0.9f, 0.9f);
 ScoreBox comScore  = ScoreBox(0.9f, 0.9f);
-Sphere ball(0.2f, 2);
+void addGameScore(bool addUserScore);
+Sphere ball(0.2f, 2, addGameScore);
 
-void addComScore(bool addUserScore) {
+void addGameScore(bool addUserScore) {
     if (addUserScore) {
         userScore.addScore();
     } else {
         comScore.addScore();
     }
     ball.resetPosition();
-    return true;
 }
 
 

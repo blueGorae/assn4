@@ -26,7 +26,7 @@ private:
 	float computeScaleForLength(glm::vec3 v, float length);
 	void subdivideVerticesFlat();
 	void buildVerticesFlat();
-    void (*criticalCollisionActionFunc)(bool)
+	void(*criticalCollisionActionFunc)(bool);
 	GLfloat radius;
 	GLint subdivision;
 	GLint angle = 19;

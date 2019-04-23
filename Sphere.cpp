@@ -20,12 +20,12 @@ glm::vec3 Sphere::translateVector(glm::vec3 direction) {
 	if (resY <= -1.f) {
 		angle = 180.f - angle;
 		translate.y = 2 * -1.f - 2 * y - translate.y;
-        criticalCollisionActionFunc(false)
+		criticalCollisionActionFunc(false);
 	}
 	else if (resY >= 1.f) {
 		angle = 180.f - angle;
 		translate.y = 2 * 1.f - 2 * y - translate.y;
-        criticalCollisionActionFunc(true)
+		criticalCollisionActionFunc(true);
 	}
 	angle %= 360;
 	return translate;

@@ -7,6 +7,8 @@
 #include <math.h>
 #include "Object.h"
 #include "glm/glm.hpp"
+#include <cstdlib>
+#include <ctime>
 
 using namespace glm;
 using namespace std;
@@ -60,6 +62,7 @@ public:
     virtual void resetPosition()
     {
         originMatrix = glm::mat4(1.f);
+		angle = 0;
         translateOrigin(position);
         if (!isAuto) {
             translateOrigin(-position.x, -position.y);

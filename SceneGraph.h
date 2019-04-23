@@ -14,6 +14,7 @@
 #include "GL/freeglut.h"
 #include "GL/glut.h"
 #include "Character.h"
+#include "ScoreBox.h"
 
 using namespace std;
 
