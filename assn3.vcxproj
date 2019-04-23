@@ -139,7 +139,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\frag.glsl" />
-    <None Include="shader\geometry.glsl" />
     <None Include="shader\vert.glsl" />
   </ItemGroup>
   <ItemGroup>

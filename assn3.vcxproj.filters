@@ -53,9 +53,6 @@
     <None Include="shader\vert.glsl">
       <Filter>소스 파일\shader</Filter>
     </None>
-    <None Include="shader\geometry.glsl">
-      <Filter>소스 파일\shader</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sphere.h">

@@ -30,7 +30,6 @@ glm::mat4 ctm;
 
 GLchar vertexShaderFile[] = "shader/vert.glsl";
 GLchar fragShaderFile[] = "shader/frag.glsl";
-GLchar geometryShaderFile[] = "shader/geometry.glsl";
 
 GLuint myProgramObj;
 
@@ -49,10 +48,9 @@ Camera camera;
 ScoreBox userScore;
 ScoreBox comScore;
 
-bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, const char * geometryShaderFile) {
+bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 	GLuint myVertexObj = glCreateShader(GL_VERTEX_SHADER);
 	GLuint myFragObj = glCreateShader(GL_FRAGMENT_SHADER);
-	//GLuint myGeoObj = glCreateShader(GL_GEOMETRY_SHADER);
 
 	//Read Vertex File
 	string vertexShaderCode;
@@ -90,23 +88,6 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, con
 		return false;
 	}
 
-	////Read Geometry File
-	//string geometryShaderCode;
-	//ifstream geometryShaderStream;
-
-	//geometryShaderStream.open(geometryShaderFile, ifstream::in);
-
-	//if (geometryShaderStream.is_open()) {
-	//	stringstream sstr;
-	//	sstr << geometryShaderStream.rdbuf();
-	//	geometryShaderCode = sstr.str();
-	//	geometryShaderStream.close();
-	//}
-	//else {
-	//	cout << "File does not open" << endl;
-	//	getchar();
-	//	return false;
-	//}
 
 	GLint Result = GL_FALSE;
 	int InfoLogLength;
@@ -144,21 +125,6 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, con
 		printf("%s\n", &FragmentShaderErrorMessage[0]);
 	}
 
-	//// Compile Geometry Shader
-	//printf("Compiling shader : %s\n", geometryShaderFile);
-	//char const * geometrySourcePointer = geometryShaderCode.c_str();
-	//glShaderSource(myGeoObj, 1, &geometrySourcePointer, NULL);
-	//glCompileShader(myGeoObj);
-
-	//// Check Fragment Shader
-	//glGetShaderiv(myGeoObj, GL_COMPILE_STATUS, &Result);
-	//glGetShaderiv(myGeoObj, GL_INFO_LOG_LENGTH, &InfoLogLength);
-	//if (InfoLogLength > 0) {
-	//	vector<char> GeometryShaderErrorMessage(InfoLogLength + 1);
-	//	glGetShaderInfoLog(myGeoObj, InfoLogLength, NULL, &GeometryShaderErrorMessage[0]);
-	//	printf("%s\n", &GeometryShaderErrorMessage[0]);
-	//}
-
 
 	// Link program
 	printf("Linking program\n");
@@ -178,7 +144,6 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, con
 		printf("%s\n", &ProgramErrorMessage[0]);
 		glDeleteShader(myVertexObj);
 		glDeleteShader(myFragObj);
-		//glDeleteShader(myGeoObj);
 		glDeleteProgram(myProgramObj);
 		return false;
 	}
@@ -186,7 +151,6 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, con
 	glUseProgram(myProgramObj);
 
 	glDeleteShader(myVertexObj);
-	//glDeleteShader(myGeoObj);
 	glDeleteShader(myFragObj);
 
 	return true;
@@ -200,7 +164,7 @@ bool Init() {
 	comScore = ScoreBox(0.9f, 0.9f);
 
 	//Load Shaders
-	LoadShaders(vertexShaderFile, fragShaderFile, geometryShaderFile);
+	LoadShaders(vertexShaderFile, fragShaderFile);
 
 	sceneGraph =  SceneGraph();
 
@@ -213,7 +177,6 @@ bool Init() {
 	return true;
 }
 
-//CTM�� SceneGraph�� push pop���� �����ؾ��ҵ� �մϴ� (�� �κ��� ������ �°� ���� �ʿ�)
 void DisplayFunc(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 

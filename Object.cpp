@@ -106,7 +106,6 @@ glm::vec3 Object::computeFaceNormal( glm::vec3 v1, glm::vec3 v2, glm::vec3 v3)
 {
 	const float EPSILON = 0.000001f;
 	glm::vec3 n = glm::vec3(0.f, 0.f, 0.f);
-	// default return value (0, 0, 0)
 
 	// find 2 edge vectors: v1-v2, v1-v3
 	GLfloat ex1 = v2.x - v1.x;
@@ -164,7 +163,6 @@ void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
 	if (isLineRemoval) {
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LEQUAL);
-		//glClear(GL_DEPTH_BUFFER_BIT);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glUniform4f(colorLocation, backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
