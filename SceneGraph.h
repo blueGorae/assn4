@@ -20,6 +20,7 @@ using namespace std;
 extern glm::mat4 projectionMat;
 extern glm::mat4 modelViewMat;
 extern glm::mat4 ctm;
+extern bool isLineRemoval;
 
 
 extern GLuint myProgramObj;

@@ -20,6 +20,7 @@
 using namespace std;
 
 extern glm::mat4 ctm;
+extern bool isLineRemoval;
 
 extern GLint ctmLocation;
 

@@ -19,6 +19,8 @@
 
 using namespace std;
 
+bool isLineRemoval;
+
 glm::mat4 projectionMat;
 glm::mat4 modelViewMat;
 glm::mat4 ctm;
@@ -228,6 +230,10 @@ void KeyboardFunc(unsigned char key, int x, int y)
     case '1':
     case '2':
     case '3':
+		break;
+	case '4':
+		isLineRemoval = !isLineRemoval;
+		break;
 	case 'I':
 	case 'i':
 	case 'J':
