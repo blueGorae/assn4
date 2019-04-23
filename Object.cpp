@@ -236,6 +236,7 @@ void Object::updateCurrentTransformationMatrix() {
     for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
         (*it)->updateCurrentTransformationMatrix();
     }
+	updatedCurrentTransformationMatrix();
 }
 
 bool CheckCollisionBool(Object *one, Object *two)

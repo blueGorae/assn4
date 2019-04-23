@@ -129,7 +129,7 @@ public:
 	virtual void reset();
     virtual bool criticalCollisionAction(Object* from) { return false; }
     bool skipCollision(Object* node);
-    void updateCurrentTransformationMatrix();
+	void updateCurrentTransformationMatrix();
     virtual bool doCollision();
     virtual Object* actionCollision(Collision* collision) {
         if (parent)
@@ -185,5 +185,7 @@ protected:
 
 	virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
 	virtual void moveObject() {}
+	virtual void updatedCurrentTransformationMatrix() {}
+
 };
 

@@ -19,18 +19,18 @@ extern GLuint indiciesVBO;
 
 extern glm::mat4 ctm;
 
-
 class Character : public Object
 {
 private:
 	bool isAuto;
-	GLfloat diffAngle = 10.f;
-	GLfloat angle = 0.f;
+	GLint diffAngle = 10;
+	GLint angle = 0;
 
 
 protected:
 	glm::vec3 translateVector(glm::vec3 direction);
 	virtual void moveObject();
+	virtual void updatedCurrentTransformationMatrix();
 
 public:
 	Character() {}
@@ -53,6 +53,7 @@ public:
 		}
 		setCoordinateMatrix(initMatrix);
 		translateOrigin(glm::vec3(0.f, 0.f, 0.275f));
+		updateCurrentTransformationMatrix();
 	}
 	void pressed(unsigned char key);
 	virtual ~Character() {}

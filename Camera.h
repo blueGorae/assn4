@@ -8,6 +8,9 @@
 
 using namespace std;
 
+extern glm::vec3 playerLocation;
+extern glm::vec3 player3Location;
+extern glm::vec3 playerDirection;
 
 class Camera
 {
@@ -28,14 +31,14 @@ public:
         switch (cameraMode) {
         case 1:
 			return glm::lookAt(
-				glm::vec3(0.f, -DEPTH / 2, 0.f),
-				glm::vec3(0.f, 0.f, 0.f),
+				playerLocation,
+				playerDirection,
 				glm::vec3(0, 0, 1)
 			);
         case 2:
 			return glm::lookAt(
-				glm::vec3(WIDTH / 2, 0.f, 0.f),
-				glm::vec3(0.f, 0.f, 0.f),
+				player3Location,
+				playerDirection,
 				glm::vec3(0, 0, 1)
 			);
         case 3:
