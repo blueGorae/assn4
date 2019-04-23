@@ -1,8 +1,8 @@
 #include "SceneGraph.h"
 
-#define WIDTH 2
-#define DEPTH 4
-#define HEIGHT 2
+#define WIDTH 4
+#define DEPTH 8
+#define HEIGHT 4
 
 Sphere ball(0.2f, 2);
 Background background(WIDTH, DEPTH, HEIGHT);
@@ -25,12 +25,9 @@ void SceneGraph::init() {
 
 	//순서를 바꾸면 이상해짐
 	root->addChild(&background);
-	root->addChild(&ball);
-
 	root->addChild(&com);
+	root->addChild(&ball);
 	root->addChild(&player);
-
-
 
 	//Init Buffer
 	glGenBuffers(1, &verticesVBO);
@@ -49,29 +46,11 @@ void SceneGraph::init() {
 void SceneGraph::KeyboardFunc(unsigned char key, int x, int y)
 {
 	player.pressed(key);
-
 }
 
 void SceneGraph::DisplayFunc()
 {
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	//glBindVertexArray(background.VAO);
-	//glUniform4f(colorLocation, modelColor[0], modelColor[1], modelColor[2], modelColor[3]);
-	//background.draw(projectionMatrix, modelViewMatrix);
-	//glBindVertexArray(0);
-
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	//glBindVertexArray(ball.VAO);
-	//glUniform4f(colorLocation, backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
-	//ball.draw(projectionMatrix, modelViewMatrix);
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	//glUniform4f(colorLocation, modelColor[0], modelColor[1], modelColor[2], modelColor[3]);
-	//ball.draw(projectionMatrix, modelViewMatrix);
-	//glBindVertexArray(0);
-	
-
 	root->draw(projectionMatrix, modelViewMatrix);
-
 }
 
 void SceneGraph::IdleFunc()

@@ -71,7 +71,7 @@ bool Object::loadOBJ(string filename)
 				printf("File can't be read by our simple parser : ( Try exporting with other options\n");
 				return false;
 			}
-			addIndices(vertexIndex[0], vertexIndex[1], vertexIndex[2]);
+			addIndices(vertexIndex[0]-1, vertexIndex[1]-1, vertexIndex[2]-1);
 		}
 		else if (strcmp(lineHeader, "#") == 0)
 		{
@@ -159,11 +159,15 @@ void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
 	if (isLineRemoval) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glUniform4f(colorLocation, backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
-		glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
+
+		//glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, 0);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glUniform4f(colorLocation, modelColor[0], modelColor[1], modelColor[2], modelColor[3]);
-		glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
+
+		//glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, 0);
 
 	}
 	else {

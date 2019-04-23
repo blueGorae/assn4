@@ -136,7 +136,7 @@ protected:
 	glm::vec4 finalPositions[5];
 	glm::vec4 windowPositions[5];
 
-	void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
+	virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
 	virtual void moveObject() {}
 };
 

@@ -10,7 +10,7 @@ void Plane::buildVertices()
 {
 	glm::vec3 v1, v2, v3, v4;
 	glm::vec3 n;
-	unsigned int index = 1;
+	unsigned int index = 0;
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < depth; j++) {
 			v1 = glm::vec3(float(i) , float(j) , 0.f);
