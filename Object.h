@@ -155,8 +155,7 @@ public:
 		originMatrix = glm::rotate(glm::mat4(1.f), angle, pivot) * originMatrix;
 	}
 
-	void setOriginalMatrix(glm::mat4 matrix) { this->originMatrix = matrix; }
-	glm::mat4 getOriginalMatrix() { return originMatrix; }
+	void setCoordinateMatrix(glm::mat4 matrix) { this->coordinateMatrix = matrix; }
 
 	unsigned totalVerticesSize();
 	unsigned totalIndicesSize();
@@ -174,6 +173,7 @@ protected:
     bool collisionCheck;
     bool isSolid;
 	glm::vec3 position;
+	glm::mat4 coordinateMatrix = glm::mat4(1.f);
 	glm::mat4 windowMatrix = glm::mat4(1.f);
 	glm::mat4 originMatrix = glm::mat4(1.f);
 	glm::vec4 originPositions[5];

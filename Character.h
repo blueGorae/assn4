@@ -33,27 +33,21 @@ protected:
 	virtual void moveObject();
 
 public:
-	Character() { 
-		setOriginalMatrix(
-			glm::scale(glm::vec3(1/1000.f, 1/1000.f, 1/1000.f)));
-	}
+	Character() {}
 	Character(glm::vec3 position, bool isAuto = true) : Object(position, "Chiko", 0.18f, 0.3f, true), isAuto(isAuto)
 	{
-		setOriginalMatrix(
-			glm::scale(glm::vec3(1 / 2000.f, 1 / 2000.f, 1 / 2000.f))
-		);
+		glm::mat4 initMatrix = glm::scale(glm::vec3(1 / 2000.f, 1 / 2000.f, 1 / 2000.f));
 
 		if (isAuto) {
-			setOriginalMatrix(glm::translate(glm::mat4(1.f), position)
-				* glm::rotate((float)M_PI_2, glm::vec3(1.f, 0.f, 0.f))
-				* getOriginalMatrix());
+			initMatrix = glm::rotate((float)M_PI_2, glm::vec3(1.f, 0.f, 0.f))
+				* initMatrix;
 		}
 		else {
-			setOriginalMatrix(glm::translate(glm::mat4(1.f),position)
-				* glm::rotate((float)M_PI_2, glm::vec3(1.f, 0.f, 0.f))
+			initMatrix = glm::rotate((float)M_PI_2, glm::vec3(1.f, 0.f, 0.f))
 				* glm::rotate((float)M_PI, glm::vec3(0.f, 1.f, 0.f))
-				* getOriginalMatrix());
+				* initMatrix;
 		}
+		setCoordinateMatrix(initMatrix);
 		translateOrigin(glm::vec3(0.f, 0.f, 0.275f));
 	}
 	void pressed(unsigned char key);
