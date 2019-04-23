@@ -37,7 +37,7 @@ protected:
 
 public:
 	Sphere(GLfloat radius = 1.0f, GLint subDivision = 1) 
-		: Object(glm::vec3(0.f, 0.f, radius)), radius(radius), subdivision(subDivision) {
+		: Object(glm::vec3(0.f, 0.f, radius), "", 2 * radius, 2 * radius, true), radius(radius), subdivision(subDivision) {
 		buildVerticesFlat();
 	};
 	~Sphere() {};
@@ -46,6 +46,7 @@ public:
 	void setRadius(GLfloat radius) { this->radius = radius; }
 	GLint getSubdivision() { return this->subdivision; }
 	void setSubdivision(GLint subdivision) { this->subdivision = subdivision; }
-
+	void pressed(unsigned char key);
+	virtual Object* actionCollision(Collision* collision);
 };
 

@@ -25,21 +25,21 @@ void Camera::KeyboardFunc(unsigned char key, int x, int y)
 			if (cameraMode != 3) {
 				break;
 			}
-			cameraLocationX = glm::max(cameraLocationX - 0.05f, -1.f);
+			cameraLocationX = glm::max(cameraLocationX - 0.05f, -WIDTH / 2);
             break;
         case 'K':
         case 'k':
 			if (cameraMode != 3) {
 				break;
 			}
-			cameraLocationY = glm::max(cameraLocationY - 0.05f, -1.f);
+			cameraLocationY = glm::max(cameraLocationY - 0.05f, -DEPTH / 2);
             break;
         case 'L':
         case 'l':
 			if (cameraMode != 3) {
 				break;
 			}
-			cameraLocationX = glm::min(cameraLocationX + 0.05f, 1.f);
+			cameraLocationX = glm::min(cameraLocationX + 0.05f, WIDTH / 2);
             break;
     }
 }

@@ -2,6 +2,10 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #define BUFFER_OFFSET(offset) ((GLvoid*) (offset))
 
+#define WIDTH 4.f
+#define DEPTH 8.f
+#define HEIGHT 4.f
+
 #include "GL/glew.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -65,7 +69,9 @@ public:
 			finalPositions[i] = originPositions[i];
 			windowPositions[i] = originPositions[i];
 		}
-        allNodes.push_back(this);
+		if (w > 0.f && h > 0.f && isnan(w) == 0 && isnan(h) == 0) {
+			allNodes.push_back(this);
+		}
     }
 	~Object() {};
 	GLuint VAO;

@@ -37,7 +37,7 @@ public:
 		setOriginalMatrix(
 			glm::scale(glm::vec3(1/1000.f, 1/1000.f, 1/1000.f)));
 	}
-	Character(glm::vec3 position, bool isAuto = true) : Object(position, "Chiko"), isAuto(isAuto)
+	Character(glm::vec3 position, bool isAuto = true) : Object(position, "Chiko", 0.18f, 0.3f, true), isAuto(isAuto)
 	{
 		setOriginalMatrix(
 			glm::scale(glm::vec3(1 / 2000.f, 1 / 2000.f, 1 / 2000.f))

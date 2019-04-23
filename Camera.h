@@ -1,6 +1,7 @@
 #pragma once
 #define GLM_ENABLE_EXPERIMENTAL
 
+#include "Object.h"
 #include "GL/glew.h"
 #include "glm/glm.hpp"
 #include "glm/gtx/transform.hpp"
@@ -27,19 +28,19 @@ public:
         switch (cameraMode) {
         case 1:
 			return glm::lookAt(
-				glm::vec3(0, -2, 0),
+				glm::vec3(0.f, -DEPTH / 2, 0.f),
 				glm::vec3(0.f, 0.f, 0.f),
 				glm::vec3(0, 0, 1)
 			);
         case 2:
 			return glm::lookAt(
-				glm::vec3(2, 0, 0),
+				glm::vec3(WIDTH / 2, 0.f, 0.f),
 				glm::vec3(0.f, 0.f, 0.f),
 				glm::vec3(0, 0, 1)
 			);
         case 3:
             return glm::lookAt(
-				glm::vec3(cameraLocationX, cameraLocationY, 2),
+				glm::vec3(cameraLocationX, cameraLocationY, HEIGHT),
                 glm::vec3(0.f, 0.f, 0.f),
                 glm::vec3(0, 1, 0)
 			);

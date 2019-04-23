@@ -313,7 +313,8 @@ Collision* CheckCollisionInfo(Object *one, Object *two)
 }
 
 bool Object::skipCollision(Object* node) {
-    return isSolid
+	return node == this
+		   || isSolid
            || !collisionCheck
            || !node->collisionCheck;
 }
