@@ -21,7 +21,7 @@ public:
 		backPlane = Plane(width, height);
 		leftPlane = Plane(height, depth);
 		rightPlane = Plane(height, depth);
-		upperPlane = Plane(width, depth);
+		//upperPlane = Plane(width, depth);
 		downPlane = Plane(width, depth);
 
 		frontPlane.setOriginalMatrix (glm::translate(glm::mat4(1.f), glm::vec3( 0.f,-(depth/2.f), 0.f)) 
@@ -36,8 +36,8 @@ public:
 		rightPlane.setOriginalMatrix(glm::translate(glm::mat4(1.f), glm::vec3((width / 2.f), 0.f, 0.f))
 			* glm::rotate((float)M_PI_2, glm::vec3(0.f, 1.f, 0.f))* glm::translate(glm::mat4(1.f), glm::vec3(-rightPlane.getCenter() )));
 
-		upperPlane.setOriginalMatrix(glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, (height/2.f)))
-			* glm::translate(glm::mat4(1.f), glm::vec3(-upperPlane.getCenter())));
+		//upperPlane.setOriginalMatrix(glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, (height/2.f)))
+		//	* glm::translate(glm::mat4(1.f), glm::vec3(-upperPlane.getCenter())));
 
 		downPlane.setOriginalMatrix(glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, -(height / 2.f)))
 			* glm::translate(glm::mat4(1.f), glm::vec3(-downPlane.getCenter() )));
@@ -46,7 +46,7 @@ public:
 		addChild(&backPlane);
 		addChild(&leftPlane);
 		addChild(&rightPlane);
-		addChild(&upperPlane);
+		//addChild(&upperPlane);
 		addChild(&downPlane);
 
 	}

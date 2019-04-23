@@ -4,10 +4,11 @@
 
 void Object::init(unsigned *vertexOffset, unsigned *indexOffset) {
 	//loadOBJ(objPath);
-	cout << "Init " << *vertexOffset << *indexOffset << endl;
 	initObject( vertexOffset,  indexOffset);
 	*vertexOffset += getVerticesSize();
 	*indexOffset += getIndiciesSize();
+	cout << "Init " << *vertexOffset << " " << *indexOffset << endl;
+
 	if (children.size() != 0) {
 		for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
 			(*it)->init(vertexOffset, indexOffset);
