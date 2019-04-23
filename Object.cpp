@@ -324,3 +324,11 @@ bool Object::checkCollision() {
     }
     return result;
 }
+
+void Object::reset()
+{
+	resetPosition();
+	for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
+		(*it)->reset();
+	}
+}

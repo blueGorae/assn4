@@ -4,6 +4,8 @@
 #define DEPTH 4
 #define HEIGHT 2
 
+vector<Object*> allNodes = vector<Object*>();
+
 Sphere ball(0.2f, 2);
 Background background(WIDTH, DEPTH, HEIGHT);
 Character player;

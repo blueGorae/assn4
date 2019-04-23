@@ -37,7 +37,7 @@ struct Collision {
     bool occur;
     GLfloat overlapX;
     GLfloat overlapY;
-}
+};
 class Object;
 
 extern vector<Object*> allNodes;
@@ -116,9 +116,8 @@ public:
 	void draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
 	void move();
     virtual bool checkCollision();
-    virtual void draw();
     virtual void resetPosition() {};
-    virtual void reset();
+	virtual void reset();
     virtual bool criticalCollisionAction(Object* from) { return false; }
     bool skipCollision(Object* node);
     void updateCurrentTransformationMatrix();
