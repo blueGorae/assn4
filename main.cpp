@@ -199,7 +199,11 @@ bool Init() {
 
 	sceneGraph =  SceneGraph();
 
+
 	sceneGraph.init();
+
+	glUniform4f(colorLocation, modelColor[0], modelColor[1], modelColor[2], modelColor[3]);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	return true;
 }

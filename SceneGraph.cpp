@@ -16,16 +16,18 @@ void SceneGraph::init() {
 	com = Character(glm::vec3(0.f, 0.5f, 0.f), true);
 	player.loadOBJ("resource/Chikorita_OBJ.obj");
 	com.loadOBJ("resource/Chikorita_OBJ.obj");
-
+	//ball.loadOBJ("resource/soccer_ball.obj");
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
 	ctmLocation = glGetUniformLocation(myProgramObj, "ctm");
 	colorLocation = glGetUniformLocation(myProgramObj, "vColor");
     // add 순서 중요 collision check 순서에 영향 - 순서는 reverse 순이다.
 	root->addChild(&ball);
+
 	root->addChild(&com);
 
 	root->addChild(&player);
 	root->addChild(&background);
+
 	//Init Buffer
 	glGenBuffers(1, &verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
