@@ -25,12 +25,13 @@ glm::vec3 Character::translateVector(glm::vec3 direction) {
 void Character::updatedCurrentTransformationMatrix() {
 	if (!isAuto) {
 		player1Location = finalPositions[0];
-		playerDirection = glm::rotate(glm::radians((float)angle), glm::vec3(0.f, 0.f, 1.f)) 
+		glm::vec4 normalizedPlayerDirection = glm::rotate(glm::radians((float)angle), glm::vec3(0.f, 0.f, 1.f)) 
 			* glm::vec4(0.f, 1.f, finalPositions[0].z, 1.f);
+		playerDirection = glm::scale(glm::vec3(10.f, 10.f, 1.f)) * normalizedPlayerDirection;
 		player3Location = glm::vec3(
-			finalPositions[0].x - playerDirection.x,
-			finalPositions[0].y - playerDirection.y,
-			finalPositions[0].z + 2*playerDirection.z
+			finalPositions[0].x - normalizedPlayerDirection.x,
+			finalPositions[0].y - normalizedPlayerDirection.y,
+			finalPositions[0].z + 2* normalizedPlayerDirection.z
 		);
 		//player1Location = glm::vec3(
 		//	finalPositions[0].x + playerDirection.x,
