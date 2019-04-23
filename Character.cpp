@@ -33,11 +33,6 @@ void Character::updatedCurrentTransformationMatrix() {
 			finalPositions[0].y - normalizedPlayerDirection.y,
 			finalPositions[0].z + 2* normalizedPlayerDirection.z
 		);
-		//player1Location = glm::vec3(
-		//	finalPositions[0].x + playerDirection.x,
-		//	finalPositions[0].y + playerDirection.y,
-		//	finalPositions[0].z + 2 * playerDirection.z
-		//);
 	}
 }
 
@@ -50,7 +45,7 @@ void Character::pressed(unsigned char key)
 		{
 		case 'W':
 		case 'w':
-			translateOrigin(translateVector(glm::vec3(0.f, 0.01f, 0.f)));
+			translateOrigin(translateVector(glm::vec3(0.f, 0.1f, 0.f)));
 			break;
 		case 'A':
 		case 'a':
@@ -62,7 +57,7 @@ void Character::pressed(unsigned char key)
 			break;
 		case 'S':
 		case 's':
-			translateOrigin(translateVector(glm::vec3(0.f, -0.01f, 0.f)));
+			translateOrigin(translateVector(glm::vec3(0.f, -0.1f, 0.f)));
 			break;
 		case 'D':
 		case 'd':
