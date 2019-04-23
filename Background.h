@@ -49,6 +49,8 @@ public:
 		//addChild(&upperPlane);
 		addChild(&downPlane);
 
+		translateOrigin(0.f, 0.f, (height / 2.f));
+
 	}
 	~Background();
 

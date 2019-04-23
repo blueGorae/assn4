@@ -9,13 +9,15 @@ glm::vec3 Character::translateVector(glm::vec3 direction) {
 	GLfloat x = finalPositions[0].x;
 	GLfloat y = finalPositions[0].y;
 	glm::vec3 translate = glm::rotate(glm::mat4(1.f), glm::radians((float)angle), glm::vec3(0.f, 0.f, 1.f)) * glm::vec4(direction, 1.f);
+	float HALF_W = WIDTH / 2;
+	float HALF_D = DEPTH / 2;
 	if (!isAuto) {
-		translate.x = glm::clamp(x + translate.x, -1.f, 1.f) - x;
-		translate.y = glm::clamp(y + translate.y, -1.f, 0.f) - y;
+		translate.x = glm::clamp(x + translate.x, -HALF_W, HALF_W) - x;
+		translate.y = glm::clamp(y + translate.y, -HALF_D, 0.f) - y;
 	}
 	else {
-		translate.x = glm::clamp(x + translate.x, -1.f, 1.f) - x;
-		translate.y = glm::clamp(y + translate.y, 0.f, 1.f) - y;
+		translate.x = glm::clamp(x + translate.x, -HALF_W, HALF_W) - x;
+		translate.y = glm::clamp(y + translate.y, 0.f, HALF_D) - y;
 	}
 	return translate;
 }

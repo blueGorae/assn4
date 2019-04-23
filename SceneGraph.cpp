@@ -18,8 +18,8 @@ void addGameScore(bool addUserScore) {
 
 
 Background background(WIDTH, DEPTH, HEIGHT);
-Character player = Character(glm::vec3(0.f, -0.7f, 0.f), false);
-Character com = Character(glm::vec3(0.f, 0.7f, 0.f), true);
+Character player = Character(glm::vec3(0.f, -DEPTH * 0.35f, 0.f), false);
+Character com = Character(glm::vec3(0.f, DEPTH * 0.35f, 0.f), true);
 
 void SceneGraph::init() {
     root = new Object();

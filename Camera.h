@@ -21,7 +21,7 @@ private :
 	bool init = true;
     //GLint cameraMode = 3;
     GLfloat cameraLocationX = -0.f;
-    GLfloat cameraLocationY = -0.f;
+    GLfloat cameraLocationY = -DEPTH / 2;
 public:
 	Camera() {}
 	void KeyboardFunc(unsigned char key, int x, int y);
@@ -44,7 +44,7 @@ public:
 			);
         case 3:
             return glm::lookAt(
-				glm::vec3(cameraLocationX, cameraLocationY, HEIGHT),
+				glm::vec3(cameraLocationX, cameraLocationY, 2 * HEIGHT),
                 glm::vec3(0.f, 0.f, 0.f),
                 glm::vec3(0, 1, 0)
 			);

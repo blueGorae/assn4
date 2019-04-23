@@ -8,23 +8,25 @@ glm::vec3 Sphere::translateVector(glm::vec3 direction) {
 	glm::vec3 normalDirection = glm::vec3(direction.x * scale, direction.y * scale, direction.z * scale);
 	glm::vec3 translate = glm::rotate(glm::mat4(1.f), glm::radians((float) angle), glm::vec3(0.f, 0.f, 1.f)) * glm::vec4(normalDirection, 1.f);
 	GLfloat resX = x + translate.x;
-	if (resX <= -1.f) {
+	float HALF_W = WIDTH / 2;
+	float HALF_D = DEPTH / 2;
+	if (resX <= -HALF_W) {
 		angle = -angle;
-		translate.x = 2 * -1.f - 2 * x - translate.x;
+		translate.x = 2 * -HALF_W - 2 * x - translate.x;
 	}
-	else if (resX >= 1.f) {
+	else if (resX >= HALF_W) {
 		angle = -angle;
-		translate.x = 2 * 1.f - 2 * x - translate.x;
+		translate.x = 2 * HALF_W - 2 * x - translate.x;
 	}
 	GLfloat resY = y + translate.y;
-	if (resY <= -1.f) {
+	if (resY <= -HALF_D) {
 		angle = 180.f - angle;
-		translate.y = 2 * -1.f - 2 * y - translate.y;
+		translate.y = 2 * -HALF_D - 2 * y - translate.y;
 		criticalCollisionActionFunc(false);
 	}
-	else if (resY >= 1.f) {
+	else if (resY >= HALF_D) {
 		angle = 180.f - angle;
-		translate.y = 2 * 1.f - 2 * y - translate.y;
+		translate.y = 2 * HALF_D - 2 * y - translate.y;
 		criticalCollisionActionFunc(true);
 	}
 	angle %= 360;
