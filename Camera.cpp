@@ -1,6 +1,8 @@
 #include "Camera.h"
 #include <iostream>
 
+GLint cameraMode = 3;
+
 void Camera::KeyboardFunc(unsigned char key, int x, int y)
 {
     switch (key) {

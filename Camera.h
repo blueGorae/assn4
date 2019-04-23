@@ -8,9 +8,10 @@
 
 using namespace std;
 
-extern glm::vec3 playerLocation;
+extern glm::vec3 player1Location;
 extern glm::vec3 player3Location;
 extern glm::vec3 playerDirection;
+extern GLint cameraMode;
 
 class Camera
 {
@@ -18,7 +19,7 @@ private :
 	bool zoom_out = true;
 	bool pressed = false;
 	bool init = true;
-    GLint cameraMode = 3;
+    //GLint cameraMode = 3;
     GLfloat cameraLocationX = -0.f;
     GLfloat cameraLocationY = -0.f;
 public:
@@ -31,7 +32,7 @@ public:
         switch (cameraMode) {
         case 1:
 			return glm::lookAt(
-				playerLocation,
+				player1Location,
 				playerDirection,
 				glm::vec3(0, 0, 1)
 			);

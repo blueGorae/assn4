@@ -1,8 +1,9 @@
 #include "Character.h"
 
-glm::vec3 playerLocation;
+glm::vec3 player1Location;
 glm::vec3 player3Location;
 glm::vec3 playerDirection;
+extern GLint cameraMode;
 
 glm::vec3 Character::translateVector(glm::vec3 direction) {
 	GLfloat x = finalPositions[0].x;
@@ -21,14 +22,19 @@ glm::vec3 Character::translateVector(glm::vec3 direction) {
 
 void Character::updatedCurrentTransformationMatrix() {
 	if (!isAuto) {
-		playerLocation = finalPositions[0];
+		player1Location = finalPositions[0];
 		playerDirection = glm::rotate(glm::radians((float)angle), glm::vec3(0.f, 0.f, 1.f)) 
 			* glm::vec4(0.f, 1.f, finalPositions[0].z, 1.f);
 		player3Location = glm::vec3(
-			playerLocation.x - playerDirection.x,
-			playerLocation.y - playerDirection.y,
-			playerLocation.z + 2*playerDirection.z
+			finalPositions[0].x - playerDirection.x,
+			finalPositions[0].y - playerDirection.y,
+			finalPositions[0].z + 2*playerDirection.z
 		);
+		//player1Location = glm::vec3(
+		//	finalPositions[0].x + playerDirection.x,
+		//	finalPositions[0].y + playerDirection.y,
+		//	finalPositions[0].z + 2 * playerDirection.z
+		//);
 	}
 }
 
@@ -68,7 +74,6 @@ void Character::pressed(unsigned char key)
 	updateCurrentTransformationMatrix();
 }
 
-
 void Character::moveObject()
 {
 	if (isAuto) {
@@ -82,5 +87,8 @@ void Character::moveObject()
 			translateOrigin(translateVector(glm::vec3(0.f, -0.0001f, 0.f)));
 			break;
 		}
+	}
+	else {
+		disableDraw = cameraMode == 1;
 	}
 }

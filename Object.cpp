@@ -144,6 +144,11 @@ void Object::draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix)
 			windowPositions[i] = windowMatrix * originPositions[i];
 		}
 	}
+
+	if (disableDraw) {
+		return;
+	}
+
 	if (vertices.size() != 0) {
 		drawShader(projectionMatrix, windowMatrix);
 	}

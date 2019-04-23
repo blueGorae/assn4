@@ -175,6 +175,7 @@ protected:
 	string objPath;
     bool collisionCheck;
     bool isSolid;
+	bool disableDraw = false;
 	glm::vec3 position;
 	glm::mat4 coordinateMatrix = glm::mat4(1.f);
 	glm::mat4 windowMatrix = glm::mat4(1.f);
