@@ -65,9 +65,7 @@ public:
 			finalPositions[i] = originPositions[i];
 			windowPositions[i] = originPositions[i];
 		}
-		if (w > 0.f && h > 0.f) {
-			allNodes.push_back(this);
-		}
+        allNodes.push_back(this);
     }
 	~Object() {};
 	GLuint VAO;

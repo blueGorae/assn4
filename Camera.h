@@ -27,14 +27,14 @@ public:
         switch (cameraMode) {
         case 1:
 			return glm::lookAt(
-				glm::vec3(0.f, -1.f, 0.25f),
-				glm::vec3(0.f, 0.f, 0.25f),
+				glm::vec3(0, -5, 0),
+				glm::vec3(0.f, 0.f, 0.f),
 				glm::vec3(0, 0, 1)
 			);
         case 2:
 			return glm::lookAt(
-				glm::vec3(1.f, 0.f, 0.25f),
-				glm::vec3(0.f, 0.f, 0.25f),
+				glm::vec3(5, 0, 0),
+				glm::vec3(0.f, 0.f, 0.f),
 				glm::vec3(0, 0, 1)
 			);
         case 3:

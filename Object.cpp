@@ -160,6 +160,8 @@ void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
 	glUniformMatrix4fv(ctmLocation, 1, GL_FALSE, &ctm[0][0]);
 
 	if (isLineRemoval) {
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glUniform4f(colorLocation, backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 		glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
@@ -171,6 +173,7 @@ void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
 
 	}
 	else {
+		glDisable(GL_DEPTH_TEST);
 		glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
 	}
 
@@ -309,8 +312,7 @@ Collision* CheckCollisionInfo(Object *one, Object *two)
 }
 
 bool Object::skipCollision(Object* node) {
-    return node == this
-		   || isSolid
+    return isSolid
            || !collisionCheck
            || !node->collisionCheck;
 }
