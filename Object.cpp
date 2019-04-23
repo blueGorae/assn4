@@ -4,11 +4,12 @@
 
 void Object::init(unsigned *vertexOffset, unsigned *indexOffset) {
 	//loadOBJ(objPath);
-	initObject( vertexOffset,  indexOffset);
-	*vertexOffset += getVerticesSize();
-	*indexOffset += getIndiciesSize();
-	cout << "Init " << *vertexOffset << " " << *indexOffset << endl;
-
+	if (vertices.size() != 0) {
+		initObject(vertexOffset, indexOffset);
+		*vertexOffset += getVerticesSize();
+		*indexOffset += getIndiciesSize();
+		cout << "Init " << *vertexOffset << " " << *indexOffset << endl;
+	}
 	if (children.size() != 0) {
 		for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
 			(*it)->init(vertexOffset, indexOffset);
@@ -18,20 +19,18 @@ void Object::init(unsigned *vertexOffset, unsigned *indexOffset) {
 
 void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset)
 {
-	if (vertices.size() != 0) {
-		glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-		glBufferSubData(GL_ARRAY_BUFFER, *vertexOffset, getVerticesSize(), &getVertices()[0].x);
+	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
+	glBufferSubData(GL_ARRAY_BUFFER, *vertexOffset, getVerticesSize(), &getVertices()[0].x);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
-		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, *indexOffset, getIndiciesSize(), &getIndices()[0]);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
+	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, *indexOffset, getIndiciesSize(), &getIndices()[0]);
 
-		glGenVertexArrays(1, &VAO);
-		glBindVertexArray(VAO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
-		glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(*vertexOffset));
-		glEnableVertexAttribArray(vertexLocation);
-		glBindVertexArray(0);
-	}
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
+	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(*vertexOffset));
+	glEnableVertexAttribArray(vertexLocation);
+	glBindVertexArray(0);
 }
 
 bool Object::loadOBJ(string filename)
@@ -141,7 +140,9 @@ void Object::draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix)
 		finalPositions[i] = originMatrix * originPositions[i];
 		windowPositions[i] = windowMatrix * originPositions[i];
 	}
-	drawShader(projectionMatrix, windowMatrix);
+	if (vertices.size() != 0) {
+		drawShader(projectionMatrix, windowMatrix);
+	}
 
 	if (children.size() != 0) {
 		for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
@@ -170,9 +171,6 @@ void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
 	}
 
 	glBindVertexArray(0);
-
-
-
 
 
 }

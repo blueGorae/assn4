@@ -1,8 +1,8 @@
 #include "SceneGraph.h"
 
-#define WIDTH 4.f
-#define DEPTH 8.f
-#define HEIGHT 4.f
+#define WIDTH 2
+#define DEPTH 4
+#define HEIGHT 2
 
 Sphere ball(0.2f, 2);
 Background background(WIDTH, DEPTH, HEIGHT);
@@ -21,12 +21,13 @@ void SceneGraph::init() {
 	ctmLocation = glGetUniformLocation(myProgramObj, "ctm");
 	colorLocation = glGetUniformLocation(myProgramObj, "vColor");
     // add 순서 중요 collision check 순서에 영향 - 순서는 reverse 순이다.
-	root->addChild(&ball);
 
+	//순서를 바꾸면 이상해짐
+	root->addChild(&background);
+	root->addChild(&ball);
 	root->addChild(&com);
 
 	root->addChild(&player);
-	root->addChild(&background);
 
 	//Init Buffer
 	glGenBuffers(1, &verticesVBO);
