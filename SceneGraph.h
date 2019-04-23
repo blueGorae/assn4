@@ -16,6 +16,8 @@
 #include "Character.h"
 
 using namespace std;
+extern glm::vec4 modelColor;
+extern glm::vec4 backgroundColor;
 
 extern glm::mat4 projectionMat;
 extern glm::mat4 modelViewMat;
@@ -28,6 +30,7 @@ extern GLuint myProgramObj;
 extern GLint ctmLocation;
 
 extern GLint vertexLocation;
+extern GLint colorLocation;
 
 extern GLuint verticesVBO;
 extern GLuint indiciesVBO;

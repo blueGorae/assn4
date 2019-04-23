@@ -21,6 +21,8 @@ using namespace std;
 
 bool isLineRemoval;
 
+glm::vec4 modelColor;
+glm::vec4 backgroundColor;
 glm::mat4 projectionMat;
 glm::mat4 modelViewMat;
 glm::mat4 ctm;
@@ -35,6 +37,7 @@ GLuint myProgramObj;
 GLint ctmLocation;
 
 GLint vertexLocation;
+GLint colorLocation;
 
 GLuint verticesVBO;
 GLuint indiciesVBO;
@@ -46,7 +49,7 @@ Camera camera;
 bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, const char * geometryShaderFile) {
 	GLuint myVertexObj = glCreateShader(GL_VERTEX_SHADER);
 	GLuint myFragObj = glCreateShader(GL_FRAGMENT_SHADER);
-	GLuint myGeoObj = glCreateShader(GL_GEOMETRY_SHADER);
+	//GLuint myGeoObj = glCreateShader(GL_GEOMETRY_SHADER);
 
 	//Read Vertex File
 	string vertexShaderCode;
@@ -84,23 +87,23 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, con
 		return false;
 	}
 
-	//Read Geometry File
-	string geometryShaderCode;
-	ifstream geometryShaderStream;
+	////Read Geometry File
+	//string geometryShaderCode;
+	//ifstream geometryShaderStream;
 
-	geometryShaderStream.open(geometryShaderFile, ifstream::in);
+	//geometryShaderStream.open(geometryShaderFile, ifstream::in);
 
-	if (geometryShaderStream.is_open()) {
-		stringstream sstr;
-		sstr << geometryShaderStream.rdbuf();
-		geometryShaderCode = sstr.str();
-		geometryShaderStream.close();
-	}
-	else {
-		cout << "File does not open" << endl;
-		getchar();
-		return false;
-	}
+	//if (geometryShaderStream.is_open()) {
+	//	stringstream sstr;
+	//	sstr << geometryShaderStream.rdbuf();
+	//	geometryShaderCode = sstr.str();
+	//	geometryShaderStream.close();
+	//}
+	//else {
+	//	cout << "File does not open" << endl;
+	//	getchar();
+	//	return false;
+	//}
 
 	GLint Result = GL_FALSE;
 	int InfoLogLength;
@@ -138,27 +141,27 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, con
 		printf("%s\n", &FragmentShaderErrorMessage[0]);
 	}
 
-	// Compile Geometry Shader
-	printf("Compiling shader : %s\n", geometryShaderFile);
-	char const * geometrySourcePointer = geometryShaderCode.c_str();
-	glShaderSource(myGeoObj, 1, &geometrySourcePointer, NULL);
-	glCompileShader(myGeoObj);
+	//// Compile Geometry Shader
+	//printf("Compiling shader : %s\n", geometryShaderFile);
+	//char const * geometrySourcePointer = geometryShaderCode.c_str();
+	//glShaderSource(myGeoObj, 1, &geometrySourcePointer, NULL);
+	//glCompileShader(myGeoObj);
 
-	// Check Fragment Shader
-	glGetShaderiv(myGeoObj, GL_COMPILE_STATUS, &Result);
-	glGetShaderiv(myGeoObj, GL_INFO_LOG_LENGTH, &InfoLogLength);
-	if (InfoLogLength > 0) {
-		vector<char> GeometryShaderErrorMessage(InfoLogLength + 1);
-		glGetShaderInfoLog(myGeoObj, InfoLogLength, NULL, &GeometryShaderErrorMessage[0]);
-		printf("%s\n", &GeometryShaderErrorMessage[0]);
-	}
+	//// Check Fragment Shader
+	//glGetShaderiv(myGeoObj, GL_COMPILE_STATUS, &Result);
+	//glGetShaderiv(myGeoObj, GL_INFO_LOG_LENGTH, &InfoLogLength);
+	//if (InfoLogLength > 0) {
+	//	vector<char> GeometryShaderErrorMessage(InfoLogLength + 1);
+	//	glGetShaderInfoLog(myGeoObj, InfoLogLength, NULL, &GeometryShaderErrorMessage[0]);
+	//	printf("%s\n", &GeometryShaderErrorMessage[0]);
+	//}
 
 
 	// Link program
 	printf("Linking program\n");
 	myProgramObj = glCreateProgram();
 	glAttachShader(myProgramObj, myVertexObj);
-	glAttachShader(myProgramObj, myGeoObj);
+	//glAttachShader(myProgramObj, myGeoObj);
 	glAttachShader(myProgramObj, myFragObj);
 	glLinkProgram(myProgramObj);
 
@@ -172,7 +175,7 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, con
 		printf("%s\n", &ProgramErrorMessage[0]);
 		glDeleteShader(myVertexObj);
 		glDeleteShader(myFragObj);
-		glDeleteShader(myGeoObj);
+		//glDeleteShader(myGeoObj);
 		glDeleteProgram(myProgramObj);
 		return false;
 	}
@@ -180,13 +183,17 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, con
 	glUseProgram(myProgramObj);
 
 	glDeleteShader(myVertexObj);
-	glDeleteShader(myGeoObj);
+	//glDeleteShader(myGeoObj);
 	glDeleteShader(myFragObj);
 
 	return true;
 }
 
 bool Init() {
+
+	modelColor= vec4(0.f, 0.f, 1.f, 1.f);
+	backgroundColor = vec4(0.3f, 0.3f, 0.3f, 1.0f);
+
 	//Load Shaders
 	LoadShaders(vertexShaderFile, fragShaderFile, geometryShaderFile);
 

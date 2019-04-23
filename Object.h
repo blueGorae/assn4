@@ -19,12 +19,16 @@
 
 using namespace std;
 
+extern glm::vec4 modelColor;
+extern glm::vec4 backgroundColor;
+
 extern glm::mat4 ctm;
 extern bool isLineRemoval;
 
 extern GLint ctmLocation;
 
 extern GLint vertexLocation;
+extern GLint colorLocation;
 
 extern GLuint verticesVBO;
 extern GLuint indiciesVBO;

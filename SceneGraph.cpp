@@ -19,7 +19,7 @@ void SceneGraph::init() {
 
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
 	ctmLocation = glGetUniformLocation(myProgramObj, "ctm");
-
+	colorLocation = glGetUniformLocation(myProgramObj, "vColor");
     // add 순서 중요 collision check 순서에 영향 - 순서는 reverse 순이다.
 	root->addChild(&ball);
 	root->addChild(&player);
@@ -48,7 +48,11 @@ void SceneGraph::KeyboardFunc(unsigned char key, int x, int y)
 
 void SceneGraph::DisplayFunc()
 {
-    root->draw(projectionMatrix, modelViewMatrix);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+    //root->draw(projectionMatrix, modelViewMatrix);
+
 }
 
 void SceneGraph::IdleFunc()

@@ -150,6 +150,7 @@ void Object::draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix)
 }
 
 void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
+	glUniformMatrix4fv(colorLocation, 1, GL_FALSE, &ctm[0][0]);
 	ctm = projectionMatrix * modelViewMatrix ;
 	glBindVertexArray(VAO);
 	glUniformMatrix4fv(ctmLocation, 1, GL_FALSE, &ctm[0][0]);
