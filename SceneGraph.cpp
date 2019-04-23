@@ -17,6 +17,7 @@ void SceneGraph::init() {
 	player.loadOBJ("resource/Chikorita_OBJ.obj");
 	com.loadOBJ("resource/Chikorita_OBJ.obj");
 	//ball.loadOBJ("resource/soccer_ball.obj");
+
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
 	ctmLocation = glGetUniformLocation(myProgramObj, "ctm");
 	colorLocation = glGetUniformLocation(myProgramObj, "vColor");
@@ -25,9 +26,11 @@ void SceneGraph::init() {
 	//순서를 바꾸면 이상해짐
 	root->addChild(&background);
 	root->addChild(&ball);
-	root->addChild(&com);
 
+	root->addChild(&com);
 	root->addChild(&player);
+
+
 
 	//Init Buffer
 	glGenBuffers(1, &verticesVBO);
