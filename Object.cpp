@@ -195,8 +195,7 @@ void Object::move()
 	for (vector<Object *>::reverse_iterator it = children.rbegin(); it != children.rend(); ++it) {
 		(*it)->move();
 	}
-	//while (doCollision()) {}
-
+	while (doCollision()) {}
 }
 
 unsigned Object::totalVerticesSize()
@@ -222,4 +221,119 @@ unsigned Object::totalIndicesSize()
 		}
 	}
 	return size;
+}
+
+void Object::updateCurrentTransformationMatrix() {
+    for (int i = 0; i < 5; i++) {
+        finalPositions[i] = originMatrix * originPositions[i];
+        windowPositions[i] = windowMatrix * originPositions[i];
+    }
+    for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
+        (*it)->updateCurrentTransformationMatrix();
+    }
+}
+
+bool CheckCollisionBool(Object *one, Object *two)
+{
+    // Collision x-axis?
+    bool collisionX = one->windowLeft() <= two->windowRight()
+                      && one->windowRight() >= two->windowLeft();;
+    // Collision y-axis?
+    bool collisionY = one->windowBottom() <= two->windowTop()
+                      && one->windowTop() >= two->windowBottom();
+    // Collision only if on both axes
+    return collisionX && collisionY;
+}
+
+bool Object::doCollision() {
+    bool isOccur = checkCollision();
+    if (isOccur) return true;
+    for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
+        if ((*it)->doCollision()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+Collision* CheckCollisionInfo(Object *one, Object *two)
+{
+    Collision* collision = new Collision();
+    if (CheckCollisionBool(one, two)) {
+        if (two->criticalCollisionAction(one)) {
+            return collision;
+        }
+        collision->occur = true;
+        GLfloat rl = two->windowRight() - one->windowLeft();
+        GLfloat lr = two->windowLeft() - one->windowRight();
+        GLfloat absRL = fabs(rl);
+        GLfloat absLR = fabs(lr);
+        GLfloat minXAbs = fmin(absRL, absLR);
+        GLfloat maxXAbs = fmax(absRL, absLR);
+        if (minXAbs == 0) {
+            if (maxXAbs == absLR) {
+                collision->overlapX = FLT_EPSILON;
+            }
+            else {
+                collision->overlapX = -FLT_EPSILON;
+            }
+        }
+        else if (minXAbs == absRL) {
+            collision->overlapX = rl;
+        }
+        else {
+            collision->overlapX = lr;
+        }
+
+        GLfloat tb = two->windowTop() - one->windowBottom();
+        GLfloat bt = two->windowBottom() - one->windowTop();
+        GLfloat absTB = fabs(tb);
+        GLfloat absBT = fabs(bt);
+        GLfloat minYAbs = fmin(absTB, absBT);
+        GLfloat maxYAbs = fmax(absTB, absBT);
+        if (minYAbs == 0) {
+            if (maxYAbs == absBT) {
+                collision->overlapY = FLT_EPSILON;
+            }
+            else {
+                collision->overlapY = -FLT_EPSILON;
+            }
+        }
+        else if (minYAbs == absTB) {
+            collision->overlapY = tb;
+        }
+        else {
+            collision->overlapY = bt;
+        }
+    }
+    return collision;
+}
+
+bool Object::skipCollision(Object* node) {
+    return isSolid
+           || !collisionCheck
+           || !node->collisionCheck;
+}
+
+bool Object::checkCollision() {
+    bool result = false;
+    for (vector<Object *>::iterator it = allNodes.begin(); it != allNodes.end(); ++it) {
+        if (skipCollision(*it)) {
+            continue;
+        }
+        Collision* collision = CheckCollisionInfo(this, *it);
+        if (collision->occur) {
+            actionCollision(collision)->updateCurrentTransformationMatrix();
+            return true;
+        }
+    }
+    return result;
+}
+
+void Object::reset()
+{
+	resetPosition();
+	for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
+		(*it)->reset();
+	}
 }

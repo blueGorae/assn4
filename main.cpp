@@ -238,13 +238,12 @@ void KeyboardFunc(unsigned char key, int x, int y)
 	case 'd':
 		sceneGraph.KeyboardFunc(key, x, y);
 		break;
-    case '1':
-    case '2':
-    case '3':
-		break;
 	case '4':
 		isLineRemoval = !isLineRemoval;
 		break;
+	case '1':
+    case '2':
+    case '3':
 	case 'I':
 	case 'i':
 	case 'J':

@@ -40,8 +40,7 @@ public:
 	Character(glm::vec3 position, bool isAuto = true) : Object(position, "Chiko"), isAuto(isAuto)
 	{
 		setOriginalMatrix(
-			glm::scale(glm::vec3(1 / 1000.f, 1 / 1000.f, 1 / 1000.f))
-			* getOriginalMatrix()
+			glm::scale(glm::vec3(1 / 2000.f, 1 / 2000.f, 1 / 2000.f))
 		);
 
 		if (isAuto) {
@@ -55,7 +54,7 @@ public:
 				* glm::rotate((float)M_PI, glm::vec3(0.f, 1.f, 0.f))
 				* getOriginalMatrix());
 		}
-		translateOrigin(glm::vec3(0.f, 0.f, 0.55f));
+		translateOrigin(glm::vec3(0.f, 0.f, 0.275f));
 	}
 	void pressed(unsigned char key);
 	virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
