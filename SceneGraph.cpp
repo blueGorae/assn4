@@ -4,14 +4,12 @@ vector<Object*> allNodes = vector<Object*>();
 
 Sphere ball(0.2f, 2);
 Background background(WIDTH, DEPTH, HEIGHT);
-Character player;
-Character com;
+Character player = Character(glm::vec3(0.f, -0.7f, 0.f), false);
+Character com = Character(glm::vec3(0.f, 0.7f, 0.f), true);
 
 void SceneGraph::init() {
     root = new Object();
 
-	player = Character(glm::vec3(0.f, -0.5f, 0.f), false);
-	com = Character(glm::vec3(0.f, 0.5f, 0.f), true);
 	player.loadOBJ("resource/Chikorita_OBJ.obj");
 	com.loadOBJ("resource/Chikorita_OBJ.obj");
 
@@ -42,6 +40,7 @@ void SceneGraph::init() {
 void SceneGraph::KeyboardFunc(unsigned char key, int x, int y)
 {
 	player.pressed(key);
+	//ball.pressed(key);
 }
 
 void SceneGraph::DisplayFunc()

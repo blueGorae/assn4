@@ -139,9 +139,11 @@ glm::vec3 Object::computeFaceNormal( glm::vec3 v1, glm::vec3 v2, glm::vec3 v3)
 void Object::draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix)
 {
 	windowMatrix = modelViewMatrix * originMatrix * coordinateMatrix;
-	for (int i = 0; i < 5; i++) {
-		finalPositions[i] = originMatrix * originPositions[i];
-		windowPositions[i] = windowMatrix * originPositions[i];
+	if (w > 0.f && h > 0.f && isnan(w) == 0 && isnan(h) == 0) {
+		for (int i = 0; i < 5; i++) {
+			finalPositions[i] = originMatrix * originPositions[i];
+			windowPositions[i] = windowMatrix * originPositions[i];
+		}
 	}
 	if (vertices.size() != 0) {
 		drawShader(projectionMatrix, windowMatrix);
@@ -239,11 +241,11 @@ void Object::updateCurrentTransformationMatrix() {
 bool CheckCollisionBool(Object *one, Object *two)
 {
     // Collision x-axis?
-    bool collisionX = one->windowLeft() <= two->windowRight()
-                      && one->windowRight() >= two->windowLeft();;
+    bool collisionX = one->finalLeft() <= two->finalRight()
+                      && one->finalRight() >= two->finalLeft();;
     // Collision y-axis?
-    bool collisionY = one->windowBottom() <= two->windowTop()
-                      && one->windowTop() >= two->windowBottom();
+    bool collisionY = one->finalBottom() <= two->finalTop()
+                      && one->finalTop() >= two->finalBottom();
     // Collision only if on both axes
     return collisionX && collisionY;
 }
@@ -259,6 +261,8 @@ bool Object::doCollision() {
     return false;
 }
 
+GLfloat MAGIC_OVERLAP = 0.00001f;
+
 Collision* CheckCollisionInfo(Object *one, Object *two)
 {
     Collision* collision = new Collision();
@@ -267,18 +271,18 @@ Collision* CheckCollisionInfo(Object *one, Object *two)
             return collision;
         }
         collision->occur = true;
-        GLfloat rl = two->windowRight() - one->windowLeft();
-        GLfloat lr = two->windowLeft() - one->windowRight();
+        GLfloat rl = two->finalRight() - one->finalLeft();
+        GLfloat lr = two->finalLeft() - one->finalRight();
         GLfloat absRL = fabs(rl);
         GLfloat absLR = fabs(lr);
         GLfloat minXAbs = fmin(absRL, absLR);
         GLfloat maxXAbs = fmax(absRL, absLR);
-        if (minXAbs == 0) {
+        if (minXAbs < MAGIC_OVERLAP) {
             if (maxXAbs == absLR) {
-                collision->overlapX = FLT_EPSILON;
+                collision->overlapX = MAGIC_OVERLAP;
             }
             else {
-                collision->overlapX = -FLT_EPSILON;
+                collision->overlapX = -MAGIC_OVERLAP;
             }
         }
         else if (minXAbs == absRL) {
@@ -288,18 +292,18 @@ Collision* CheckCollisionInfo(Object *one, Object *two)
             collision->overlapX = lr;
         }
 
-        GLfloat tb = two->windowTop() - one->windowBottom();
-        GLfloat bt = two->windowBottom() - one->windowTop();
+        GLfloat tb = two->finalTop() - one->finalBottom();
+        GLfloat bt = two->finalBottom() - one->finalTop();
         GLfloat absTB = fabs(tb);
         GLfloat absBT = fabs(bt);
         GLfloat minYAbs = fmin(absTB, absBT);
         GLfloat maxYAbs = fmax(absTB, absBT);
-        if (minYAbs == 0) {
+        if (minYAbs < MAGIC_OVERLAP) {
             if (maxYAbs == absBT) {
-                collision->overlapY = FLT_EPSILON;
+                collision->overlapY = MAGIC_OVERLAP;
             }
             else {
-                collision->overlapY = -FLT_EPSILON;
+                collision->overlapY = -MAGIC_OVERLAP;
             }
         }
         else if (minYAbs == absTB) {

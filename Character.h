@@ -34,7 +34,8 @@ protected:
 
 public:
 	Character() {}
-	Character(glm::vec3 position, bool isAuto = true) : Object(position, "Chiko", 0.18f, 0.3f, true), isAuto(isAuto)
+	Character(glm::vec3 position, bool isAuto = true) : Object(position, "Chiko", 
+		0.2f, 0.4f, 0.5f, 0.3f, true), isAuto(isAuto)
 	{
 		glm::mat4 initMatrix = glm::scale(glm::vec3(1 / 2000.f, 1 / 2000.f, 1 / 2000.f));
 
@@ -44,8 +45,11 @@ public:
 		}
 		else {
 			initMatrix = glm::rotate((float)M_PI_2, glm::vec3(1.f, 0.f, 0.f))
-				* glm::rotate((float)M_PI, glm::vec3(0.f, 1.f, 0.f))
+				//* glm::rotate((float)M_PI, glm::vec3(0.f, 1.f, 0.f))
 				* initMatrix;
+			translateOrigin(-position.x, -position.y);
+			rotateOrigin((float)M_PI, glm::vec3(0.f, 0.f, 1.f));
+			translateOrigin(position.x, position.y);
 		}
 		setCoordinateMatrix(initMatrix);
 		translateOrigin(glm::vec3(0.f, 0.f, 0.275f));

@@ -53,18 +53,21 @@ public:
         glm::vec3 position = glm::vec3(0.f, 0.f, 0.f),
         string objPath = "",
         GLfloat w = 0.f, GLfloat h = 0.f,
+		GLfloat baisW = 0.5f, GLfloat baisH = 0.5f,
         bool collisionCheck = false, bool isSolid = false
         )
-	: w(w), h(h), objPath(objPath), position(position), collisionCheck(collisionCheck), isSolid(isSolid)
+	: w(w), h(h), baisW(baisW), baisH(baisH), objPath(objPath), position(position), collisionCheck(collisionCheck), isSolid(isSolid)
 	{
 		translateOrigin(position);
-		GLfloat w_2 = w * 0.5f;
-		GLfloat h_2 = h * 0.5f;
-		originPositions[0] = glm::vec4(position, 1.f);
-		originPositions[1] = glm::vec4(-w_2, -h_2, 0.f, 1.f);
-		originPositions[2] = glm::vec4(+w_2, -h_2, 0.f, 1.f);
-		originPositions[3] = glm::vec4(+w_2, +h_2, 0.f, 1.f);
-		originPositions[4] = glm::vec4(-w_2, +h_2, 0.f, 1.f);
+		GLfloat minW = -w * baisW;
+		GLfloat maxW = w * (1.f-baisW);
+		GLfloat minH = -h * baisH;
+		GLfloat maxH = h * (1.f - baisH);
+		originPositions[0] = glm::vec4(0.f, 0.f, 0.f, 1.f);
+		originPositions[1] = glm::vec4(minW, minH, 0.f, 1.f);
+		originPositions[2] = glm::vec4(maxW, minH, 0.f, 1.f);
+		originPositions[3] = glm::vec4(maxW, maxH, 0.f, 1.f);
+		originPositions[4] = glm::vec4(minW, maxH, 0.f, 1.f);
 		for (int i = 0; i < 5; i++) {
 			finalPositions[i] = originPositions[i];
 			windowPositions[i] = originPositions[i];
@@ -134,10 +137,10 @@ public:
         else
             return this;
     }
-    GLfloat windowLeft() { return windowPositions[0].x - w * .5f; }
-    GLfloat windowBottom() { return windowPositions[0].y - h * .5f; }
-    GLfloat windowRight() { return windowPositions[0].x + w * .5f; }
-    GLfloat windowTop() { return windowPositions[0].y + h * .5f; }
+    GLfloat finalLeft() { return glm::min(finalPositions[1].x, finalPositions[3].x); }
+    GLfloat finalBottom() { return glm::min(finalPositions[2].y, finalPositions[4].y); }
+    GLfloat finalRight() { return glm::max(finalPositions[1].x, finalPositions[3].x); }
+    GLfloat finalTop() { return glm::max(finalPositions[2].y, finalPositions[4].y); }
 
 	void translateOrigin(GLfloat x, GLfloat y) {
 		translateOrigin(x, y, 0);
@@ -166,7 +169,7 @@ protected:
 	vector<unsigned int> indices;
 	vector< glm::vec2 > uvs;
 	vector< glm::vec3 > normals;
-    GLfloat w, h;
+    GLfloat w, h, baisW, baisH;
 	Object * parent = NULL;
 	vector<Object *> children;
 	string objPath;

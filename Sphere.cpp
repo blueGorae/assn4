@@ -33,6 +33,20 @@ void Sphere::moveObject() {
 	translateOrigin(translateVector());
 }
 
+Object* Sphere::actionCollision(Collision * collision)
+{
+	if (fabs(collision->overlapX) < fabs(collision->overlapY)) {
+		angle = - angle;
+		translateOrigin(collision->overlapX, 0.f);
+	}
+	else {
+		angle = 180 - angle;
+		translateOrigin(0.f, collision->overlapY);
+	}
+	angle %= 360;
+	return this;
+}
+
 vector<glm::vec3> Sphere::computeIcosahedronVertices()
 {
 	const GLfloat H_ANGLE = M_PI / 180 * 72;    // 72 degree = 360 / 5
@@ -219,4 +233,29 @@ float Sphere::computeScaleForLength(glm::vec3 v, float length)
 {
 	// and normalize the vector then re-scale to new radius
 	return length / sqrtf(v.x * v.x + v.y * v.y + v.z * v.z);
+}
+
+void Sphere::pressed(unsigned char key)
+{
+	GLfloat x = finalPositions[0].x;
+	GLfloat y = finalPositions[0].y;
+		switch (key)
+		{
+		case 'T':
+		case 't':
+			translateOrigin(0.f, 0.01f);
+			break;
+		case 'F':
+		case 'f':
+			translateOrigin(-0.01f, 0.f);
+			break;
+		case 'G':
+		case 'g':
+			translateOrigin(0.f, -0.01f);
+			break;
+		case 'H':
+		case 'h':
+			translateOrigin(0.01f, 0.f);
+			break;
+		}
 }

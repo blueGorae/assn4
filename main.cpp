@@ -242,6 +242,14 @@ void KeyboardFunc(unsigned char key, int x, int y)
 	case 's':
 	case 'D':
 	case 'd':
+	case 'T':
+	case 't':
+	case 'F':
+	case 'f':
+	case 'G':
+	case 'g':
+	case 'H':
+	case 'h':
 		sceneGraph.KeyboardFunc(key, x, y);
 		break;
 	case '4':

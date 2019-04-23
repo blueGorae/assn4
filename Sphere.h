@@ -37,7 +37,7 @@ protected:
 
 public:
 	Sphere(GLfloat radius = 1.0f, GLint subDivision = 1) 
-		: Object(glm::vec3(0.f, 0.f, radius), "", 2 * radius, 2 * radius, true), radius(radius), subdivision(subDivision) {
+		: Object(glm::vec3(0.f, 0.f, radius), "", 2 * radius, 2 * radius, 0.5f, 0.5f, true), radius(radius), subdivision(subDivision) {
 		buildVerticesFlat();
 	};
 	~Sphere() {};
