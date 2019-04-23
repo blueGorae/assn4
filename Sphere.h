@@ -29,9 +29,10 @@ private:
 
 	GLfloat radius;
 	GLint subdivision;
-	GLfloat angle = 90.f + 19.f;
+	GLint angle = 19;
 
 protected:
+	glm::vec3 translateVector(glm::vec3 direction = glm::vec3(0.f, 1.f, 0.f));
 	virtual void moveObject();
 
 public:

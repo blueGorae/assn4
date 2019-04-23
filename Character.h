@@ -35,12 +35,14 @@ protected:
 public:
 	Character() { 
 		setOriginalMatrix(
-			glm::scale(glm::vec3(1/2000.f, 1/2000.f, 1/2000.f)));
+			glm::scale(glm::vec3(1/1000.f, 1/1000.f, 1/1000.f)));
 	}
 	Character(glm::vec3 position, bool isAuto = true) : Object(position, "Chiko"), isAuto(isAuto)
 	{
 		setOriginalMatrix(
-			glm::scale(glm::vec3(1 / 2000.f, 1 / 2000.f, 1 / 2000.f)));
+			glm::scale(glm::vec3(1 / 1000.f, 1 / 1000.f, 1 / 1000.f))
+			* getOriginalMatrix()
+		);
 
 		if (isAuto) {
 			setOriginalMatrix(glm::translate(glm::mat4(1.f), position)
@@ -53,7 +55,7 @@ public:
 				* glm::rotate((float)M_PI, glm::vec3(0.f, 1.f, 0.f))
 				* getOriginalMatrix());
 		}
-
+		translateOrigin(glm::vec3(0.f, 0.f, 0.55f));
 	}
 	void pressed(unsigned char key);
 	virtual ~Character() {}
