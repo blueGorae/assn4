@@ -16,6 +16,8 @@
 #include "Character.h"
 
 using namespace std;
+
+
 extern glm::vec4 modelColor;
 extern glm::vec4 backgroundColor;
 

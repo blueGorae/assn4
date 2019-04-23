@@ -53,6 +53,7 @@ public:
 		}
 	}
 	~Object() {};
+	GLuint VAO;
 
 	unsigned int getVertexCount()  { return (unsigned int)getVertices().size() ; }
 	unsigned int getIndexCount()  { return (unsigned int)getIndices().size(); }
@@ -119,7 +120,6 @@ public:
 	unsigned totalIndicesSize();
 
 protected:
-	GLuint VAO;
 
 	vector<glm::vec3> vertices;
 	vector<unsigned int> indices;

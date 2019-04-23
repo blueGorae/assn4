@@ -25,7 +25,6 @@ void SceneGraph::init() {
 	root->addChild(&player);
 	root->addChild(&com);
 	root->addChild(&background);
-
 	//Init Buffer
 	glGenBuffers(1, &verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
@@ -48,10 +47,23 @@ void SceneGraph::KeyboardFunc(unsigned char key, int x, int y)
 
 void SceneGraph::DisplayFunc()
 {
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//glBindVertexArray(background.VAO);
+	//glUniform4f(colorLocation, modelColor[0], modelColor[1], modelColor[2], modelColor[3]);
+	//background.draw(projectionMatrix, modelViewMatrix);
+	//glBindVertexArray(0);
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//glBindVertexArray(ball.VAO);
+	//glUniform4f(colorLocation, backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
+	//ball.draw(projectionMatrix, modelViewMatrix);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//glUniform4f(colorLocation, modelColor[0], modelColor[1], modelColor[2], modelColor[3]);
+	//ball.draw(projectionMatrix, modelViewMatrix);
+	//glBindVertexArray(0);
+	
 
-    //root->draw(projectionMatrix, modelViewMatrix);
+	root->draw(projectionMatrix, modelViewMatrix);
 
 }
 

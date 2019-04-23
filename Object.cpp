@@ -150,12 +150,33 @@ void Object::draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix)
 }
 
 void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
-	glUniformMatrix4fv(colorLocation, 1, GL_FALSE, &ctm[0][0]);
 	ctm = projectionMatrix * modelViewMatrix ;
 	glBindVertexArray(VAO);
 	glUniformMatrix4fv(ctmLocation, 1, GL_FALSE, &ctm[0][0]);
-	glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, 0);
+
+	if (isLineRemoval) {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glUniform4f(colorLocation, backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
+		glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, 0);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glUniform4f(colorLocation, modelColor[0], modelColor[1], modelColor[2], modelColor[3]);
+		glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, 0);
+
+	}
+
+	else {
+		glUniform4f(colorLocation, modelColor[0], modelColor[1], modelColor[2], modelColor[3]);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, 0);
+	}
+
 	glBindVertexArray(0);
+
+
+
+
+
 }
 
 vector<glm::vec3> Object::getVertices() {

@@ -190,8 +190,8 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, con
 }
 
 bool Init() {
-
-	modelColor= vec4(0.f, 0.f, 1.f, 1.f);
+	isLineRemoval = false;
+	modelColor= vec4(0.f, 1.f, 1.f, 1.f);
 	backgroundColor = vec4(0.3f, 0.3f, 0.3f, 1.0f);
 
 	//Load Shaders
