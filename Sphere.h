@@ -26,7 +26,7 @@ private:
 	float computeScaleForLength(glm::vec3 v, float length);
 	void subdivideVerticesFlat();
 	void buildVerticesFlat();
-
+    void (*criticalCollisionActionFunc)(bool)
 	GLfloat radius;
 	GLint subdivision;
 	GLint angle = 19;
@@ -36,8 +36,11 @@ protected:
 	virtual void moveObject();
 
 public:
-	Sphere(GLfloat radius = 1.0f, GLint subDivision = 1) 
-		: Object(glm::vec3(0.f, 0.f, radius), "", 2 * radius, 2 * radius, 0.5f, 0.5f, true), radius(radius), subdivision(subDivision) {
+	Sphere(GLfloat radius = 1.0f, GLint subDivision = 1,
+    void (*criticalCollisionActionFunc)(bool) = NULL)
+		: Object(glm::vec3(0.f, 0.f, radius), "", 2 * radius, 2 * radius, 0.5f, 0.5f, true),
+		radius(radius), subdivision(subDivision),
+		criticalCollisionActionFunc(criticalCollisionActionFunc) {
 		buildVerticesFlat();
 	};
 	~Sphere() {};
@@ -48,5 +51,11 @@ public:
 	void setSubdivision(GLint subdivision) { this->subdivision = subdivision; }
 	void pressed(unsigned char key);
 	virtual Object* actionCollision(Collision* collision);
+    virtual void resetPosition()
+    {
+        originMatrix = glm::mat4(1.f);
+        translateOrigin(position);
+        updateCurrentTransformationMatrix();
+    }
 };
 

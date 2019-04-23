@@ -60,5 +60,6 @@ public:
     void KeyboardFunc(unsigned char key, int x, int y);
 	void DisplayFunc();
 	void IdleFunc();
+    void reset();
 };
 

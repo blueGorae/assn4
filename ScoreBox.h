@@ -20,7 +20,7 @@ public:
 
 	virtual void draw();
 
-	virtual void resetPosition() { this->score = 0; };
+	void reset() { this->score = 0; };
 
 	void addScore() {
 		score += 1;

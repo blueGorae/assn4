@@ -45,9 +45,6 @@ GLuint indiciesVBO;
 SceneGraph sceneGraph;
 Camera camera;
 
-ScoreBox userScore;
-ScoreBox comScore;
-
 bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 	GLuint myVertexObj = glCreateShader(GL_VERTEX_SHADER);
 	GLuint myFragObj = glCreateShader(GL_FRAGMENT_SHADER);
@@ -160,8 +157,6 @@ bool Init() {
 	isLineRemoval = false;
 	modelColor= vec4(0.f, 1.f, 1.f, 1.f);
 	backgroundColor = vec4(0.3f, 0.3f, 0.3f, 1.0f);
-	userScore = ScoreBox(- 0.9f, 0.9f);
-	comScore = ScoreBox(0.9f, 0.9f);
 
 	//Load Shaders
 	LoadShaders(vertexShaderFile, fragShaderFile);
@@ -184,8 +179,6 @@ void DisplayFunc(void) {
             camera.ProjectionMatrix(),
             camera.ModelViewMatrix());
 	sceneGraph.DisplayFunc();
-	userScore.draw();
-	comScore.draw();
 	glutSwapBuffers();
 } 
 
@@ -197,6 +190,10 @@ void IdleFunc(void) {
 void KeyboardFunc(unsigned char key, int x, int y)
 {
 	switch (key) {
+    case 'R':
+    case 'r':
+        sceneGraph.reset();
+        break;
 	case 'W':
 	case 'w':
 	case 'A':

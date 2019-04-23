@@ -55,7 +55,19 @@ public:
 		translateOrigin(glm::vec3(0.f, 0.f, 0.275f));
 		updateCurrentTransformationMatrix();
 	}
-	void pressed(unsigned char key);
-	virtual ~Character() {}
+    void pressed(unsigned char key);
+    virtual ~Character() {}
+    virtual void resetPosition()
+    {
+        originMatrix = glm::mat4(1.f);
+        translateOrigin(position);
+        if (!isAuto) {
+            translateOrigin(-position.x, -position.y);
+            rotateOrigin((float)M_PI, glm::vec3(0.f, 0.f, 1.f));
+            translateOrigin(position.x, position.y);
+        }
+        translateOrigin(glm::vec3(0.f, 0.f, 0.275f));
+        updateCurrentTransformationMatrix();
+    }
 };
 

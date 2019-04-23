@@ -2,7 +2,21 @@
 
 vector<Object*> allNodes = vector<Object*>();
 
+ScoreBox userScore = ScoreBox(- 0.9f, 0.9f);;
+ScoreBox comScore  = ScoreBox(0.9f, 0.9f);
 Sphere ball(0.2f, 2);
+
+void addComScore(bool addUserScore) {
+    if (addUserScore) {
+        userScore.addScore();
+    } else {
+        comScore.addScore();
+    }
+    ball.resetPosition();
+    return true;
+}
+
+
 Background background(WIDTH, DEPTH, HEIGHT);
 Character player = Character(glm::vec3(0.f, -0.7f, 0.f), false);
 Character com = Character(glm::vec3(0.f, 0.7f, 0.f), true);
@@ -46,9 +60,22 @@ void SceneGraph::KeyboardFunc(unsigned char key, int x, int y)
 void SceneGraph::DisplayFunc()
 {
 	root->draw(projectionMatrix, modelViewMatrix);
+    userScore.draw();
+    comScore.draw();
 }
 
 void SceneGraph::IdleFunc()
 {
-	root->move();
+    if (userScore.getScore() == endScore || comScore.getScore() == endScore) {
+        root->reset();
+        userScore.reset();
+        comScore.reset();
+    }
+    else
+        root->move();
+}
+
+void SceneGraph::reset()
+{
+    root->reset();
 }
