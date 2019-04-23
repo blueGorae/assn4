@@ -18,7 +18,6 @@ void SceneGraph::init() {
 	com = Character(glm::vec3(0.f, 0.5f, 0.f), true);
 	player.loadOBJ("resource/Chikorita_OBJ.obj");
 	com.loadOBJ("resource/Chikorita_OBJ.obj");
-	//ball.loadOBJ("resource/soccer_ball.obj");
 
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
 	ctmLocation = glGetUniformLocation(myProgramObj, "ctm");

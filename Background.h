@@ -21,7 +21,7 @@ public:
 		backPlane = Plane(width, height);
 		leftPlane = Plane(height, depth);
 		rightPlane = Plane(height, depth);
-		//upperPlane = Plane(width, depth);
+		upperPlane = Plane(width, depth);
 		downPlane = Plane(width, depth);
 
 		frontPlane.setOriginalMatrix (glm::translate(glm::mat4(1.f), glm::vec3( 0.f,-(depth/2.f), 0.f)) 

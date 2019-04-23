@@ -133,8 +133,6 @@ void Sphere::buildVerticesFlat() {
 	// subdivide icosahedron
 	subdivideVerticesFlat();
 
-	// generate interleaved vertex array as well
-	//buildInterleavedVertices();
 }
 
 void Sphere::subdivideVerticesFlat(){

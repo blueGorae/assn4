@@ -43,35 +43,6 @@ void Character::pressed(unsigned char key)
 	}
 }
 
-void Character::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
-	ctm = projectionMatrix * modelViewMatrix;
-	glBindVertexArray(VAO);
-	glUniformMatrix4fv(ctmLocation, 1, GL_FALSE, &ctm[0][0]);
-
-	if (isLineRemoval) {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glUniform4f(colorLocation, backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
-		//glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
-
-		glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, 0);
-
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		glUniform4f(colorLocation, modelColor[0], modelColor[1], modelColor[2], modelColor[3]);
-		//glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
-
-		glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, 0);
-
-	}
-	else {
-		//glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
-		glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, 0);
-	}
-
-	glBindVertexArray(0);
-
-
-}
-
 
 void Character::moveObject()
 {

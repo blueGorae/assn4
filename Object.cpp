@@ -3,7 +3,7 @@
 
 
 void Object::init(unsigned *vertexOffset, unsigned *indexOffset) {
-	//loadOBJ(objPath);
+
 	if (vertices.size() != 0) {
 		initObject(vertexOffset, indexOffset);
 		*vertexOffset += getVerticesSize();
@@ -42,7 +42,8 @@ bool Object::loadOBJ(string filename)
 		printf("Impossible to open the file !\n");
 		return false;
 	}
-
+	vector<glm::vec3> temp_vertices;
+	vector<unsigned int> temp_indices;
 	while (true)
 	{
 		char lineHeader[128];
@@ -54,7 +55,7 @@ bool Object::loadOBJ(string filename)
 		if (strcmp(lineHeader, "v") == 0) {
 			glm::vec3 vertex;
 			fscanf_s(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
-			addVertex(vertex);
+			temp_vertices.push_back(glm::vec3(vertex.x, vertex.y, vertex.z));
 		}
 		else if (strcmp(lineHeader, "vt") == 0) {
 
@@ -71,7 +72,9 @@ bool Object::loadOBJ(string filename)
 				printf("File can't be read by our simple parser : ( Try exporting with other options\n");
 				return false;
 			}
-			addIndices(vertexIndex[0]-1, vertexIndex[1]-1, vertexIndex[2]-1);
+			temp_indices.push_back(vertexIndex[0] - 1);
+			temp_indices.push_back(vertexIndex[1] - 1);
+			temp_indices.push_back(vertexIndex[2] - 1);
 		}
 		else if (strcmp(lineHeader, "#") == 0)
 		{
@@ -83,15 +86,15 @@ bool Object::loadOBJ(string filename)
 		}
 	}
 
-	//for (int i = 0; i < getIndiciesSize(); i += 3)
-	//{
-	//	GLushort ia = indices[i];
-	//	GLushort ib = indices[i + 1];
-	//	GLushort ic = indices[i + 2];
+	for (int i = 0; i < temp_indices.size(); i += 3)
+	{
+		GLushort ia = temp_indices[i];
+		GLushort ib = temp_indices[i + 1];
+		GLushort ic = temp_indices[i + 2];
 
-	//	glm::vec3 n = computeFaceNormal(vertices[ia], vertices[ib], vertices[ic]);
-	//	addNormals(n, n, n);
-	//}
+		addVertices(temp_vertices[ia], temp_vertices[ib], temp_vertices[ic]);
+		addIndices(i, i + 1, i + 2);
+	}
 
 	cout << "Load Done !" << endl;
 
@@ -161,18 +164,14 @@ void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
 		glUniform4f(colorLocation, backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
 		glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
 
-		//glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, 0);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glUniform4f(colorLocation, modelColor[0], modelColor[1], modelColor[2], modelColor[3]);
 		glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
 
-		//glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, 0);
-
 	}
 	else {
 		glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
-		//glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, 0);
 	}
 
 	glBindVertexArray(0);

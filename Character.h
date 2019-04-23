@@ -57,7 +57,6 @@ public:
 		translateOrigin(glm::vec3(0.f, 0.f, 0.275f));
 	}
 	void pressed(unsigned char key);
-	virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
 	virtual ~Character() {}
 };
 
