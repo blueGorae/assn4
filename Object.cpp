@@ -190,7 +190,6 @@ vector<glm::vec3> Object::getVertices() {
 
 vector<unsigned int >Object:: getIndices() {
 	return indices;
-
 }
 
 void Object::move()

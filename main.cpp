@@ -15,11 +15,12 @@
 #include "GL/freeglut.h"
 #include "GL/glut.h"
 #include "glm/gtx/transform.hpp"
-
+#include "ScoreBox.h"
 
 using namespace std;
 
 bool isLineRemoval;
+const unsigned endScore = 15;
 
 glm::vec4 modelColor;
 glm::vec4 backgroundColor;
@@ -45,6 +46,8 @@ GLuint indiciesVBO;
 SceneGraph sceneGraph;
 Camera camera;
 
+ScoreBox userScore;
+ScoreBox comScore;
 
 bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile, const char * geometryShaderFile) {
 	GLuint myVertexObj = glCreateShader(GL_VERTEX_SHADER);
@@ -193,6 +196,8 @@ bool Init() {
 	isLineRemoval = false;
 	modelColor= vec4(0.f, 1.f, 1.f, 1.f);
 	backgroundColor = vec4(0.3f, 0.3f, 0.3f, 1.0f);
+	userScore = ScoreBox(- 0.9f, 0.9f);
+	comScore = ScoreBox(0.9f, 0.9f);
 
 	//Load Shaders
 	LoadShaders(vertexShaderFile, fragShaderFile, geometryShaderFile);
@@ -216,7 +221,8 @@ void DisplayFunc(void) {
             camera.ProjectionMatrix(),
             camera.ModelViewMatrix());
 	sceneGraph.DisplayFunc();
-
+	userScore.draw();
+	comScore.draw();
 	glutSwapBuffers();
 } 
 
