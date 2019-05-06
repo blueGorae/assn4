@@ -167,16 +167,18 @@ void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
 
 	if (isLineRemoval) {
 		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LEQUAL);
-
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glUniform4f(colorLocation, backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
-		glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
-
+		//glDepthFunc(GL_LEQUAL);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glUniform4f(colorLocation, modelColor[0], modelColor[1], modelColor[2], modelColor[3]);
 		glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glEnable(GL_POLYGON_OFFSET_FILL);
+		glPolygonOffset(1.0f, 1.0f);
+		glUniform4f(colorLocation, backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
+		glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
+		glDisable(GL_POLYGON_OFFSET_FILL);
 
 	}
 	else {
