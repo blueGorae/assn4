@@ -11,12 +11,6 @@
 
 using namespace std;
 
-extern GLint ctmLocation;
-
-extern GLint vertexLocation;
-
-extern glm::mat4 ctm;
-
 class Plane : public Object
 {
 public:

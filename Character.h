@@ -13,14 +13,6 @@
 using namespace glm;
 using namespace std;
 
-extern GLint vertexLocation;
-extern GLint ctmLocation;
-
-extern GLuint verticesVBO;
-extern GLuint indiciesVBO;
-
-extern glm::mat4 ctm;
-
 class Character : public Object
 {
 private:

@@ -20,21 +20,21 @@
 using namespace std;
 
 bool isLineRemoval;
+bool isPhongShading = true;
+bool isNormalMapping = true;
 const unsigned endScore = 15;
 
 glm::vec4 modelColor;
 glm::vec4 backgroundColor;
 glm::mat4 projectionMat;
 glm::mat4 modelViewMat;
-glm::mat4 ctm;
 
 GLchar vertexShaderFile[] = "shader/vert.glsl";
 GLchar fragShaderFile[] = "shader/frag.glsl";
 
 GLuint myProgramObj;
-
-
-GLint ctmLocation;
+GLint projectionMatrixLocation;
+GLint modelViewMatrixLocation;
 
 GLint vertexLocation;
 GLint colorLocation;
@@ -215,6 +215,12 @@ void KeyboardFunc(unsigned char key, int x, int y)
 	case '4':
 		isLineRemoval = !isLineRemoval;
 		break;
+    case '5':
+        isPhongShading = !isPhongShading;
+        break;
+    case '6':
+        isNormalMapping = !isNormalMapping;
+        break;
 	case '1':
     case '2':
     case '3':
