@@ -43,7 +43,13 @@ bool Object::loadOBJ(string filename)
 		return false;
 	}
 	vector<glm::vec3> temp_vertices;
+	vector<glm::vec2> temp_textures;
+	vector<glm::vec3> temp_normals;
+
 	vector<unsigned int> temp_indices;
+	vector<unsigned int> temp_texture_indices;
+	vector<unsigned int> temp_normal_indices;
+
 	while (true)
 	{
 		char lineHeader[128];
@@ -58,16 +64,20 @@ bool Object::loadOBJ(string filename)
 			temp_vertices.push_back(glm::vec3(vertex.x, vertex.y, vertex.z));
 		}
 		else if (strcmp(lineHeader, "vt") == 0) {
-
+			glm::vec2 texture;
+			fscanf_s(file, "%f %f %f\n", &texture.x, &texture.y);
+			temp_textures.push_back(glm::vec2(texture.x, texture.y));
 		}
 		else if (strcmp(lineHeader, "vn") == 0) {
-
+			glm::vec3 normal;
+			fscanf_s(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
+			temp_normals.push_back(glm::vec3(normal.x, normal.y, normal.z));
 		}
 		else if (strcmp(lineHeader, "f") == 0) {
 
-			unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
+			unsigned int vertexIndex[3], textureIndex[3], normalIndex[3];
 
-			int matches = fscanf_s(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
+			int matches = fscanf_s(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &textureIndex[0], &normalIndex[0], &vertexIndex[1], &textureIndex[1], &normalIndex[1], &vertexIndex[2], &textureIndex[2], &normalIndex[2]);
 			if (matches != 9) {
 				printf("File can't be read by our simple parser : ( Try exporting with other options\n");
 				return false;
@@ -75,6 +85,14 @@ bool Object::loadOBJ(string filename)
 			temp_indices.push_back(vertexIndex[0] - 1);
 			temp_indices.push_back(vertexIndex[1] - 1);
 			temp_indices.push_back(vertexIndex[2] - 1);
+
+			temp_texture_indices.push_back(textureIndex[0] - 1);
+			temp_texture_indices.push_back(textureIndex[1] - 1);
+			temp_texture_indices.push_back(textureIndex[2] - 1);
+
+			temp_normal_indices.push_back(textureIndex[0] - 1);
+			temp_normal_indices.push_back(textureIndex[1] - 1);
+			temp_normal_indices.push_back(textureIndex[2] - 1);
 		}
 		else if (strcmp(lineHeader, "#") == 0)
 		{

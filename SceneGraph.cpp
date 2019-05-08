@@ -24,8 +24,8 @@ Character com = Character(glm::vec3(0.f, DEPTH * 0.35f, 0.f), true);
 void SceneGraph::init() {
     root = new Object();
 
-	player.loadOBJ("resource/Chikorita_OBJ.obj");
-	com.loadOBJ("resource/Chikorita_OBJ.obj");
+	player.loadOBJ("resource/chikorita/Chikorita_OBJ.obj");
+	com.loadOBJ("resource/chikorita/Chikorita_OBJ.obj");
 
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
 	ctmLocation = glGetUniformLocation(myProgramObj, "ctm");

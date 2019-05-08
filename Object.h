@@ -167,7 +167,7 @@ protected:
 
 	vector<glm::vec3> vertices;
 	vector<unsigned int> indices;
-	vector< glm::vec2 > uvs;
+	vector< glm::vec2 > textures;
 	vector< glm::vec3 > normals;
     GLfloat w, h, baisW, baisH;
 	Object * parent = NULL;
