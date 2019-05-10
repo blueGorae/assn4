@@ -92,86 +92,68 @@ bool Object::loadOBJ(string filename)
 			char * vcontext = NULL;
 			unsigned int vi = 0;
 			int numF = 0;
+			bool ignore = false;
 
 			while (ftoken != NULL) {
-				int numV = 0;
-				char * vtoken = strtok_s(ftoken, vdelimiter, &vcontext);
-				while (vtoken != NULL) {
-					switch(numV) {
-					case 0:
-						vertexIndex[numF] = atoi(vtoken);
-						break;
-					case 1:
-						textureIndex[numF] = atoi(vtoken);
-						break;
-					case 2:
-						normalIndex[numF] = atoi(vtoken);
-						break;
+				if (numF < 4) {
+					int numV = 0;
+					char * vtoken = strtok_s(ftoken, vdelimiter, &vcontext);
+					while (vtoken != NULL) {
+						if (vtoken != "") {
+							switch (numV) {
+							case 0:
+								vertexIndex[numF] = atoi(vtoken);
+								break;
+							case 1:
+								textureIndex[numF] = atoi(vtoken);
+								break;
+							case 2:
+								normalIndex[numF] = atoi(vtoken);
+								break;
+							}
+							numV++;
+							vtoken = strtok_s(NULL, vdelimiter, &vcontext);
+						}
+						else {
+							ignore = true;
+							break;
+						}
 					}
-					numV++;
-					vtoken = strtok_s(NULL, vdelimiter, &vcontext);
+					numF++;
+					ftoken = strtok_s(NULL, fdelimiter, &fcontext);
 				}
-				numF++;
-				ftoken = strtok_s(NULL, fdelimiter, &fcontext);
+				else {
+					cout << line << endl;
+					ignore = true;
+					break;
+				}
 			}
 
-			//while ((fpos = line_s.find(fdelimiter)) != string::npos) {
-			//	ftoken = line_s.substr(0, fpos);
-			//	cout << ftoken;
-			//	vi = 0;
-			//	while ((vpos = ftoken.find(vdelimiter)) != string::npos) {
-			//		vtoken = ftoken.substr(0, vpos);
-			//		switch (vi) {
-			//		case 0:
-			//			vertexIndex[fi] = atoi(vtoken.c_str());
-			//			break;
-			//		case 1:
-			//			textureIndex[fi] = atoi(vtoken.c_str());
-			//			break;
-			//		case 2:
-			//			normalIndex[fi] = atoi(vtoken.c_str());
-			//			break;
-			//		}
-			//		ftoken.erase(0, vpos + vdelimiter.length());
-			//		vi++;
-			//	}
+			if (!ignore) {
+				temp_indices.push_back(vertexIndex[0] - 1);
+				temp_indices.push_back(vertexIndex[1] - 1);
+				temp_indices.push_back(vertexIndex[2] - 1);
 
-			//	line_s.erase(0, fpos + fdelimiter.length());
-			//	fi++;
-			//}
+				temp_indices.push_back(vertexIndex[2] - 1);
+				temp_indices.push_back(vertexIndex[3] - 1);
+				temp_indices.push_back(vertexIndex[0] - 1);
 
+				temp_texture_indices.push_back(textureIndex[0] - 1);
+				temp_texture_indices.push_back(textureIndex[1] - 1);
+				temp_texture_indices.push_back(textureIndex[2] - 1);
 
-			//cout << endl;
+				temp_texture_indices.push_back(textureIndex[2] - 1);
+				temp_texture_indices.push_back(textureIndex[3] - 1);
+				temp_texture_indices.push_back(textureIndex[0] - 1);
 
-			//int matches = fscanf_s(file, "%d/%d/%d %d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &textureIndex[0], &normalIndex[0], &vertexIndex[1], &textureIndex[1], &normalIndex[1], &vertexIndex[2], &textureIndex[2], &normalIndex[2], &vertexIndex[3], &textureIndex[3], &normalIndex[3]);
-			//if (!(matches == 12 || matches == 9)) {
-			//	printf("File can't be read by our simple parser : ( Try exporting with other options\n");
-			//	return false;
-			//}
+				temp_normal_indices.push_back(normalIndex[0] - 1);
+				temp_normal_indices.push_back(normalIndex[1] - 1);
+				temp_normal_indices.push_back(normalIndex[2] - 1);
 
-			temp_indices.push_back(vertexIndex[0] - 1);
-			temp_indices.push_back(vertexIndex[1] - 1);
-			temp_indices.push_back(vertexIndex[2] - 1);
-
-			//temp_indices.push_back(vertexIndex[2] - 1);
-			//temp_indices.push_back(vertexIndex[3] - 1);
-			//temp_indices.push_back(vertexIndex[0] - 1);
-
-			temp_texture_indices.push_back(textureIndex[0] - 1);
-			temp_texture_indices.push_back(textureIndex[1] - 1);
-			temp_texture_indices.push_back(textureIndex[2] - 1);
-		
-			//temp_texture_indices.push_back(textureIndex[2] - 1);
-			//temp_texture_indices.push_back(textureIndex[3] - 1);
-			//temp_texture_indices.push_back(textureIndex[0] - 1);
-
-			temp_normal_indices.push_back(normalIndex[0] - 1);
-			temp_normal_indices.push_back(normalIndex[1] - 1);
-			temp_normal_indices.push_back(normalIndex[2] - 1);
-
-			//temp_normal_indices.push_back(textureIndex[2] - 1);
-			//temp_normal_indices.push_back(textureIndex[3] - 1);
-			//temp_normal_indices.push_back(textureIndex[0] - 1);
+				temp_normal_indices.push_back(normalIndex[2] - 1);
+				temp_normal_indices.push_back(normalIndex[3] - 1);
+				temp_normal_indices.push_back(normalIndex[0] - 1);
+			}
 
 		}
 		else if (strcmp(lineHeader, "#") == 0)

@@ -39,7 +39,7 @@ public:
 	Character(glm::vec3 position, bool isAuto = true) : Object(position, "Chiko", 
 		0.2f, 0.4f, 0.5f, 0.3f, true), isAuto(isAuto)
 	{
-		glm::mat4 initMatrix = glm::scale(glm::vec3(1 / 2000.f, 1 / 2000.f, 1 / 2000.f));
+		glm::mat4 initMatrix = glm::scale(glm::vec3(1 , 1, 1));
 
 		if (isAuto) {
 			initMatrix = glm::rotate((float)M_PI_2, glm::vec3(1.f, 0.f, 0.f))
