@@ -65,7 +65,7 @@ bool Object::loadOBJ(string filename)
 		}
 		else if (strcmp(lineHeader, "vt") == 0) {
 			glm::vec2 texture;
-			fscanf_s(file, "%f %f %f\n", &texture.x, &texture.y);
+			fscanf_s(file, "%f %f\n", &texture.x, &texture.y);
 			temp_textures.push_back(glm::vec2(texture.x, texture.y));
 		}
 		else if (strcmp(lineHeader, "vn") == 0) {
@@ -75,24 +75,104 @@ bool Object::loadOBJ(string filename)
 		}
 		else if (strcmp(lineHeader, "f") == 0) {
 
-			unsigned int vertexIndex[3], textureIndex[3], normalIndex[3];
+			unsigned int vertexIndex[4], textureIndex[4], normalIndex[4];
+			char line[256];
+			fgets(line, 256, file);
 
-			int matches = fscanf_s(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &textureIndex[0], &normalIndex[0], &vertexIndex[1], &textureIndex[1], &normalIndex[1], &vertexIndex[2], &textureIndex[2], &normalIndex[2]);
-			if (matches != 9) {
-				printf("File can't be read by our simple parser : ( Try exporting with other options\n");
-				return false;
+			//string line_s(line);
+
+			size_t fpos = 0;
+			const char* fdelimiter = " ";
+			char * fcontext = NULL;
+			char * ftoken = strtok_s(line, fdelimiter, &fcontext);
+			unsigned int fi = 0;
+
+			size_t vpos = 0;
+			const char* vdelimiter = "/";
+			char * vcontext = NULL;
+			unsigned int vi = 0;
+			int numF = 0;
+
+			while (ftoken != NULL) {
+				int numV = 0;
+				char * vtoken = strtok_s(ftoken, vdelimiter, &vcontext);
+				while (vtoken != NULL) {
+					switch(numV) {
+					case 0:
+						vertexIndex[numF] = atoi(vtoken);
+						break;
+					case 1:
+						textureIndex[numF] = atoi(vtoken);
+						break;
+					case 2:
+						normalIndex[numF] = atoi(vtoken);
+						break;
+					}
+					numV++;
+					vtoken = strtok_s(NULL, vdelimiter, &vcontext);
+				}
+				numF++;
+				ftoken = strtok_s(NULL, fdelimiter, &fcontext);
 			}
+
+			//while ((fpos = line_s.find(fdelimiter)) != string::npos) {
+			//	ftoken = line_s.substr(0, fpos);
+			//	cout << ftoken;
+			//	vi = 0;
+			//	while ((vpos = ftoken.find(vdelimiter)) != string::npos) {
+			//		vtoken = ftoken.substr(0, vpos);
+			//		switch (vi) {
+			//		case 0:
+			//			vertexIndex[fi] = atoi(vtoken.c_str());
+			//			break;
+			//		case 1:
+			//			textureIndex[fi] = atoi(vtoken.c_str());
+			//			break;
+			//		case 2:
+			//			normalIndex[fi] = atoi(vtoken.c_str());
+			//			break;
+			//		}
+			//		ftoken.erase(0, vpos + vdelimiter.length());
+			//		vi++;
+			//	}
+
+			//	line_s.erase(0, fpos + fdelimiter.length());
+			//	fi++;
+			//}
+
+
+			//cout << endl;
+
+			//int matches = fscanf_s(file, "%d/%d/%d %d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &textureIndex[0], &normalIndex[0], &vertexIndex[1], &textureIndex[1], &normalIndex[1], &vertexIndex[2], &textureIndex[2], &normalIndex[2], &vertexIndex[3], &textureIndex[3], &normalIndex[3]);
+			//if (!(matches == 12 || matches == 9)) {
+			//	printf("File can't be read by our simple parser : ( Try exporting with other options\n");
+			//	return false;
+			//}
+
 			temp_indices.push_back(vertexIndex[0] - 1);
 			temp_indices.push_back(vertexIndex[1] - 1);
 			temp_indices.push_back(vertexIndex[2] - 1);
 
+			//temp_indices.push_back(vertexIndex[2] - 1);
+			//temp_indices.push_back(vertexIndex[3] - 1);
+			//temp_indices.push_back(vertexIndex[0] - 1);
+
 			temp_texture_indices.push_back(textureIndex[0] - 1);
 			temp_texture_indices.push_back(textureIndex[1] - 1);
 			temp_texture_indices.push_back(textureIndex[2] - 1);
+		
+			//temp_texture_indices.push_back(textureIndex[2] - 1);
+			//temp_texture_indices.push_back(textureIndex[3] - 1);
+			//temp_texture_indices.push_back(textureIndex[0] - 1);
 
-			temp_normal_indices.push_back(textureIndex[0] - 1);
-			temp_normal_indices.push_back(textureIndex[1] - 1);
-			temp_normal_indices.push_back(textureIndex[2] - 1);
+			temp_normal_indices.push_back(normalIndex[0] - 1);
+			temp_normal_indices.push_back(normalIndex[1] - 1);
+			temp_normal_indices.push_back(normalIndex[2] - 1);
+
+			//temp_normal_indices.push_back(textureIndex[2] - 1);
+			//temp_normal_indices.push_back(textureIndex[3] - 1);
+			//temp_normal_indices.push_back(textureIndex[0] - 1);
+
 		}
 		else if (strcmp(lineHeader, "#") == 0)
 		{
@@ -109,9 +189,8 @@ bool Object::loadOBJ(string filename)
 		GLushort ia = temp_indices[i];
 		GLushort ib = temp_indices[i + 1];
 		GLushort ic = temp_indices[i + 2];
-
 		addVertices(temp_vertices[ia], temp_vertices[ib], temp_vertices[ic]);
-		addIndices(i, i + 1, i + 2);
+		addIndices(ia, ib, ic);
 	}
 
 	cout << "Load Done !" << endl;
@@ -370,3 +449,4 @@ void Object::reset()
 		(*it)->reset();
 	}
 }
+
