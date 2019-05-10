@@ -1,23 +1,26 @@
 #include "Object.h"
+#include "stb_image.h"
 
 
 
-void Object::init(unsigned *vertexOffset, unsigned *indexOffset) {
+void Object::init(unsigned *vertexOffset, unsigned *indexOffset, unsigned* textureOffset) {
 
 	if (vertices.size() != 0) {
-		initObject(vertexOffset, indexOffset);
+		initObject(vertexOffset, indexOffset, textureOffset);
 		*vertexOffset += getVerticesSize();
 		*indexOffset += getIndiciesSize();
-		cout << "Init " << *vertexOffset << " " << *indexOffset << endl;
+		*textureOffset += getTexturesSize();
+
+		cout << "Init " << *vertexOffset << " " << *indexOffset << " "<< *textureOffset<< endl;
 	}
 	if (children.size() != 0) {
 		for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
-			(*it)->init(vertexOffset, indexOffset);
+			(*it)->init(vertexOffset, indexOffset, textureOffset);
 		}
 	}
 }
 
-void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset)
+void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset, unsigned* textureOffset)
 {
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
 	glBufferSubData(GL_ARRAY_BUFFER, *vertexOffset, getVerticesSize(), &getVertices()[0].x);
@@ -25,16 +28,54 @@ void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
 	glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, *indexOffset, getIndiciesSize(), &getIndices()[0]);
 
+
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
 	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(*vertexOffset));
 	glEnableVertexAttribArray(vertexLocation);
 	glBindVertexArray(0);
+
+	if (!texturePath.empty()) {
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		// set the texture wrapping/filtering options (on the currently bound texture object)
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		// load and generate the texture
+
+		int width, height, nrChannels;
+		unsigned char *data = stbi_load(texturePath.c_str(), &width, &height, &nrChannels, 0);
+		if (data)
+		{
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+			glGenerateMipmap(GL_TEXTURE_2D);
+		}
+		else
+		{
+			std::cout << "Failed to load texture" << std::endl;
+		}
+		stbi_image_free(data);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, texturesVBO);
+		glBufferSubData(GL_ARRAY_BUFFER, *textureOffset, getTexturesSize(), &getTextures()[0].x);
+		glVertexAttribPointer(textureLocation, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(*textureOffset));
+		glEnableVertexAttribArray(textureLocation);
+		glBindVertexArray(0);
+
+
+	}
+
+
+
 }
 
-bool Object::loadOBJ(string filename)
+bool Object::loadOBJ(string filename, string texturePath)
 {
+	this->texturePath = texturePath;
 	FILE * file;
 	errno_t err= fopen_s(&file, filename.c_str(), "r");
 
@@ -42,6 +83,7 @@ bool Object::loadOBJ(string filename)
 		printf("Impossible to open the file !\n");
 		return false;
 	}
+
 	vector<glm::vec3> temp_vertices;
 	vector<glm::vec2> temp_textures;
 	vector<glm::vec3> temp_normals;
@@ -175,6 +217,13 @@ bool Object::loadOBJ(string filename)
 		addIndices(ia, ib, ic);
 	}
 
+	for (int i = 0; i < temp_texture_indices.size(); i += 3)
+	{
+		GLushort ia = temp_texture_indices[i];
+		GLushort ib = temp_texture_indices[i + 1];
+		GLushort ic = temp_texture_indices[i + 2];
+		addTextures(temp_textures[ia], temp_textures[ib], temp_textures[ic]);
+	}
 	cout << "Load Done !" << endl;
 
 	return true;
@@ -243,10 +292,12 @@ void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
 	ctm = projectionMatrix * modelViewMatrix ;
 	glBindVertexArray(VAO);
 	glUniformMatrix4fv(ctmLocation, 1, GL_FALSE, &ctm[0][0]);
+	glUniform1i( glGetUniformLocation(myProgramObj, "Texture"), 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, this->texture);
 
 	if (isLineRemoval) {
 		glEnable(GL_DEPTH_TEST);
-		//glDepthFunc(GL_LEQUAL);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glUniform4f(colorLocation, modelColor[0], modelColor[1], modelColor[2], modelColor[3]);
@@ -278,6 +329,11 @@ vector<glm::vec3> Object::getVertices() {
 vector<unsigned int >Object:: getIndices() {
 	return indices;
 }
+
+vector <glm::vec2> Object::getTextures() {
+	return textures;
+}
+
 
 void Object::move()
 {
@@ -312,6 +368,19 @@ unsigned Object::totalIndicesSize()
 	}
 	return size;
 }
+
+unsigned Object::totalTexturesSize()
+{
+	unsigned size = getTexturesSize();
+
+	if (children.size() != 0) {
+		for (vector<Object*>::iterator it = children.begin(); it != children.end(); ++it) {
+			size += (*it)->totalTexturesSize();
+		}
+	}
+	return size;
+}
+
 
 void Object::updateCurrentTransformationMatrix() {
     for (int i = 0; i < 5; i++) {

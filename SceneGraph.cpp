@@ -27,12 +27,14 @@ void SceneGraph::init() {
 	//player.loadOBJ("resource/chikorita/Chikorita_OBJ.obj");
 	//com.loadOBJ("resource/chikorita/Chikorita_OBJ.obj");
 
-	player.loadOBJ("resource/pikachu/pikachu.obj");
-	com.loadOBJ("resource/pikachu/pikachu.obj");
+	player.loadOBJ("resource/pikachu/pikachu.obj", "resource/pikachu/pikachu_texture/Final_Pokemon_Diffuse.png");
+	com.loadOBJ("resource/pikachu/pikachu.obj", "resource/pikachu/pikachu_texture/Final_Pokemon_Diffuse.png");
 
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
 	ctmLocation = glGetUniformLocation(myProgramObj, "ctm");
 	colorLocation = glGetUniformLocation(myProgramObj, "vColor");
+	textureLocation = glGetAttribLocation(myProgramObj, "vTexture");
+
     // add 순서 중요 collision check 순서에 영향 - 순서는 reverse 순이다.
 
 	//순서를 바꾸면 이상해짐
@@ -49,9 +51,15 @@ void SceneGraph::init() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->getRoot()->totalIndicesSize(), NULL, GL_STATIC_DRAW);
 
+	glGenBuffers(1, &texturesVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, texturesVBO);
+	glBufferData(GL_ARRAY_BUFFER, this->getRoot()->totalTexturesSize(), NULL, GL_STATIC_DRAW);
+
+
 	unsigned vertexOffset = 0;
 	unsigned indexOffset = 0;
-	root->init(&vertexOffset, &indexOffset);
+	unsigned textureOffset = 0;
+	root->init(&vertexOffset, &indexOffset, &textureOffset);
 }
 
 void SceneGraph::KeyboardFunc(unsigned char key, int x, int y)

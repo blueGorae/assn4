@@ -38,9 +38,11 @@ GLint ctmLocation;
 
 GLint vertexLocation;
 GLint colorLocation;
+GLint textureLocation;
 
 GLuint verticesVBO;
 GLuint indiciesVBO;
+GLuint texturesVBO;
 
 SceneGraph sceneGraph;
 Camera camera;
@@ -104,7 +106,6 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 		glGetShaderInfoLog(myVertexObj, InfoLogLength, NULL, &VertexShaderErrorMessage[0]);
 		printf("%s\n", &VertexShaderErrorMessage[0]);
 	}
-
 
 
 	// Compile Fragment Shader

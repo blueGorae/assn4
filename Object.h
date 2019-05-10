@@ -1,4 +1,5 @@
 #pragma once
+#define STB_IMAGE_IMPLEMENTATION
 #define GLM_ENABLE_EXPERIMENTAL
 #define BUFFER_OFFSET(offset) ((GLvoid*) (offset))
 
@@ -33,9 +34,14 @@ extern GLint ctmLocation;
 
 extern GLint vertexLocation;
 extern GLint colorLocation;
+extern GLint textureLocation;
 
 extern GLuint verticesVBO;
 extern GLuint indiciesVBO;
+extern GLuint texturesVBO;
+
+extern GLuint myProgramObj;
+
 
 struct Collision {
     bool occur;
@@ -78,19 +84,29 @@ public:
     }
 	~Object() {};
 	GLuint VAO;
-
+	GLuint texture;
 	unsigned int getVertexCount()  { return (unsigned int)getVertices().size() ; }
 	unsigned int getIndexCount()  { return (unsigned int)getIndices().size(); }
+	unsigned int getTextureCount() { return (unsigned int)getTextures().size(); }
 	unsigned int getVerticesSize()  { return (unsigned int)getVertices().size() * sizeof(GLfloat) * 3; }
 	unsigned int getIndiciesSize()  { return (unsigned int)getIndices().size() * sizeof(unsigned int); }
+	unsigned int getTexturesSize() { return (unsigned int)getTextures().size() * sizeof(GLfloat) * 2; }
 
 	vector<glm::vec3> getVertices();
 	vector<unsigned int > getIndices();
+	vector<glm::vec2> getTextures();
 	void addVertex(glm::vec3 vertex) { vertices.push_back(vertex); };
 	void addVertices(glm::vec3 v1, glm::vec3 v2, glm::vec3 v3) {
 		addVertex(v1);
 		addVertex(v2);
 		addVertex(v3);
+	}
+
+	void addTexture(glm::vec2 t) { this->textures.push_back(t); }
+	void addTextures(glm::vec2 t1, glm::vec2 t2, glm::vec2 t3) {
+		addTexture(t1);
+		addTexture(t2);
+		addTexture(t3);
 	}
 
 	void addNormal(glm::vec3 n) { this->normals.push_back(n); }
@@ -116,12 +132,12 @@ public:
 	}
 	vector <Object *> getChildren() { return this->children; }
 
-	bool loadOBJ(string path);
+	bool loadOBJ(string path, string texturePath);
 
 	glm::vec3 computeFaceNormal(glm::vec3 v1, glm::vec3 v2, glm::vec3 v3);
 	
-	void init(unsigned* vertexOffset, unsigned* indexOffset);
-	void initObject(unsigned* vertexOffset, unsigned* indexOffset);
+	void init(unsigned* vertexOffset, unsigned* indexOffset, unsigned* textureOffset);
+	void initObject(unsigned* vertexOffset, unsigned* indexOffset, unsigned* textureOffset);
 	void draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
 	void move();
     virtual bool checkCollision();
@@ -162,6 +178,7 @@ public:
 
 	unsigned totalVerticesSize();
 	unsigned totalIndicesSize();
+	unsigned totalTexturesSize();
 
 protected:
 
@@ -173,6 +190,7 @@ protected:
 	Object * parent = NULL;
 	vector<Object *> children;
 	string objPath;
+	string texturePath;
     bool collisionCheck;
     bool isSolid;
 	bool disableDraw = false;

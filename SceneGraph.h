@@ -31,12 +31,13 @@ extern bool isLineRemoval;
 extern GLuint myProgramObj;
 
 extern GLint ctmLocation;
-
 extern GLint vertexLocation;
 extern GLint colorLocation;
+extern GLint textureLocation;
 
 extern GLuint verticesVBO;
 extern GLuint indiciesVBO;
+extern GLuint texturesVBO;
 
 
 class SceneGraph
