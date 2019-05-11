@@ -240,7 +240,7 @@ int main(int argc, char **argv) {
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);  
 	glutInitWindowPosition(100, 100);  
 	glutInitWindowSize(720, 720);
-	glutCreateWindow("Assignment3"); 
+	glutCreateWindow("Assignment4"); 
 	glutKeyboardFunc(KeyboardFunc);
 	glutDisplayFunc(DisplayFunc);
 	glutIdleFunc(IdleFunc);
