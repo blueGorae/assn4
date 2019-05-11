@@ -21,7 +21,7 @@ public:
 		backPlane = Plane(width, height);
 		leftPlane = Plane(height, depth);
 		rightPlane = Plane(height, depth);
-		upperPlane = Plane(width, depth);
+		//upperPlane = Plane(width, depth);
 		downPlane = Plane(width, depth);
 
 		frontPlane.setCoordinateMatrix(glm::translate(glm::mat4(1.f), glm::vec3( 0.f,-(depth/2.f), 0.f))
@@ -54,13 +54,11 @@ public:
 	}
 	~Background();
 
-
-private:
 	Plane frontPlane;
 	Plane backPlane;
 	Plane leftPlane;
 	Plane rightPlane;
-	Plane upperPlane;
+	//Plane upperPlane;
 	Plane downPlane;
 
 };

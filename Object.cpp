@@ -37,6 +37,8 @@ void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset, unsigned*
 	glBindVertexArray(0);
 
 	if (!texturePath.empty()) {
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
 		// set the texture wrapping/filtering options (on the currently bound texture object)
@@ -44,13 +46,16 @@ void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset, unsigned*
 		unsigned char *data = stbi_load(texturePath.c_str(), &width, &height, &nrChannels, 0);
 		if (data)
 		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+
+			//gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+
 			glActiveTexture(GL_TEXTURE0);
 
 			//glGenerateMipmap(GL_TEXTURE_2D);
@@ -70,7 +75,6 @@ void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset, unsigned*
 		glBufferSubData(GL_ARRAY_BUFFER, *textureOffset, getTexturesSize(), &getTextures()[0].x);
 		glVertexAttribPointer(textureLocation, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(*textureOffset));
 		glEnableVertexAttribArray(textureLocation);
-		glUniform1i(glGetUniformLocation(myProgramObj, "Texture"), 0);
 		glBindVertexArray(0);
 
 	}
@@ -79,9 +83,24 @@ void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset, unsigned*
 
 }
 
-bool Object::loadOBJ(string filename, string texturePath)
-{
+bool Object::loadTextureImage(string texturePath) {
+	FILE * file;
+	errno_t err = fopen_s(&file, texturePath.c_str(), "r");
+
+	if (file == NULL) {
+		printf("Impossible to open the file !\n");
+		return false;
+	}
+
 	this->texturePath = texturePath;
+
+	return true;
+
+}
+
+bool Object::loadOBJ(string filename)
+{
+	
 	FILE * file;
 	errno_t err= fopen_s(&file, filename.c_str(), "r");
 
@@ -310,6 +329,7 @@ void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
 		glEnable(GL_POLYGON_OFFSET_FILL);
 		glPolygonOffset(1.0f, 1.0f);
 		glUniform4f(colorLocation, backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
+		glUniform1i(glGetUniformLocation(myProgramObj, "Texture"), 0);
 		glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
 		glDisable(GL_POLYGON_OFFSET_FILL);
 		glDisable(GL_DEPTH_TEST);

@@ -174,11 +174,13 @@ bool Init() {
 
 void DisplayFunc(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+	glEnable(GL_TEXTURE_2D);
 	sceneGraph.updateMatrix(
             camera.ProjectionMatrix(),
             camera.ModelViewMatrix());
 	sceneGraph.DisplayFunc();
+	glDisable(GL_TEXTURE_2D);
 	glutSwapBuffers();
 } 
 

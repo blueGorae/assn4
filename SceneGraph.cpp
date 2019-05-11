@@ -27,8 +27,18 @@ void SceneGraph::init() {
 	//player.loadOBJ("resource/chikorita/Chikorita_OBJ.obj");
 	//com.loadOBJ("resource/chikorita/Chikorita_OBJ.obj");
 
-	player.loadOBJ("resource/pikachu/pikachu.obj", "resource/pikachu/pikachu_texture/Final_Pokemon_Diffuse.png");
-	com.loadOBJ("resource/pikachu/pikachu.obj", "resource/pikachu/pikachu_texture/Final_Pokemon_Diffuse.png");
+	player.loadOBJ("resource/pikachu/pikachu.obj");
+	com.loadOBJ("resource/pikachu/pikachu.obj");
+
+	player.loadTextureImage("resource/pikachu/pikachu_texture/Final_Pokemon_Diffuse.png");
+	com.loadTextureImage("resource/pikachu/pikachu_texture/Final_Pokemon_Diffuse.png");
+
+	background.leftPlane.loadTextureImage("resource/wall/normal.bmp");
+	background.rightPlane.loadTextureImage("resource/wall/normal.bmp");
+	background.downPlane.loadTextureImage("resource/wall/normal.bmp");
+	background.frontPlane.loadTextureImage("resource/wall/normal.bmp");
+	background.backPlane.loadTextureImage("resource/wall/normal.bmp");
+
 
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
 	ctmLocation = glGetUniformLocation(myProgramObj, "ctm");
