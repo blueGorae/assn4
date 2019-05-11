@@ -28,7 +28,7 @@ void SceneGraph::init() {
 	com.loadOBJ("resource/Chikorita_OBJ.obj");
 
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
-    projectionMatrixLocationLocation = glGetUniformLocation(myProgramObj, "Projection");
+	projectionMatrixLocation = glGetUniformLocation(myProgramObj, "Projection");
     modelViewMatrixLocation = glGetUniformLocation(myProgramObj, "ModelView");
 	colorLocation = glGetUniformLocation(myProgramObj, "vColor");
     // add 순서 중요 collision check 순서에 영향 - 순서는 reverse 순이다.

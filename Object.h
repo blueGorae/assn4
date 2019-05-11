@@ -28,7 +28,7 @@ extern glm::vec4 backgroundColor;
 
 extern bool isLineRemoval;
 
-extern GLint projectionMatrixLocationLocation;
+extern GLint projectionMatrixLocation;
 extern GLint modelViewMatrixLocation;
 
 extern GLint vertexLocation;
