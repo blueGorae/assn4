@@ -24,14 +24,19 @@ glm::vec3 Character::translateVector(glm::vec3 direction) {
 
 void Character::updatedCurrentTransformationMatrix() {
 	if (!isAuto) {
-		player1Location = finalPositions[0];
-		glm::vec4 normalizedPlayerDirection = glm::rotate(glm::radians((float)angle), glm::vec3(0.f, 0.f, 1.f)) 
-			* glm::vec4(0.f, 1.f, finalPositions[0].z, 1.f);
-		playerDirection = glm::scale(glm::vec3(10.f, 10.f, 1.f)) * normalizedPlayerDirection;
+		GLfloat eyeZ = finalPositions[0].z + 0.275f;
+		glm::mat4 rotateMatrix = glm::rotate(glm::radians((float)angle), glm::vec3(0.f, 0.f, 1.f));
+		glm::vec4 normalizedPlayerDirection = rotateMatrix * glm::vec4(0.f, 1.f, 0.f, 1.f);
+		player1Location = glm::vec3(
+			finalPositions[0].x,
+			finalPositions[0].y,
+			eyeZ
+		);
+		playerDirection = glm::scale(glm::vec3(10000.f, 10000.f, 1.f)) * normalizedPlayerDirection;
 		player3Location = glm::vec3(
 			finalPositions[0].x - normalizedPlayerDirection.x,
 			finalPositions[0].y - normalizedPlayerDirection.y,
-			finalPositions[0].z + 2* normalizedPlayerDirection.z
+			eyeZ + 0.275f
 		);
 	}
 }

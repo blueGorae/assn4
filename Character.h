@@ -37,7 +37,7 @@ protected:
 public:
 	Character() {}
 	Character(glm::vec3 position, bool isAuto = true) : Object(position, "Chiko", 
-		0.2f, 0.4f, 0.5f, 0.3f, true), isAuto(isAuto)
+		0.6f, 0.5f, 0.5f, 0.5f, true), isAuto(isAuto)
 	{
 		glm::mat4 initMatrix = glm::scale(glm::vec3(1 , 1, 1));
 
@@ -54,7 +54,6 @@ public:
 			translateOrigin(position.x, position.y);
 		}
 		setCoordinateMatrix(initMatrix);
-		translateOrigin(glm::vec3(0.f, 0.f, 0.275f));
 		updateCurrentTransformationMatrix();
 	}
     void pressed(unsigned char key);
@@ -69,7 +68,6 @@ public:
             rotateOrigin((float)M_PI, glm::vec3(0.f, 0.f, 1.f));
             translateOrigin(position.x, position.y);
         }
-        translateOrigin(glm::vec3(0.f, 0.f, 0.275f));
         updateCurrentTransformationMatrix();
     }
 };
