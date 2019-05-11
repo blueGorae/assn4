@@ -40,23 +40,29 @@ void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset, unsigned*
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
 		// set the texture wrapping/filtering options (on the currently bound texture object)
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		// load and generate the texture
-
 		int width, height, nrChannels;
 		unsigned char *data = stbi_load(texturePath.c_str(), &width, &height, &nrChannels, 0);
 		if (data)
 		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-			glGenerateMipmap(GL_TEXTURE_2D);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+			glActiveTexture(GL_TEXTURE0);
+
+			//glGenerateMipmap(GL_TEXTURE_2D);
+
 		}
 		else
 		{
 			std::cout << "Failed to load texture" << std::endl;
 		}
+
+		// load and generate the texture
+
 		stbi_image_free(data);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -64,8 +70,8 @@ void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset, unsigned*
 		glBufferSubData(GL_ARRAY_BUFFER, *textureOffset, getTexturesSize(), &getTextures()[0].x);
 		glVertexAttribPointer(textureLocation, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(*textureOffset));
 		glEnableVertexAttribArray(textureLocation);
+		glUniform1i(glGetUniformLocation(myProgramObj, "Texture"), 0);
 		glBindVertexArray(0);
-
 
 	}
 
@@ -165,7 +171,6 @@ bool Object::loadOBJ(string filename, string texturePath)
 					ftoken = strtok_s(NULL, fdelimiter, &fcontext);
 				}
 				else {
-					cout << line << endl;
 					ignore = true;
 					break;
 				}
@@ -292,8 +297,6 @@ void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
 	ctm = projectionMatrix * modelViewMatrix ;
 	glBindVertexArray(VAO);
 	glUniformMatrix4fv(ctmLocation, 1, GL_FALSE, &ctm[0][0]);
-	glUniform1i( glGetUniformLocation(myProgramObj, "Texture"), 0);
-	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, this->texture);
 
 	if (isLineRemoval) {
