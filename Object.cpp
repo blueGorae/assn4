@@ -238,6 +238,14 @@ bool Object::loadOBJ(string filename)
 		addTextures(temp_textures[ia], temp_textures[ib], temp_textures[ic]);
 	}
 
+	for (int i = 0; i < temp_normal_indices.size(); i += 3)
+	{
+		GLushort ia = temp_normal_indices[i];
+		GLushort ib = temp_normal_indices[i + 1];
+		GLushort ic = temp_normal_indices[i + 2];
+		addNormals(temp_normals[ia], temp_normals[ib], temp_normals[ic]);
+	}
+
 	cout << "texture coord size " << this->getTexturesSize() << endl;
 	cout << "Load Done !" << endl;
 
