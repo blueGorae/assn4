@@ -1,5 +1,5 @@
 #include "Object.h"
-#include "stb_image.h"
+//#include "stb_image.h"
 
 
 
@@ -39,36 +39,29 @@ void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset, unsigned*
 	if (!texturePath.empty()) {
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-		glGenTextures(1, &texture);
+
+		this->texture = SOIL_load_OGL_texture
+		(
+			this->texturePath.c_str(),
+			SOIL_LOAD_AUTO,
+			SOIL_CREATE_NEW_ID,
+			SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+		);
+
+		/* check for an error during the load process */
+		if (0 == this->texture)
+		{
+			printf("SOIL loading error: '%s'\n", SOIL_last_result());
+		}
+
 		glBindTexture(GL_TEXTURE_2D, texture);
-		// set the texture wrapping/filtering options (on the currently bound texture object)
-		int width, height, nrChannels;
-		unsigned char *data = stbi_load(texturePath.c_str(), &width, &height, &nrChannels, 0);
-		if (data)
-		{
 
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-
-			//gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-
-			glActiveTexture(GL_TEXTURE0);
-
-			//glGenerateMipmap(GL_TEXTURE_2D);
-
-		}
-		else
-		{
-			std::cout << "Failed to load texture" << std::endl;
-		}
-
-		// load and generate the texture
-
-		stbi_image_free(data);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		glBindBuffer(GL_ARRAY_BUFFER, texturesVBO);
@@ -248,6 +241,8 @@ bool Object::loadOBJ(string filename)
 		GLushort ic = temp_texture_indices[i + 2];
 		addTextures(temp_textures[ia], temp_textures[ib], temp_textures[ic]);
 	}
+
+	cout << "texture coord size " << this->getTexturesSize() << endl;
 	cout << "Load Done !" << endl;
 
 	return true;
@@ -337,6 +332,8 @@ void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
 	else {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glUniform4f(colorLocation, modelColor[0], modelColor[1], modelColor[2], modelColor[3]);
+		glUniform1i(glGetUniformLocation(myProgramObj, "Texture"), 0);
+
 		glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
 	}
 

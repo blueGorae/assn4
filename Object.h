@@ -1,5 +1,5 @@
 #pragma once
-#define STB_IMAGE_IMPLEMENTATION
+//#define STB_IMAGE_IMPLEMENTATION
 #define GLM_ENABLE_EXPERIMENTAL
 #define BUFFER_OFFSET(offset) ((GLvoid*) (offset))
 
@@ -20,6 +20,7 @@
 #include "glm/gtx/transform.hpp"
 #include "GL/freeglut.h"
 #include "GL/glut.h"
+#include "SOIL.h"
 
 
 using namespace std;
