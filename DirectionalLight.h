@@ -8,31 +8,44 @@
 
 using namespace std;
 
-extern GLint ambientProductLocation;
-extern GLint diffuseProductLocation;
-extern GLint specularProductLocation;
-extern GLint lightPositionLocation;
-extern GLint shininessLocation;
+extern GLint directionalLightCount;
+extern GLint ambientProductLocation[DIRRECTIONAL_LIGHTS];
+extern GLint diffuseProductLocation[DIRRECTIONAL_LIGHTS];
+extern GLint specularProductLocation[DIRRECTIONAL_LIGHTS];
+extern GLint lightPositionLocation[DIRRECTIONAL_LIGHTS];
+extern GLint shininessLocation[DIRRECTIONAL_LIGHTS];
 
-class DirectionalLight
-{
+class DirectionalLight {
 private :
+    GLint id;
     glm::vec3 position;
     glm::vec3 pivot;
-    glm::vec3 color;
     GLfloat diffAngle = 0.05f;
     GLfloat initAngle = -60.f;
     GLfloat angle = initAngle;
-	bool isPM = false;
+    bool isPM = false;
     GLfloat ambientStrength;
+    glm::vec3 diffuseStrength;
+    glm::vec3 specularStrength;
+    GLfloat shininess;
 public:
     DirectionalLight(glm::vec3 position,
                      glm::vec3 pivot,
-                     glm::vec3 color,
-                     GLfloat ambientStrength = 1.f)
-    : position(position), pivot(pivot), color(color), ambientStrength(ambientStrength) {}
+                     GLfloat ambientStrength = 1.f,
+                     glm::vec3 diffuseStrength = glm::vec3(0.7f),
+                     glm::vec3 specularStrength = glm::vec3(0.3f),
+                     GLfloat shininess = 128)
+            : position(position), pivot(pivot),
+              ambientStrength(ambientStrength), diffuseStrength(diffuseStrength),
+              specularStrength(specularStrength), shininess(shininess) {
+        id = directionalLightCount;
+        directionalLightCount += 1;
+    }
+
     void init();
+
     void move();
-	virtual ~DirectionalLight(){}
+
+    virtual ~DirectionalLight() {}
 };
 

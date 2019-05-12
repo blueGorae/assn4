@@ -16,6 +16,7 @@
 #include "Character.h"
 #include "ScoreBox.h"
 #include "DirectionalLight.h"
+#include "PointLight.h"
 
 using namespace std;
 

@@ -324,9 +324,6 @@ void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, glm::m
 	glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
 	glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, &viewMatrix[0][0]);
 	glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, &modelMatrix[0][0]);
-    glUniform4f(diffuseProductLocation, diffuseStrength[0], diffuseStrength[1], diffuseStrength[2],1.f);
-    glUniform4f(specularProductLocation, specularStrength[0], specularStrength[1], specularStrength[2],1.f);
-    glUniform1f(shininessLocation, shininess);
 
 	if (isTextureOn) {
 		glBindTexture(GL_TEXTURE_2D, this->texture);

@@ -6,6 +6,8 @@
 #define WIDTH 4.f
 #define DEPTH 8.f
 #define HEIGHT 4.f
+#define DIRECTIONAL_LIGHTS 1
+#define POINT_LIGHTS 1
 
 #include "GL/glew.h"
 #include <stdio.h>
@@ -35,12 +37,16 @@ extern GLint viewMatrixLocation;
 extern GLint modelMatrixLocation;
 extern GLint isGouraudShadingLocation;
 extern GLint isNoLightLocation;
-extern GLint ambientProductLocation;
-extern GLint diffuseProductLocation;
-extern GLint specularProductLocation;
-extern GLint lightPositionLocation;
-extern GLint shininessLocation;
-
+extern GLint ambientProductLocation[DIRRECTIONAL_LIGHTS];
+extern GLint diffuseProductLocation[DIRRECTIONAL_LIGHTS];
+extern GLint specularProductLocation[DIRRECTIONAL_LIGHTS];
+extern GLint lightPositionLocation[DIRRECTIONAL_LIGHTS];
+extern GLint shininessLocation[DIRRECTIONAL_LIGHTS];
+extern GLint pAmbientProductLocation[POINT_LIGHTS];
+extern GLint pDiffuseProductLocation[POINT_LIGHTS];
+extern GLint pSpecularProductLocation[POINT_LIGHTS];
+extern GLint pLightPositionLocation[POINT_LIGHTS];
+extern GLint pShininessLocation[POINT_LIGHTS];
 extern GLint vertexLocation;
 extern GLint colorLocation;
 extern GLint textureLocation;
@@ -71,14 +77,10 @@ public:
         string objPath = "",
         GLfloat w = 0.f, GLfloat h = 0.f,
 		GLfloat baisW = 0.5f, GLfloat baisH = 0.5f,
-        bool collisionCheck = false, bool isSolid = false,
-		glm::vec3 diffuseStrength = glm::vec3(0.7f),
-		glm::vec3 specularStrength = glm::vec3(0.3f),
-        GLfloat shininess = 128
+        bool collisionCheck = false, bool isSolid = false
         )
 	: w(w), h(h), baisW(baisW), baisH(baisH), objPath(objPath),
-	position(position), collisionCheck(collisionCheck), isSolid(isSolid),
-	specularStrength(specularStrength), shininess(shininess)
+	position(position), collisionCheck(collisionCheck), isSolid(isSolid)
 	{
 		translateOrigin(position);
 		GLfloat minW = -w * baisW;
@@ -208,9 +210,6 @@ protected:
 	vector< glm::vec2 > textures;
 	vector< glm::vec3 > normals;
     GLfloat w, h, baisW, baisH;
-    glm::vec3 diffuseStrength;
-    glm::vec3 specularStrength;
-    GLfloat shininess;
 	Object * parent = NULL;
 	vector<Object *> children;
 	string objPath;

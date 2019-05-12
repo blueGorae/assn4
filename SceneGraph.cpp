@@ -22,8 +22,9 @@ Character player = Character(glm::vec3(0.f, -DEPTH * 0.35f, 0.f), false);
 Character com = Character(glm::vec3(0.f, DEPTH * 0.35f, 0.f), true);
 DirectionalLight dLight = DirectionalLight(glm::vec3(0.f, DEPTH * 0.5f, HEIGHT),
         glm::vec3(0.f, -DEPTH * 0.35f, HEIGHT),
-        glm::vec3(1.f, 1.f, 1.f),
         1.5f);
+PointLight pLight = PointLight(glm::vec3(2 * ball.getRadius(), 2 * ball.getRadius(), 2 * ball.getRadius()),
+                               1.5f);
 
 void SceneGraph::init() {
 	player.loadOBJ("resource/pikachu/pikachu.obj");
@@ -47,11 +48,21 @@ void SceneGraph::init() {
 	modelMatrixLocation = glGetUniformLocation(myProgramObj, "Model");
 	isGouraudShadingLocation = glGetUniformLocation(myProgramObj, "IsGouraudShading");
 	isNoLightLocation = glGetUniformLocation(myProgramObj, "IsNoLight");
-	ambientProductLocation = glGetUniformLocation(myProgramObj, "AmbientProduct");
-    diffuseProductLocation = glGetUniformLocation(myProgramObj, "DiffuseProduct");
-    specularProductLocation = glGetUniformLocation(myProgramObj, "SpecularProduct");
-    lightPositionLocation = glGetUniformLocation(myProgramObj, "LightPosition");
-    shininessLocation = glGetUniformLocation(myProgramObj, "Shininess");
+	for (int i = 0; i < DIRECTIONAL_LIGHTS; i++) {
+        ambientProductLocation[i] = glGetUniformLocation(myProgramObj, "AmbientProduct["+i+"]");
+        diffuseProductLocation[i] = glGetUniformLocation(myProgramObj, "DiffuseProduct["+i+"]");
+        specularProductLocation[i] = glGetUniformLocation(myProgramObj, "SpecularProduct["+i+"]");
+        lightPositionLocation[i] = glGetUniformLocation(myProgramObj, "LightPosition["+i+"]");
+        shininessLocation[i] = glGetUniformLocation(myProgramObj, "Shininess["+i+"]");
+	}
+    for (int i = 0; i < POINT_LIGHTS; i++) {
+        pAmbientProductLocation[i] = glGetUniformLocation(myProgramObj, "pAmbientProduct["+i+"]");
+        pDiffuseProductLocation[i] = glGetUniformLocation(myProgramObj, "pDiffuseProduct["+i+"]");
+        pSpecularProductLocation[i] = glGetUniformLocation(myProgramObj, "pSpecularProduct["+i+"]");
+        pLightPositionLocation[i] = glGetUniformLocation(myProgramObj, "pLightPosition["+i+"]");
+        pShininessLocation[i] = glGetUniformLocation(myProgramObj, "pShininess["+i+"]");
+    }
+
 	colorLocation = glGetUniformLocation(myProgramObj, "vColor");
 	textureLocation = glGetAttribLocation(myProgramObj, "vTexture");
 	normalLocation = glGetAttribLocation(myProgramObj, "vNormal");
@@ -63,6 +74,7 @@ void SceneGraph::init() {
 	root->addChild(&com);
 	root->addChild(&player);
 	root->addChild(&ball);
+    ball.addChild(pLight);
 	//Init Buffer
 	glGenBuffers(1, &verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
@@ -101,6 +113,7 @@ void SceneGraph::KeyboardFunc(unsigned char key, int x, int y)
 
 void SceneGraph::DisplayFunc()
 {
+    pLight.draw();
 	root->draw(projectionMatrix, modelViewMatrix);
     userScore.draw();
     comScore.draw();
