@@ -20,10 +20,10 @@ void addGameScore(bool addUserScore) {
 Background background(WIDTH, DEPTH, HEIGHT);
 Character player = Character(glm::vec3(0.f, -DEPTH * 0.35f, 0.f), false);
 Character com = Character(glm::vec3(0.f, DEPTH * 0.35f, 0.f), true);
-DirectionalLight dLight = DirectionalLight(glm::vec3(0.f, DEPTH * 0.35f, HEIGHT),
+DirectionalLight dLight = DirectionalLight(glm::vec3(0.f, DEPTH * 0.5f, HEIGHT),
         glm::vec3(0.f, -DEPTH * 0.35f, HEIGHT),
         glm::vec3(1.f, 1.f, 1.f),
-        0.9f);
+        1.5f);
 
 void SceneGraph::init() {
 	player.loadOBJ("resource/pikachu/pikachu.obj");
