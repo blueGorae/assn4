@@ -36,10 +36,12 @@ extern GLint modelViewMatrixLocation;
 extern GLint vertexLocation;
 extern GLint colorLocation;
 extern GLint textureLocation;
+extern GLint normalLocation;
 
 extern GLuint verticesVBO;
 extern GLuint indiciesVBO;
 extern GLuint texturesVBO;
+extern GLuint normalsVBO;
 
 extern GLuint myProgramObj;
 
@@ -89,13 +91,16 @@ public:
 	unsigned int getVertexCount()  { return (unsigned int)getVertices().size() ; }
 	unsigned int getIndexCount()  { return (unsigned int)getIndices().size(); }
 	unsigned int getTextureCount() { return (unsigned int)getTextures().size(); }
+	unsigned int getNormalCount() { return (unsigned int)getNormals().size(); }
 	unsigned int getVerticesSize()  { return (unsigned int)getVertices().size() * sizeof(GLfloat) * 3; }
 	unsigned int getIndiciesSize()  { return (unsigned int)getIndices().size() * sizeof(unsigned int); }
 	unsigned int getTexturesSize() { return (unsigned int)getTextures().size() * sizeof(GLfloat) * 2; }
-
+	unsigned int getNormalsSize() { return (unsigned int)getNormals().size() * sizeof(GLfloat) * 3; }
 	vector<glm::vec3> getVertices();
 	vector<unsigned int > getIndices();
 	vector<glm::vec2> getTextures();
+	vector<glm::vec3> getNormals();
+
 	void addVertex(glm::vec3 vertex) { vertices.push_back(vertex); };
 	void addVertices(glm::vec3 v1, glm::vec3 v2, glm::vec3 v3) {
 		addVertex(v1);
@@ -138,8 +143,8 @@ public:
 
 	glm::vec3 computeFaceNormal(glm::vec3 v1, glm::vec3 v2, glm::vec3 v3);
 	
-	void init(unsigned* vertexOffset, unsigned* indexOffset, unsigned* textureOffset);
-	void initObject(unsigned* vertexOffset, unsigned* indexOffset, unsigned* textureOffset);
+	void init(unsigned* vertexOffset, unsigned* indexOffset, unsigned* textureOffset, unsigned* normalOffset);
+	void initObject(unsigned* vertexOffset, unsigned* indexOffset, unsigned* textureOffset, unsigned* normalOffset);
 	void draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
 	void move();
     virtual bool checkCollision();
@@ -181,6 +186,7 @@ public:
 	unsigned totalVerticesSize();
 	unsigned totalIndicesSize();
 	unsigned totalTexturesSize();
+	unsigned totalNormalsSize();
 
 protected:
 

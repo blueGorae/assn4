@@ -32,11 +32,12 @@ extern GLuint myProgramObj;
 extern GLint vertexLocation;
 extern GLint colorLocation;
 extern GLint textureLocation;
+extern GLint normalLocation;
 
 extern GLuint verticesVBO;
 extern GLuint indiciesVBO;
 extern GLuint texturesVBO;
-
+extern GLuint normalsVBO;
 
 class SceneGraph
 {

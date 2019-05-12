@@ -42,6 +42,7 @@ void SceneGraph::init() {
     modelViewMatrixLocation = glGetUniformLocation(myProgramObj, "ModelView");
 	colorLocation = glGetUniformLocation(myProgramObj, "vColor");
 	textureLocation = glGetAttribLocation(myProgramObj, "vTexture");
+	normalLocation = glGetAttribLocation(myProgramObj, "vNormal");
 
     // add 순서 중요 collision check 순서에 영향 - 순서는 reverse 순이다.
 
@@ -64,10 +65,15 @@ void SceneGraph::init() {
 	glBufferData(GL_ARRAY_BUFFER, this->getRoot()->totalTexturesSize(), NULL, GL_STATIC_DRAW);
 
 
+	glGenBuffers(1, &normalsVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, normalsVBO);
+	glBufferData(GL_ARRAY_BUFFER, this->getRoot()->totalNormalsSize(), NULL, GL_STATIC_DRAW);
+
 	unsigned vertexOffset = 0;
 	unsigned indexOffset = 0;
 	unsigned textureOffset = 0;
-	root->init(&vertexOffset, &indexOffset, &textureOffset);
+	unsigned normalOffset = 0;
+	root->init(&vertexOffset, &indexOffset, &textureOffset, &normalOffset);
 }
 
 void SceneGraph::KeyboardFunc(unsigned char key, int x, int y)
