@@ -55,6 +55,7 @@ void SceneGraph::init() {
 	glGenBuffers(1, &verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
 	glBufferData(GL_ARRAY_BUFFER, this->getRoot()->totalVerticesSize(), NULL, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	//glGenBuffers(1, &indiciesVBO);
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
@@ -63,11 +64,14 @@ void SceneGraph::init() {
 	glGenBuffers(1, &texturesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, texturesVBO);
 	glBufferData(GL_ARRAY_BUFFER, this->getRoot()->totalTexturesSize(), NULL, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 
 	glGenBuffers(1, &normalsVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, normalsVBO);
 	glBufferData(GL_ARRAY_BUFFER, this->getRoot()->totalNormalsSize(), NULL, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
 
 	unsigned vertexOffset = 0;
 	unsigned indexOffset = 0;

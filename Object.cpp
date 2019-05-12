@@ -23,11 +23,12 @@ void Object::init(unsigned *vertexOffset, unsigned *indexOffset, unsigned* textu
 
 void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset, unsigned* textureOffset, unsigned* normalOffset)
 {
-	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-	glBufferSubData(GL_ARRAY_BUFFER, *vertexOffset, getVerticesSize(), &vertices[0].x);
 
 	glBindBuffer(GL_ARRAY_BUFFER, normalsVBO);
 	glBufferSubData(GL_ARRAY_BUFFER, *normalOffset, getNormalsSize(), &normals[0].x);
+
+	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
+	glBufferSubData(GL_ARRAY_BUFFER, *vertexOffset, getVerticesSize(), &vertices[0].x);
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
