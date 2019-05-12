@@ -22,9 +22,9 @@ Character player = Character(glm::vec3(0.f, -DEPTH * 0.35f, 0.f), false);
 Character com = Character(glm::vec3(0.f, DEPTH * 0.35f, 0.f), true);
 DirectionalLight dLight = DirectionalLight(glm::vec3(0.f, DEPTH * 0.5f, HEIGHT),
         glm::vec3(0.f, -DEPTH * 0.35f, HEIGHT),
-        1.5f);
+        1.f);
 PointLight pLight = PointLight(glm::vec3(2 * ball.getRadius(), 2 * ball.getRadius(), 2 * ball.getRadius()),
-                               1.5f);
+                               1.f);
 
 void SceneGraph::init() {
 	player.loadOBJ("resource/pikachu/pikachu.obj");
