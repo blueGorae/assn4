@@ -35,6 +35,11 @@ GLchar fragShaderFile[] = "shader/frag.glsl";
 GLuint myProgramObj;
 GLint projectionMatrixLocation;
 GLint modelViewMatrixLocation;
+GLint ambientProductLocation;
+GLint diffuseProductLocation;
+GLint specularProductLocation;
+GLint lightPositionLocation;
+GLint shininessLocation;
 
 GLint vertexLocation;
 GLint colorLocation;

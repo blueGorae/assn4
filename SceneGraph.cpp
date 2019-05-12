@@ -20,10 +20,12 @@ void addGameScore(bool addUserScore) {
 Background background(WIDTH, DEPTH, HEIGHT);
 Character player = Character(glm::vec3(0.f, -DEPTH * 0.35f, 0.f), false);
 Character com = Character(glm::vec3(0.f, DEPTH * 0.35f, 0.f), true);
+DirectionalLight dLight = DirectionalLight(glm::vec3(0.f, DEPTH * 0.35f, HEIGHT),
+        glm::vec3(0.f, -DEPTH * 0.35f, HEIGHT),
+        glm::vec3(1.f, 1.f, 1.f),
+        0.1f);
 
 void SceneGraph::init() {
-    root = new Object();
-
 	player.loadOBJ("resource/pikachu/pikachu.obj");
 	com.loadOBJ("resource/pikachu/pikachu.obj");
 
@@ -40,6 +42,11 @@ void SceneGraph::init() {
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
 	projectionMatrixLocation = glGetUniformLocation(myProgramObj, "Projection");
     modelViewMatrixLocation = glGetUniformLocation(myProgramObj, "ModelView");
+    ambientProductLocation = glGetUniformLocation(myProgramObj, "AmbientProduct");
+    diffuseProductLocation = glGetUniformLocation(myProgramObj, "DiffuseProduct");
+    specularProductLocation = glGetUniformLocation(myProgramObj, "SpecularProduct");
+    lightPositionLocation = glGetUniformLocation(myProgramObj, "LightPosition");
+    shininessLocation = glGetUniformLocation(myProgramObj, "Shininess");
 	colorLocation = glGetUniformLocation(myProgramObj, "vColor");
 	textureLocation = glGetAttribLocation(myProgramObj, "vTexture");
 
@@ -68,6 +75,7 @@ void SceneGraph::init() {
 	unsigned indexOffset = 0;
 	unsigned textureOffset = 0;
 	root->init(&vertexOffset, &indexOffset, &textureOffset);
+	dLight.init();
 }
 
 void SceneGraph::KeyboardFunc(unsigned char key, int x, int y)
@@ -90,8 +98,10 @@ void SceneGraph::IdleFunc()
         userScore.reset();
         comScore.reset();
     }
-    else
+    else {
         root->move();
+        dLight.move();
+    }
 }
 
 void SceneGraph::reset()
