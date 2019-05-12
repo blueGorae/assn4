@@ -299,7 +299,7 @@ void Object::draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix)
 	windowMatrix = modelViewMatrix * originMatrix * coordinateMatrix;
 	if (w > 0.f && h > 0.f && isnan(w) == 0 && isnan(h) == 0) {
 		for (int i = 0; i < 5; i++) {
-			finalPositions[i] = originMatrix * originPositions[i];
+			finalPositions[i] = originMatrix * coordinateMatrix * originPositions[i];
 			windowPositions[i] = windowMatrix * originPositions[i];
 		}
 	}

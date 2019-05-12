@@ -175,6 +175,7 @@ public:
         else
             return this;
     }
+	glm::vec4 finalPosition() { return finalPositions[0]; }
     GLfloat finalLeft() { return glm::min(finalPositions[1].x, finalPositions[3].x); }
     GLfloat finalBottom() { return glm::min(finalPositions[2].y, finalPositions[4].y); }
     GLfloat finalRight() { return glm::max(finalPositions[1].x, finalPositions[3].x); }

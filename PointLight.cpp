@@ -8,7 +8,11 @@ void PointLight::init()
 
 void PointLight::draw()
 {
-    glUniform4f(pLightPositionLocation[id], windowPositions[0].x, windowPositions[0].y, windowPositions[0].z, 1.f);
+    glUniform4f(pLightPositionLocation[id], 
+		parent->finalPosition().x + finalPositions[0].x,
+		parent->finalPosition().y + finalPositions[0].y,
+		parent->finalPosition().z + finalPositions[0].z,
+		1.f);
     glUniform4f(pAmbientProductLocation[id], ambientStrength, ambientStrength, ambientStrength, 1.f);
     glUniform4f(pDiffuseProductLocation[id], diffuseStrength[0], diffuseStrength[1], diffuseStrength[2],1.f);
     glUniform4f(pSpecularProductLocation[id], specularStrength[0], specularStrength[1], specularStrength[2],1.f);

@@ -50,36 +50,36 @@ void SceneGraph::init() {
 	isNoLightLocation = glGetUniformLocation(myProgramObj, "IsNoLight");
 	ostringstream oss;
 	for (int i = 0; i < DIRECTIONAL_LIGHTS; i++) {
-		oss.clear();
+		oss.str(string());
 		oss << "AmbientProduct[" << i << "]";
 		ambientProductLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
-		oss.clear();
-		oss << "DiffuseProduct[" << i << "]"; 
+		oss.str(string());
+		oss << "DiffuseProduct[" << i << "]";
 		diffuseProductLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
-		oss.clear();
+		oss.str(string());
 		oss << "SpecularProduct[" << i << "]";
 		specularProductLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
-		oss.clear();
+		oss.str(string());
 		oss << "LightPosition[" << i << "]";
 		lightPositionLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
-		oss.clear();
+		oss.str(string());
 		oss << "Shininess[" << i << "]";
 		shininessLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
 	}
     for (int i = 0; i < POINT_LIGHTS; i++) {
-		oss.clear();
+		oss.str(string());
 		oss << "pAmbientProduct[" << i << "]";
         pAmbientProductLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
-		oss.clear();
+		oss.str(string());
 		oss << "pDiffuseProduct[" << i << "]";
 		pDiffuseProductLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
-		oss.clear();
+		oss.str(string());
 		oss << "pSpecularProduct[" << i << "]";
 		pSpecularProductLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
-		oss.clear();
+		oss.str(string());
 		oss << "pLightPosition[" << i << "]";
 		pLightPositionLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
-		oss.clear();
+		oss.str(string());
 		oss << "pShininess[" << i << "]";
 		pShininessLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
     }

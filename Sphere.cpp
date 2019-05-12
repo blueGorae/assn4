@@ -4,7 +4,7 @@
 glm::vec3 Sphere::translateVector(glm::vec3 direction) {
 	GLfloat x = finalPositions[0].x;
 	GLfloat y = finalPositions[0].y;
-	GLfloat scale = 0.0005;
+	GLfloat scale = 0.0025;
 	glm::vec3 normalDirection = glm::vec3(direction.x * scale, direction.y * scale, direction.z * scale);
 	glm::vec3 translate = glm::rotate(glm::mat4(1.f), glm::radians((float) angle), glm::vec3(0.f, 0.f, 1.f)) * glm::vec4(normalDirection, 1.f);
 	GLfloat resX = x + translate.x;
