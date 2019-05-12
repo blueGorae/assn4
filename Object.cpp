@@ -3,25 +3,30 @@
 
 
 
-void Object::init(unsigned *vertexOffset, unsigned *indexOffset, unsigned* textureOffset) {
+void Object::init(unsigned *vertexOffset, unsigned *indexOffset, unsigned* textureOffset, unsigned* normalOffset) {
 
 	if (vertices.size() != 0) {
-		initObject(vertexOffset, indexOffset, textureOffset);
+		initObject(vertexOffset, indexOffset, textureOffset, normalOffset);
 		*vertexOffset += getVerticesSize();
 		*indexOffset += getIndiciesSize();
 		*textureOffset += getTexturesSize();
+		*normalOffset += getNormalsSize();
 
 		cout << "Init " << *vertexOffset << " " << *indexOffset << " "<< *textureOffset<< endl;
 	}
 	if (children.size() != 0) {
 		for (vector<Object *>::iterator it = children.begin(); it != children.end(); ++it) {
-			(*it)->init(vertexOffset, indexOffset, textureOffset);
+			(*it)->init(vertexOffset, indexOffset, textureOffset, normalOffset);
 		}
 	}
 }
 
-void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset, unsigned* textureOffset)
+void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset, unsigned* textureOffset, unsigned* normalOffset)
 {
+
+	glBindBuffer(GL_ARRAY_BUFFER, normalsVBO);
+	glBufferSubData(GL_ARRAY_BUFFER, *normalOffset, getNormalsSize(), &normals[0].x);
+
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
 	glBufferSubData(GL_ARRAY_BUFFER, *vertexOffset, getVerticesSize(), &vertices[0].x);
 
@@ -364,6 +369,9 @@ vector <glm::vec2> Object::getTextures() {
 	return textures;
 }
 
+vector <glm::vec3> Object::getNormals() {
+	return normals;
+}
 
 void Object::move()
 {
@@ -406,6 +414,17 @@ unsigned Object::totalTexturesSize()
 	if (children.size() != 0) {
 		for (vector<Object*>::iterator it = children.begin(); it != children.end(); ++it) {
 			size += (*it)->totalTexturesSize();
+		}
+	}
+	return size;
+}
+
+unsigned Object::totalNormalsSize() {
+	unsigned size = getNormalsSize();
+
+	if (children.size() != 0) {
+		for (vector<Object*>::iterator it = children.begin(); it != children.end(); ++it) {
+			size += (*it)->totalNormalsSize();
 		}
 	}
 	return size;

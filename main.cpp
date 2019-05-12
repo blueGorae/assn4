@@ -47,10 +47,12 @@ GLint shininessLocation;
 GLint vertexLocation;
 GLint colorLocation;
 GLint textureLocation;
+GLint normalLocation;
 
 GLuint verticesVBO;
 GLuint indiciesVBO;
 GLuint texturesVBO;
+GLuint normalsVBO;
 
 SceneGraph sceneGraph;
 Camera camera;
