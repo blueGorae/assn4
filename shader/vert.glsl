@@ -1,8 +1,8 @@
 #version 330 core
 
-in vec3 vPosition;
-in vec3 vNormal;
-in vec2 vTexture;
+layout (location = 0)in vec3 vPosition;
+layout (location = 1)in vec2 vTexture;
+layout (location = 2)in vec3 vNormal;
 
 uniform bool IsGouraudShading;
 
