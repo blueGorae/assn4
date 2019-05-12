@@ -308,9 +308,9 @@ void Object::draw(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix)
 }
 
 void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
-	ctm = projectionMatrix * modelViewMatrix ;
 	glBindVertexArray(VAO);
-	glUniformMatrix4fv(ctmLocation, 1, GL_FALSE, &ctm[0][0]);
+	glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
+	glUniformMatrix4fv(modelViewMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
 	glBindTexture(GL_TEXTURE_2D, this->texture);
 
 	if (isLineRemoval) {

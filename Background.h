@@ -11,8 +11,6 @@
 
 extern GLuint backgroundVAO;
 
-extern glm::mat4 ctm;
-
 class Background : public Object
 {
 public:

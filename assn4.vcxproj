@@ -137,6 +137,8 @@
     <ClCompile Include="ScoreBox.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="DirectionalLight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\frag.glsl" />
@@ -152,6 +154,8 @@
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="PointLight.h" />
+    <ClInclude Include="DirectionalLight.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
