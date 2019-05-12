@@ -10,18 +10,18 @@ in vec4 lightColor;
 uniform bool IsGouraudShading;
 uniform bool IsNoLight;
 
-in vec3 fN[DIRRECTIONAL_LIGHTS];
-in vec3 fE[DIRRECTIONAL_LIGHTS];
-in vec3 fL[DIRRECTIONAL_LIGHTS];
+in vec3 fN[DIRECTIONAL_LIGHTS];
+in vec3 fE[DIRECTIONAL_LIGHTS];
+in vec3 fL[DIRECTIONAL_LIGHTS];
 in vec3 pfN[POINT_LIGHTS];
 in vec3 pfE[POINT_LIGHTS];
 in vec3 pfL[POINT_LIGHTS];
-in float pAttenuation[POINT_LIGHT];
+in float pAttenuation[POINT_LIGHTS];
 
-uniform vec4 AmbientProduct[DIRRECTIONAL_LIGHTS];
-uniform vec4 DiffuseProduct[DIRRECTIONAL_LIGHTS];
-uniform vec4 SpecularProduct[DIRRECTIONAL_LIGHTS];
-uniform float Shininess[DIRRECTIONAL_LIGHTS];
+uniform vec4 AmbientProduct[DIRECTIONAL_LIGHTS];
+uniform vec4 DiffuseProduct[DIRECTIONAL_LIGHTS];
+uniform vec4 SpecularProduct[DIRECTIONAL_LIGHTS];
+uniform float Shininess[DIRECTIONAL_LIGHTS];
 
 uniform vec4 pAmbientProduct[POINT_LIGHTS];
 uniform vec4 pDiffuseProduct[POINT_LIGHTS];
@@ -55,7 +55,7 @@ void main()
 			finalLightColor += ambient + diffuse + specular;
 		}
 
-		for (int i = 0; i < DIRECTIONAL_LIGHTS; i++) {
+		for (int i = 0; i < POINT_LIGHTS; i++) {
 			// Normalize the input lighting vectors
 			vec3 N = normalize(pfN[i]);
 			vec3 E = normalize(pfE[i]);

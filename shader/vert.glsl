@@ -17,19 +17,19 @@ out vec4 lightColor;
 
 // Phong Shading
 // output values that will be interpolated per-fragment
-out vec3 fN[DIRRECTIONAL_LIGHTS];
-out vec3 fE[DIRRECTIONAL_LIGHTS];
-out vec3 fL[DIRRECTIONAL_LIGHTS];
+out vec3 fN[DIRECTIONAL_LIGHTS];
+out vec3 fE[DIRECTIONAL_LIGHTS];
+out vec3 fL[DIRECTIONAL_LIGHTS];
 out vec3 pfN[POINT_LIGHTS];
 out vec3 pfE[POINT_LIGHTS];
 out vec3 pfL[POINT_LIGHTS];
-out float pAttenuation[POINT_LIGHT];
+out float pAttenuation[POINT_LIGHTS];
 
-uniform vec4 AmbientProduct[DIRRECTIONAL_LIGHTS];
-uniform vec4 DiffuseProduct[DIRRECTIONAL_LIGHTS];
-uniform vec4 SpecularProduct[DIRRECTIONAL_LIGHTS];
-uniform vec4 LightPosition[DIRRECTIONAL_LIGHTS];
-uniform float Shininess[DIRRECTIONAL_LIGHTS];
+uniform vec4 AmbientProduct[DIRECTIONAL_LIGHTS];
+uniform vec4 DiffuseProduct[DIRECTIONAL_LIGHTS];
+uniform vec4 SpecularProduct[DIRECTIONAL_LIGHTS];
+uniform vec4 LightPosition[DIRECTIONAL_LIGHTS];
+uniform float Shininess[DIRECTIONAL_LIGHTS];
 
 uniform vec4 pAmbientProduct[POINT_LIGHTS];
 uniform vec4 pDiffuseProduct[POINT_LIGHTS];
@@ -43,10 +43,10 @@ void main()
 {
     vec4 v4Position = vec4(vPosition, 1.0);
 	mat4 ModelView = View * Model;
+	vec3 pos = (ModelView * v4Position).xyz;
     lightColor = vec4(0.0);
     if (IsGouraudShading) {
         // Transform vertex position into eye coordinates
-        vec3 pos = (ModelView * v4Position).xyz;
         for (int i = 0; i < DIRECTIONAL_LIGHTS; i++) {
             vec3 L = normalize( LightPosition[i].xyz - pos );
             vec3 E = normalize( -pos );
@@ -85,7 +85,7 @@ void main()
             if ( dot(L, N) < 0.0 )
                 specular = vec4(0.0, 0.0, 0.0, 1.0);
 
-            attenuation = min(2 / d, 1.0);
+            float attenuation = min(2 / d, 1.0);
 
             lightColor += attenuation * (ambient + diffuse + specular);
         }

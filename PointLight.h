@@ -2,6 +2,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 
 #include <iostream>
+#include "Object.h"
 #include "GL/glew.h"
 #include "glm/glm.hpp"
 #include "glm/gtx/transform.hpp"
@@ -29,15 +30,17 @@ public:
                glm::vec3 diffuseStrength = glm::vec3(0.6f),
                glm::vec3 specularStrength = glm::vec3(0.4f),
                GLfloat shininess = 32)
-            : Object(position), disableDraw(true), pivot(pivot), color(color),
-              ambientStrength(ambientStrength), diffuseStrength(diffuseStrength),
+            : Object(position),
+			  ambientStrength(ambientStrength), diffuseStrength(diffuseStrength),
               specularStrength(specularStrength), shininess(shininess) {
+		disableDraw = true;
         id = pointLightCount;
         pointLightCount += 1;
     }
 
-    void draw();
+	void init();
+	void draw();
 
-    virtual ~DirectionalLight() {}
+    virtual ~PointLight() {}
 };
 

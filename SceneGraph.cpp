@@ -48,19 +48,40 @@ void SceneGraph::init() {
 	modelMatrixLocation = glGetUniformLocation(myProgramObj, "Model");
 	isGouraudShadingLocation = glGetUniformLocation(myProgramObj, "IsGouraudShading");
 	isNoLightLocation = glGetUniformLocation(myProgramObj, "IsNoLight");
+	ostringstream oss;
 	for (int i = 0; i < DIRECTIONAL_LIGHTS; i++) {
-        ambientProductLocation[i] = glGetUniformLocation(myProgramObj, "AmbientProduct["+i+"]");
-        diffuseProductLocation[i] = glGetUniformLocation(myProgramObj, "DiffuseProduct["+i+"]");
-        specularProductLocation[i] = glGetUniformLocation(myProgramObj, "SpecularProduct["+i+"]");
-        lightPositionLocation[i] = glGetUniformLocation(myProgramObj, "LightPosition["+i+"]");
-        shininessLocation[i] = glGetUniformLocation(myProgramObj, "Shininess["+i+"]");
+		oss.clear();
+		oss << "AmbientProduct[" << i << "]";
+		ambientProductLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
+		oss.clear();
+		oss << "DiffuseProduct[" << i << "]"; 
+		diffuseProductLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
+		oss.clear();
+		oss << "SpecularProduct[" << i << "]";
+		specularProductLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
+		oss.clear();
+		oss << "LightPosition[" << i << "]";
+		lightPositionLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
+		oss.clear();
+		oss << "Shininess[" << i << "]";
+		shininessLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
 	}
     for (int i = 0; i < POINT_LIGHTS; i++) {
-        pAmbientProductLocation[i] = glGetUniformLocation(myProgramObj, "pAmbientProduct["+i+"]");
-        pDiffuseProductLocation[i] = glGetUniformLocation(myProgramObj, "pDiffuseProduct["+i+"]");
-        pSpecularProductLocation[i] = glGetUniformLocation(myProgramObj, "pSpecularProduct["+i+"]");
-        pLightPositionLocation[i] = glGetUniformLocation(myProgramObj, "pLightPosition["+i+"]");
-        pShininessLocation[i] = glGetUniformLocation(myProgramObj, "pShininess["+i+"]");
+		oss.clear();
+		oss << "pAmbientProduct[" << i << "]";
+        pAmbientProductLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
+		oss.clear();
+		oss << "pDiffuseProduct[" << i << "]";
+		pDiffuseProductLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
+		oss.clear();
+		oss << "pSpecularProduct[" << i << "]";
+		pSpecularProductLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
+		oss.clear();
+		oss << "pLightPosition[" << i << "]";
+		pLightPositionLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
+		oss.clear();
+		oss << "pShininess[" << i << "]";
+		pShininessLocation[i] = glGetUniformLocation(myProgramObj, oss.str().c_str());
     }
 
 	colorLocation = glGetUniformLocation(myProgramObj, "vColor");
@@ -74,7 +95,7 @@ void SceneGraph::init() {
 	root->addChild(&com);
 	root->addChild(&player);
 	root->addChild(&ball);
-    ball.addChild(pLight);
+    ball.addChild(&pLight);
 	//Init Buffer
 	glGenBuffers(1, &verticesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
@@ -102,6 +123,7 @@ void SceneGraph::init() {
 	unsigned textureOffset = 0;
 	unsigned normalOffset = 0;
 	root->init(&vertexOffset, &indexOffset, &textureOffset, &normalOffset);
+	pLight.init();
 	dLight.init();
 }
 

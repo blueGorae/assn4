@@ -8,12 +8,15 @@
 
 using namespace std;
 
+#define DIRECTIONAL_LIGHTS 1
+#define POINT_LIGHTS 1
+
 extern GLint directionalLightCount;
-extern GLint ambientProductLocation[DIRRECTIONAL_LIGHTS];
-extern GLint diffuseProductLocation[DIRRECTIONAL_LIGHTS];
-extern GLint specularProductLocation[DIRRECTIONAL_LIGHTS];
-extern GLint lightPositionLocation[DIRRECTIONAL_LIGHTS];
-extern GLint shininessLocation[DIRRECTIONAL_LIGHTS];
+extern GLint ambientProductLocation[DIRECTIONAL_LIGHTS];
+extern GLint diffuseProductLocation[DIRECTIONAL_LIGHTS];
+extern GLint specularProductLocation[DIRECTIONAL_LIGHTS];
+extern GLint lightPositionLocation[DIRECTIONAL_LIGHTS];
+extern GLint shininessLocation[DIRECTIONAL_LIGHTS];
 
 class DirectionalLight {
 private :
