@@ -19,9 +19,9 @@
 
 using namespace std;
 
-bool isLineRemoval;
-int isGouraudShading = 0;
-int isNoLight = 0;
+bool isLineRemoval = true;
+bool isGouraudShading = true;
+bool isNoLight = true;
 bool isNormalMapping = true;
 const unsigned endScore = 15;
 
@@ -163,7 +163,6 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 }
 
 bool Init() {
-	isLineRemoval = false;
 	modelColor= vec4(0.f, 1.f, 1.f, 1.f);
 	backgroundColor = vec4(0.3f, 0.3f, 0.3f, 1.0f);
 
@@ -174,7 +173,8 @@ bool Init() {
 
 
 	sceneGraph.init();
-
+	glUniform1i(isGouraudShadingLocation, isGouraudShading);
+	glUniform1i(isNoLightLocation, isNoLight);
 	glUniform4f(colorLocation, modelColor[0], modelColor[1], modelColor[2], modelColor[3]);
 
 	return true;
@@ -193,8 +193,6 @@ void DisplayFunc(void) {
 } 
 
 void IdleFunc(void) {
-	glUniform1d(isGouraudShadingLocation, isGouraudShading);
-	glUniform1d(isNoLightLocation, isNoLight);
 	sceneGraph.IdleFunc();
 	glutPostRedisplay();
 }
@@ -228,23 +226,15 @@ void KeyboardFunc(unsigned char key, int x, int y)
 		isLineRemoval = !isLineRemoval;
 		break;
     case '5':
-		if (isGouraudShading == 1) {
-			isGouraudShading = 0;
-		}
-		else {
-			isGouraudShading = 1;
-		}
+		isGouraudShading = !isGouraudShading;
+		glUniform1i(isGouraudShadingLocation, isGouraudShading);
         break;
     case '6':
         isNormalMapping = !isNormalMapping;
         break;
 	case '0':
-		if (isNoLight == 1) {
-			isNoLight = 0;
-		}
-		else {
-			isNoLight = 1;
-		}
+		isNoLight = !isNoLight;
+		glUniform1i(isNoLightLocation, isNoLight);
 		break;
 	case '1':
     case '2':

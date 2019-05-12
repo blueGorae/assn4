@@ -4,7 +4,7 @@ in vec3 vPosition;
 in vec3 vNormal;
 in vec2 vTexture;
 
-uniform int IsGouraudShading;
+uniform bool IsGouraudShading;
 
 // Gouraud Shading
 out vec4 lightColor;
@@ -28,7 +28,7 @@ out vec2 textureCoord;
 void main()
 {
     vec4 v4Position = vec4(vPosition, 1.f);
-    if (IsGouraudShading == 1) {
+    if (IsGouraudShading) {
         // Transform vertex position into eye coordinates
         vec3 pos = (ModelView * v4Position).xyz;
         vec3 L = normalize( LightPosition.xyz - pos );
@@ -46,7 +46,7 @@ void main()
         vec4 specular = Ks * SpecularProduct;
         if ( dot(L, N) < 0.0 )
             specular = vec4(0.0, 0.0, 0.0, 1.0);
-        lightColor = ambient;// + diffuse + specular;
+        lightColor = ambient + diffuse + specular;
         lightColor.a = 1.0;
     } else {
         fN = vNormal;
