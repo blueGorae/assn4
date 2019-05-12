@@ -32,6 +32,8 @@ void SceneGraph::init() {
 	player.loadTextureImage("resource/pikachu/pikachu_texture/Final_Pokemon_Diffuse.png");
 	com.loadTextureImage("resource/pikachu/pikachu_texture/Final_Pokemon_Diffuse.png");
 
+	ball.loadTextureImage("resource/ball/ball.bmp");
+
 	background.leftPlane.loadTextureImage("resource/wall/diffuse.DDS");
 	background.rightPlane.loadTextureImage("resource/wall/diffuse.DDS");
 	background.downPlane.loadTextureImage("resource/wall/diffuse.DDS");
