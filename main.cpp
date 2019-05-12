@@ -19,7 +19,7 @@
 
 using namespace std;
 
-bool isLineRemoval = true;
+bool isTextureOn = true;
 bool isGouraudShading = true;
 bool isNoLight = true;
 bool isNormalMapping = true;
@@ -225,7 +225,7 @@ void KeyboardFunc(unsigned char key, int x, int y)
 		sceneGraph.KeyboardFunc(key, x, y);
 		break;
 	case '4':
-		isLineRemoval = !isLineRemoval;
+		isTextureOn = !isTextureOn;
 		break;
     case '5':
 		isGouraudShading = !isGouraudShading;

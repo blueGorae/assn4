@@ -28,7 +28,7 @@ using namespace std;
 extern glm::vec4 modelColor;
 extern glm::vec4 backgroundColor;
 
-extern bool isLineRemoval;
+extern bool isTextureOn;
 
 extern GLint projectionMatrixLocation;
 extern GLint modelViewMatrixLocation;

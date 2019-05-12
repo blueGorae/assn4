@@ -24,16 +24,19 @@ void Object::init(unsigned *vertexOffset, unsigned *indexOffset, unsigned* textu
 void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset, unsigned* textureOffset, unsigned* normalOffset)
 {
 
-	glBindBuffer(GL_ARRAY_BUFFER, normalsVBO);
-	glBufferSubData(GL_ARRAY_BUFFER, *normalOffset, getNormalsSize(), &normals[0].x);
-
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
 	glBufferSubData(GL_ARRAY_BUFFER, *vertexOffset, getVerticesSize(), &vertices[0].x);
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
-	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(*vertexOffset));
 	glEnableVertexAttribArray(vertexLocation);
+	glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(*vertexOffset));
+
+	glBindBuffer(GL_ARRAY_BUFFER, normalsVBO);
+	glBufferSubData(GL_ARRAY_BUFFER, *normalOffset, getNormalsSize(), &normals[0].x);
+	glEnableVertexAttribArray(normalLocation);
+	glVertexAttribPointer(normalLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(*normalOffset));
+
 	//glBindVertexArray(0);
 
 	if (!texturePath.empty()) {
@@ -323,9 +326,10 @@ void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
     glUniform4f(diffuseProductLocation, diffuseStrength[0], diffuseStrength[1], diffuseStrength[2],1.f);
     glUniform4f(specularProductLocation, specularStrength[0], specularStrength[1], specularStrength[2],1.f);
     glUniform1f(shininessLocation, shininess);
-	glBindTexture(GL_TEXTURE_2D, this->texture);
 
-	if (isLineRemoval) {
+	if (isTextureOn) {
+		glBindTexture(GL_TEXTURE_2D, this->texture);
+
 		glEnable(GL_DEPTH_TEST);
 		glUniform1i(glGetUniformLocation(myProgramObj, "Texture"), 0);
 
@@ -340,16 +344,17 @@ void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
 		glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
 		glDisable(GL_POLYGON_OFFSET_FILL);
 		glDisable(GL_DEPTH_TEST);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
 	}
 	else {
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glUniform4f(colorLocation, modelColor[0], modelColor[1], modelColor[2], modelColor[3]);
 		//glUniform1i(glGetUniformLocation(myProgramObj, "Texture"), 0);
 
 		glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
 	}
 
-	glBindTexture(GL_TEXTURE_2D, 0);
 
 
 	glBindVertexArray(0);

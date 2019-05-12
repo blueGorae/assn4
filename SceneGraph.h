@@ -25,7 +25,7 @@ extern glm::vec4 backgroundColor;
 
 extern glm::mat4 projectionMat;
 extern glm::mat4 modelViewMat;
-extern bool isLineRemoval;
+extern bool isTextureOn;
 
 
 extern GLuint myProgramObj;
