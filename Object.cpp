@@ -315,8 +315,8 @@ void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix) {
 	glBindVertexArray(VAO);
 	glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, &projectionMatrix[0][0]);
 	glUniformMatrix4fv(modelViewMatrixLocation, 1, GL_FALSE, &modelViewMatrix[0][0]);
-    glUniform4fv(diffuseProductLocation, 1, glm::vec4(diffuseStrength,diffuseStrength,diffuseStrength,1.f));
-    glUniform4fv(specularProductLocation, 1, glm::vec4(specularStrength,specularStrength,specularStrength,1.f));
+    glUniform4f(diffuseProductLocation, diffuseStrength[0], diffuseStrength[1], diffuseStrength[2],1.f);
+    glUniform4f(specularProductLocation, specularStrength[0], specularStrength[1], specularStrength[2],1.f);
     glUniform1f(shininessLocation, shininess);
 	glBindTexture(GL_TEXTURE_2D, this->texture);
 

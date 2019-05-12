@@ -3,7 +3,7 @@
 
 void DirectionalLight::init()
 {
-    glUniform4fv(lightPositionLocation, 1, position)
+	glUniform4f(lightPositionLocation, position[0], position[1], position[2], 1.f);
 }
 
 void DirectionalLight::move()
@@ -12,9 +12,9 @@ void DirectionalLight::move()
     if (angle > 60) {
         angle = initAngle;
     }
-    glUniform4fv(lightPositionLocation, 1, glm::rotate(glm::mat4(1.f),
-                                                       glm::radians((float)-diffAngle),
-                                                       pivot)
-                                           * position);
-    glUniform4fv(ambientProductLocation, 1, glm::vec4(ambientStrength,ambientStrength,ambientStrength,1.f));
+	glm::vec3 lightPosition = glm::rotate(glm::mat4(1.f),
+		glm::radians((float)-diffAngle),
+		pivot) * glm::vec4(position, 1.f);
+    glUniform4f(lightPositionLocation, lightPosition[0], lightPosition[1], lightPosition[2], 1.f);
+    glUniform4f(ambientProductLocation, ambientStrength,ambientStrength,ambientStrength,1.f);
 }

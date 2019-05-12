@@ -4,10 +4,10 @@ in vec3 vPosition;
 in vec3 vNormal;
 in vec2 vTexture;
 
-uniform bool isGouraudShading;
+uniform int isGouraudShading;
 
 // Gouraud Shading
-out vec4 color;
+out vec4 lightColor;
 
 // Phong Shading
 // output values that will be interpolated per-fragment
@@ -28,7 +28,7 @@ out vec2 textureCoord;
 void main()
 {
     vec4 v4Position = vec4(vPosition, 1.f);
-    if (isGouraudShading) {
+    if (isGouraudShading == 1) {
         // Transform vertex position into eye coordinates
         vec3 pos = (ModelView * v4Position).xyz;
         vec3 L = normalize( LightPosition.xyz - pos );
@@ -55,6 +55,7 @@ void main()
         if ( LightPosition.w != 0.0 ) {
             fL = LightPosition.xyz - vPosition.xyz;
         }
+		lightColor = vec4(1.0);
     }
     gl_Position = Projection * ModelView * v4Position;
 	textureCoord = vTexture;

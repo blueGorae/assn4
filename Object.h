@@ -32,6 +32,7 @@ extern bool isLineRemoval;
 
 extern GLint projectionMatrixLocation;
 extern GLint modelViewMatrixLocation;
+extern GLint isGouraudShadingLocation;
 extern GLint ambientProductLocation;
 extern GLint diffuseProductLocation;
 extern GLint specularProductLocation;
@@ -67,8 +68,8 @@ public:
         GLfloat w = 0.f, GLfloat h = 0.f,
 		GLfloat baisW = 0.5f, GLfloat baisH = 0.5f,
         bool collisionCheck = false, bool isSolid = false,
-        GLfloat diffuseStrength = 0.5f,
-        GLfloat specularStrength = 0.5f,
+		glm::vec3 diffuseStrength = glm::vec3(0.7f),
+		glm::vec3 specularStrength = glm::vec3(0.3f),
         GLfloat shininess = 32
         )
 	: w(w), h(h), baisW(baisW), baisH(baisH), objPath(objPath),
@@ -199,8 +200,8 @@ protected:
 	vector< glm::vec2 > textures;
 	vector< glm::vec3 > normals;
     GLfloat w, h, baisW, baisH;
-    GLfloat diffuseStrength;
-    GLfloat specularStrength;
+    glm::vec3 diffuseStrength;
+    glm::vec3 specularStrength;
     GLfloat shininess;
 	Object * parent = NULL;
 	vector<Object *> children;

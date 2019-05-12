@@ -15,6 +15,7 @@
 #include "GL/glut.h"
 #include "Character.h"
 #include "ScoreBox.h"
+#include "DirectionalLight.h"
 
 using namespace std;
 

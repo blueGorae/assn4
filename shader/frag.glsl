@@ -4,7 +4,7 @@ uniform sampler2D Texture;
 in vec2 textureCoord;
 in vec4 lightColor;
 
-uniform bool isGouraudShading;
+uniform int isGouraudShading;
 
 in vec3 fN;
 in vec3 fL;
@@ -20,7 +20,9 @@ uniform float Shininess;
 void main()
 {
 	vec4 textureColor = texture(Texture, textureCoord);
-	if (isGouraudShading) {
+	vec4 finalLightColor;
+	if (isGouraudShading == 1) {
+		finalLightColor = lightColor;
 	} else {
 		// Normalize the input lighting vectors
 		vec3 N = normalize(fN);
@@ -39,9 +41,9 @@ void main()
 		if ( dot(L, N) < 0.0 )
 			specular = vec4(0.0, 0.0, 0.0, 1.0);
 
-		lightColor = ambient + diffuse + specular;
-		lightColor.a = 1.0;
+		finalLightColor = ambient + diffuse + specular;
+		finalLightColor.a = 1.0;
 	}
-	gl_FragColor = lightColor * textureColor;
+	gl_FragColor = finalLightColor * textureColor;
 	gl_FragColor.a = 1.0;
 }

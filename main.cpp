@@ -20,7 +20,7 @@
 using namespace std;
 
 bool isLineRemoval;
-bool isPhongShading = true;
+int isGouraudShading = 0;
 bool isNormalMapping = true;
 const unsigned endScore = 15;
 
@@ -35,6 +35,7 @@ GLchar fragShaderFile[] = "shader/frag.glsl";
 GLuint myProgramObj;
 GLint projectionMatrixLocation;
 GLint modelViewMatrixLocation;
+GLint isGouraudShadingLocation;
 GLint ambientProductLocation;
 GLint diffuseProductLocation;
 GLint specularProductLocation;
@@ -190,6 +191,7 @@ void DisplayFunc(void) {
 } 
 
 void IdleFunc(void) {
+	glUniform1d(isGouraudShadingLocation, isGouraudShading);
 	sceneGraph.IdleFunc();
 	glutPostRedisplay();
 }
@@ -223,7 +225,12 @@ void KeyboardFunc(unsigned char key, int x, int y)
 		isLineRemoval = !isLineRemoval;
 		break;
     case '5':
-        isPhongShading = !isPhongShading;
+		if (isGouraudShading == 1) {
+			isGouraudShading = 0;
+		}
+		else {
+			isGouraudShading = 1;
+		}
         break;
     case '6':
         isNormalMapping = !isNormalMapping;
