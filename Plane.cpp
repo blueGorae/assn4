@@ -33,7 +33,7 @@ void Plane::buildVertices()
 
 			n = computeFaceNormal(v1, v2, v3);
 			addNormals(n, n, n);
-			n = computeFaceNormal(v2, v3, v4);
+			n = computeFaceNormal(v4, v3, v2);
 			addNormals(n, n, n);
 
 			addIndices(index, index + 1, index + 2);
