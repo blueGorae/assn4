@@ -41,7 +41,8 @@ void SceneGraph::init() {
 
 
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
-	ctmLocation = glGetUniformLocation(myProgramObj, "ctm");
+	projectionMatrixLocation = glGetUniformLocation(myProgramObj, "Projection");
+    modelViewMatrixLocation = glGetUniformLocation(myProgramObj, "ModelView");
 	colorLocation = glGetUniformLocation(myProgramObj, "vColor");
 	textureLocation = glGetAttribLocation(myProgramObj, "vTexture");
 
