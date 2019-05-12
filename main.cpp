@@ -21,6 +21,7 @@ using namespace std;
 
 bool isLineRemoval;
 int isGouraudShading = 0;
+int isNoLight = 0;
 bool isNormalMapping = true;
 const unsigned endScore = 15;
 
@@ -36,6 +37,7 @@ GLuint myProgramObj;
 GLint projectionMatrixLocation;
 GLint modelViewMatrixLocation;
 GLint isGouraudShadingLocation;
+GLint isNoLightLocation;
 GLint ambientProductLocation;
 GLint diffuseProductLocation;
 GLint specularProductLocation;
@@ -192,6 +194,7 @@ void DisplayFunc(void) {
 
 void IdleFunc(void) {
 	glUniform1d(isGouraudShadingLocation, isGouraudShading);
+	glUniform1d(isNoLightLocation, isNoLight);
 	sceneGraph.IdleFunc();
 	glutPostRedisplay();
 }
@@ -235,6 +238,14 @@ void KeyboardFunc(unsigned char key, int x, int y)
     case '6':
         isNormalMapping = !isNormalMapping;
         break;
+	case '0':
+		if (isNoLight == 1) {
+			isNoLight = 0;
+		}
+		else {
+			isNoLight = 1;
+		}
+		break;
 	case '1':
     case '2':
     case '3':

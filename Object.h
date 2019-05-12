@@ -33,6 +33,7 @@ extern bool isLineRemoval;
 extern GLint projectionMatrixLocation;
 extern GLint modelViewMatrixLocation;
 extern GLint isGouraudShadingLocation;
+extern GLint isNoLightLocation;
 extern GLint ambientProductLocation;
 extern GLint diffuseProductLocation;
 extern GLint specularProductLocation;

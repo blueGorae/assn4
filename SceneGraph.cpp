@@ -43,6 +43,7 @@ void SceneGraph::init() {
 	projectionMatrixLocation = glGetUniformLocation(myProgramObj, "Projection");
     modelViewMatrixLocation = glGetUniformLocation(myProgramObj, "ModelView");
 	isGouraudShadingLocation = glGetUniformLocation(myProgramObj, "IsGouraudShading");
+	isNoLightLocation = glGetUniformLocation(myProgramObj, "IsNoLight");
 	ambientProductLocation = glGetUniformLocation(myProgramObj, "AmbientProduct");
     diffuseProductLocation = glGetUniformLocation(myProgramObj, "DiffuseProduct");
     specularProductLocation = glGetUniformLocation(myProgramObj, "SpecularProduct");
