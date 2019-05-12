@@ -24,9 +24,6 @@ Character com = Character(glm::vec3(0.f, DEPTH * 0.35f, 0.f), true);
 void SceneGraph::init() {
     root = new Object();
 
-	//player.loadOBJ("resource/chikorita/Chikorita_OBJ.obj");
-	//com.loadOBJ("resource/chikorita/Chikorita_OBJ.obj");
-
 	player.loadOBJ("resource/pikachu/pikachu.obj");
 	com.loadOBJ("resource/pikachu/pikachu.obj");
 
@@ -58,9 +55,9 @@ void SceneGraph::init() {
 	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
 	glBufferData(GL_ARRAY_BUFFER, this->getRoot()->totalVerticesSize(), NULL, GL_STATIC_DRAW);
 
-	glGenBuffers(1, &indiciesVBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->getRoot()->totalIndicesSize(), NULL, GL_STATIC_DRAW);
+	//glGenBuffers(1, &indiciesVBO);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indiciesVBO);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->getRoot()->totalIndicesSize(), NULL, GL_STATIC_DRAW);
 
 	glGenBuffers(1, &texturesVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, texturesVBO);

@@ -20,10 +20,10 @@ void Plane::buildVertices()
 			v3 = glm::vec3(float(i) , float(j + 1) , 0.f);
 			v4 = glm::vec3(float(i + 1), float(j + 1), 0.f);
 
-			t1 = glm::vec2(float(i) / float(width - 1), float(j) / float(depth - 1));
-			t2 = glm::vec2(float(i+1) / float(width - 1), float(j) / float(depth - 1));
-			t3 = glm::vec2(float(i) / float(width - 1), float(j+1) / float(depth - 1));
-			t4 = glm::vec2(float(i+1) / float(width - 1), float(j+1) / float(depth - 1));
+			t1 = glm::vec2(float(i) / float(width), float(j) / float(depth));
+			t2 = glm::vec2(float(i+1) / float(width), float(j) / float(depth));
+			t3 = glm::vec2(float(i) / float(width), float(j+1) / float(depth));
+			t4 = glm::vec2(float(i+1) / float(width), float(j+1) / float(depth));
 
 			addVertices( v1, v2, v3);
 			addVertices(v2, v3, v4);
