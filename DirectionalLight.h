@@ -20,16 +20,16 @@ private :
     glm::vec3 position;
     glm::vec3 pivot;
     glm::vec3 color;
-    GLint diffAngle = 1;
-    GLint initAngle = -60;
-    GLint angle = initAngle;
+    GLfloat diffAngle = 0.05f;
+    GLfloat initAngle = -60.f;
+    GLfloat angle = initAngle;
 	bool isPM = false;
     GLfloat ambientStrength;
 public:
     DirectionalLight(glm::vec3 position,
                      glm::vec3 pivot,
                      glm::vec3 color,
-                     GLfloat ambientStrength = 0.9f)
+                     GLfloat ambientStrength = 1.f)
     : position(position), pivot(pivot), color(color), ambientStrength(ambientStrength) {}
     void init();
     void move();

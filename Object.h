@@ -74,7 +74,7 @@ public:
         bool collisionCheck = false, bool isSolid = false,
 		glm::vec3 diffuseStrength = glm::vec3(0.7f),
 		glm::vec3 specularStrength = glm::vec3(0.3f),
-        GLfloat shininess = 32
+        GLfloat shininess = 128
         )
 	: w(w), h(h), baisW(baisW), baisH(baisH), objPath(objPath),
 	position(position), collisionCheck(collisionCheck), isSolid(isSolid),

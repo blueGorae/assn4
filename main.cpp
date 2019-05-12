@@ -21,7 +21,7 @@ using namespace std;
 
 bool isTextureOn = true;
 bool isGouraudShading = true;
-bool isNoLight = true;
+bool isNoLight = false;
 bool isNormalMapping = true;
 const unsigned endScore = 15;
 
