@@ -4,6 +4,9 @@ layout (location = 0)in vec3 vPosition;
 layout (location = 1)in vec2 vTexture;
 layout (location = 2)in vec3 vNormal;
 
+uniform mat4 Projection;
+uniform mat4 View;
+uniform mat4 Model;
 uniform bool IsGouraudShading;
 
 // Gouraud Shading
@@ -18,8 +21,6 @@ out vec3 fL;
 uniform vec4 AmbientProduct;
 uniform vec4 DiffuseProduct;
 uniform vec4 SpecularProduct;
-uniform mat4 Projection;
-uniform mat4 ModelView;
 uniform vec4 LightPosition;
 uniform float Shininess;
 
@@ -28,6 +29,7 @@ out vec2 textureCoord;
 void main()
 {
     vec4 v4Position = vec4(vPosition, 1.f);
+	mat4 ModelView = View * Model;
     if (IsGouraudShading) {
         // Transform vertex position into eye coordinates
         vec3 pos = (ModelView * v4Position).xyz;

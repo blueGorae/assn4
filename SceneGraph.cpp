@@ -23,7 +23,7 @@ Character com = Character(glm::vec3(0.f, DEPTH * 0.35f, 0.f), true);
 DirectionalLight dLight = DirectionalLight(glm::vec3(0.f, DEPTH * 0.35f, HEIGHT),
         glm::vec3(0.f, -DEPTH * 0.35f, HEIGHT),
         glm::vec3(1.f, 1.f, 1.f),
-        0.1f);
+        0.9f);
 
 void SceneGraph::init() {
 	player.loadOBJ("resource/pikachu/pikachu.obj");
@@ -41,7 +41,8 @@ void SceneGraph::init() {
 
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
 	projectionMatrixLocation = glGetUniformLocation(myProgramObj, "Projection");
-    modelViewMatrixLocation = glGetUniformLocation(myProgramObj, "ModelView");
+	viewMatrixLocation = glGetUniformLocation(myProgramObj, "View");
+	modelMatrixLocation = glGetUniformLocation(myProgramObj, "Model");
 	isGouraudShadingLocation = glGetUniformLocation(myProgramObj, "IsGouraudShading");
 	isNoLightLocation = glGetUniformLocation(myProgramObj, "IsNoLight");
 	ambientProductLocation = glGetUniformLocation(myProgramObj, "AmbientProduct");

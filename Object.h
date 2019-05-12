@@ -31,7 +31,8 @@ extern glm::vec4 backgroundColor;
 extern bool isLineRemoval;
 
 extern GLint projectionMatrixLocation;
-extern GLint modelViewMatrixLocation;
+extern GLint viewMatrixLocation;
+extern GLint modelMatrixLocation;
 extern GLint isGouraudShadingLocation;
 extern GLint isNoLightLocation;
 extern GLint ambientProductLocation;
@@ -225,7 +226,7 @@ protected:
 	glm::vec4 finalPositions[5];
 	glm::vec4 windowPositions[5];
 
-	virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 modelViewMatrix);
+	virtual void drawShader(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, glm::mat4 modelMatrix);
 	virtual void moveObject() {}
 	virtual void updatedCurrentTransformationMatrix() {}
 
