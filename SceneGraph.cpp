@@ -30,11 +30,11 @@ void SceneGraph::init() {
 	player.loadTextureImage("resource/pikachu/pikachu_texture/Final_Pokemon_Diffuse.png");
 	com.loadTextureImage("resource/pikachu/pikachu_texture/Final_Pokemon_Diffuse.png");
 
-	background.leftPlane.loadTextureImage("resource/wall/normal.bmp");
-	background.rightPlane.loadTextureImage("resource/wall/normal.bmp");
-	background.downPlane.loadTextureImage("resource/wall/normal.bmp");
-	background.frontPlane.loadTextureImage("resource/wall/normal.bmp");
-	background.backPlane.loadTextureImage("resource/wall/normal.bmp");
+	background.leftPlane.loadTextureImage("resource/wall/diffuse.DDS");
+	background.rightPlane.loadTextureImage("resource/wall/diffuse.DDS");
+	background.downPlane.loadTextureImage("resource/wall/diffuse.DDS");
+	background.frontPlane.loadTextureImage("resource/wall/diffuse.DDS");
+	background.backPlane.loadTextureImage("resource/wall/diffuse.DDS");
 
 
 	vertexLocation = glGetAttribLocation(myProgramObj, "vPosition");
