@@ -14,8 +14,6 @@ in vec3 fE;
 uniform vec4 AmbientProduct;
 uniform vec4 DiffuseProduct;
 uniform vec4 SpecularProduct;
-uniform mat4 ModelView;
-uniform vec4 LightPosition;
 uniform float Shininess;
 
 void main()
