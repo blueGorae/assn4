@@ -17,7 +17,7 @@ PointLight.* : point light를 위한 Class
 
 DirectionalLight.* : directional light를 위한 Class
 
-Character.* : 치코리타 모델을 위한 소스파일
+Character.* :  모델을 위한 소스파일
 
 Camera.* : 카메라 cotrol을 위한 소스파일
 
