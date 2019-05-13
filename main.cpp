@@ -238,9 +238,6 @@ void KeyboardFunc(unsigned char key, int x, int y)
 		isGouraudShading = !isGouraudShading;
 		glUniform1i(isGouraudShadingLocation, isGouraudShading);
         break;
-    case '6':
-        isNormalMapping = !isNormalMapping;
-        break;
 	case '0':
 		isNoLight = !isNoLight;
 		glUniform1i(isNoLightLocation, isNoLight);
