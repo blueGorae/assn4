@@ -1,5 +1,4 @@
 #include "Object.h"
-//#include "stb_image.h"
 
 
 
@@ -37,7 +36,6 @@ void Object::initObject(unsigned* vertexOffset, unsigned* indexOffset, unsigned*
 	glEnableVertexAttribArray(normalLocation);
 	glVertexAttribPointer(normalLocation, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(*normalOffset));
 
-	//glBindVertexArray(0);
 
 	if (!texturePath.empty()) {
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -348,7 +346,6 @@ void Object::drawShader(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, glm::m
 	else {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glUniform4f(colorLocation, modelColor[0], modelColor[1], modelColor[2], modelColor[3]);
-		//glUniform1i(glGetUniformLocation(myProgramObj, "Texture"), 0);
 
 		glDrawArrays(GL_TRIANGLES, 0, getVertexCount());
 	}

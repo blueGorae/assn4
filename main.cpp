@@ -146,7 +146,6 @@ bool LoadShaders(const char * vertexShaderFile, const char * fragShaderFile) {
 	printf("Linking program\n");
 	myProgramObj = glCreateProgram();
 	glAttachShader(myProgramObj, myVertexObj);
-	//glAttachShader(myProgramObj, myGeoObj);
 	glAttachShader(myProgramObj, myFragObj);
 	glLinkProgram(myProgramObj);
 

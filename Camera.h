@@ -19,7 +19,6 @@ private :
 	bool zoom_out = true;
 	bool pressed = false;
 	bool init = true;
-    //GLint cameraMode = 3;
     GLfloat cameraLocationX = -0.f;
     GLfloat cameraLocationY = -DEPTH / 2;
 public:
