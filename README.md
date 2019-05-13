@@ -26,3 +26,12 @@ shader : vert.glsl -> vertex shader source code
 
 resource :  obj파일을 포함하고 있는 directory
 
+*키 설명 *
+w, a, s, d, : 캐릭터 movement
+r : 게임 리셋
+1 : 1인칭 시점
+2 : 3인칭 시점
+3 : 맵 전체 시점
+4 : texture on and off
+5 : gouraud or phong
+0 : light on and off
