@@ -17,7 +17,7 @@ void DirectionalLight::move()
 		glm::radians(angle),
 		pivot) * glm::vec4(position, 1.f);
     glUniform4f(lightPositionLocation[id], lightPosition[0], lightPosition[1], lightPosition[2], 1.f);
-	GLfloat updateAmbient = isPM ? ambientStrength * .5f : ambientStrength;
+	GLfloat updateAmbient = isPM ? ambientStrength * .25f : ambientStrength;
 	glUniform4f(ambientProductLocation[id], updateAmbient, updateAmbient, updateAmbient, 1.f);
     glUniform4f(diffuseProductLocation[id], diffuseStrength[0], diffuseStrength[1], diffuseStrength[2],1.f);
     glUniform4f(specularProductLocation[id], specularStrength[0], specularStrength[1], specularStrength[2],1.f);

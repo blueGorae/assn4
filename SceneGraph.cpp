@@ -23,7 +23,7 @@ Character com = Character(glm::vec3(0.f, DEPTH * 0.35f, 0.f), true);
 DirectionalLight dLight = DirectionalLight(glm::vec3(0.f, DEPTH * 0.5f, HEIGHT),
         glm::vec3(0.f, -DEPTH * 0.35f, HEIGHT),
         1.f);
-PointLight pLight = PointLight(glm::vec3(2 * ball.getRadius(), 2 * ball.getRadius(), 2 * ball.getRadius()),
+PointLight pLight = PointLight(glm::vec3(0.f, 0.f, 2 * ball.getRadius()),
                                1.f);
 
 void SceneGraph::init() {
